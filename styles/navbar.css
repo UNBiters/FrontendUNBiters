@@ -1,0 +1,19 @@
+.NavbarHome {
+    background-color: #d63447;
+}
+
+.NavbarHome button {
+    background-color: #f5f5f5;
+    color: #d63447;
+    border-color: #d63447;
+}
+.NavbarHome A {
+    color: aliceblue;
+}
+body {
+    background: url("../public/images/backHomes.svg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
