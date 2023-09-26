@@ -1,13 +1,14 @@
-.NavbarHome {
+.NavbarMain {
     background-color: #d63447;
 }
 
-.NavbarHome button {
+.NavbarMain button {
     background-color: #f5f5f5;
     color: #d63447;
     border-color: #d63447;
 }
-.NavbarHome A {
+
+.NavbarMain a {
     color: aliceblue;
 }
 body {
@@ -16,4 +17,23 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+.NavbarProfile button {
+    background-color: #d63447;
+    color: #f5f5f5;
+    border-color: #d63447;
+}
+.NavbarProfile span.bar {
+    border-right: 1px solid #f5f5f5;
+}
+.NavbarProfile button:hover {
+    background-color: transparent;
+}
+.NavbarProfile ul li button:hover {
+    background-color: #e24557;
+}
+.NavbarProfile a:hover {
+    background-color: #e24557;
+    color: #f5f5f5;
 }

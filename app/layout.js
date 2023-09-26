@@ -1,4 +1,4 @@
-import NavbarHome from '../components/NavbarHome'
+import NavbarHome from '../components/NavbarMain'
 import '../styles/globals.css'
 import '../styles/navbar.css'
 import { Inter } from 'next/font/google'
@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <NavbarHome />
+      <NavbarHome isLogin={true}/>
       <body className={inter.className}>{children}</body>
     </html>
   )
