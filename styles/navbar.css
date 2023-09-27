@@ -37,3 +37,27 @@ body {
     background-color: #e24557;
     color: #f5f5f5;
 }
+.MiniNav{
+    margin: 0;
+    padding: 0;
+    align-content: center;
+    justify-content: center;
+}
+.MiniNav div{
+    justify-content: center;
+}
+#action {
+    background-color: #f5f5f5;
+    color: #d63447;
+}
+.action:hover{
+    background-color: #fc929e !important;
+    color: #f5f5f5 !important;
+}
+.CardProfile{
+    margin-top: 5em;
+}
+
+.ListComment{
+    margin-top: 2em;
+}
