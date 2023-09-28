@@ -12,13 +12,13 @@ export default function ProfileView() {
     ]
     return (
         <>
-            <div className='containerProfile'>
+            <div className='containerProfile mt-10'>
 
-                    <img src='https://flowbite.com/docs/images/people/profile-picture-5.jpg'></img>
+                    <img src='/images/logo.png'></img>
 
             </div>
             <NavbarProfile></NavbarProfile>
-            <div className="CardProfile grid justify-items-center mt-5">
+            <div className="CardProfile grid justify-items-center">
                 {
                     cards.map((card) =>
                         <CardComent key={1} className={"ListComment"}></CardComent>

@@ -11,11 +11,11 @@ export default function NavbarMain({ isLogin }) {
                 
                 className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
             >
-                <Navbar.Brand href="https://flowbite-react.com">
+                <Navbar.Brand href="/">
                     <img
-                        alt="Flowbite React Logo"
-                        className="mr-3 h-6 sm:h-9"
-                        src="../vercel.svg"
+                        alt="Logo"
+                        className="mr-3 lg:h-12 sm:h-9"
+                        src="/images/logo.png"
                     />
                     <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
                         UNBiters
@@ -28,15 +28,15 @@ export default function NavbarMain({ isLogin }) {
 
                             <Navbar.Collapse>
                                 <span className="bar"></span>
-                                <Button className='px-5 mx-1'>
+                                <Button href='/' className='px-5 mx-1'>
                                     Comunidad
                                 </Button>
                                 <span className="bar"></span>
-                                <Button className='px-5 mx-1'>
+                                <Button href='/unbiters/chazas' className='px-5 mx-1'>
                                     Chazas
                                 </Button>
                                 <span className="bar"></span>
-                                <Button className='px-5 mx-1'>
+                                <Button href='/unbiters/tags' className='px-5 mx-1'>
                                     Categorias
                                 </Button>
                                 <span className="bar"></span>
@@ -56,20 +56,20 @@ export default function NavbarMain({ isLogin }) {
                                         name@flowbite.com
                                     </span>
                                 </Dropdown.Header>
-                                <Dropdown.Item>
+                                <Dropdown.Item href='/unbiters/profile'>
                                     Editar Perfil
                                 </Dropdown.Item>
-                                <Dropdown.Item>
+                                <Dropdown.Item href='/'>
                                     Información
                                 </Dropdown.Item>
-                                <Dropdown.Item>
+                                <Dropdown.Item href='/'>
                                     Actividad reciente
                                 </Dropdown.Item>
-                                <Dropdown.Item>
+                                <Dropdown.Item href='/'>
                                     Calificaciones
                                 </Dropdown.Item>
                                 <Dropdown.Divider />
-                                <Dropdown.Item>
+                                <Dropdown.Item href='/login'>
                                     Cerrar Sesion
                                 </Dropdown.Item>
                             </Dropdown>
@@ -78,13 +78,13 @@ export default function NavbarMain({ isLogin }) {
                         </div>
                     </div> :
                     <div className="flex md:order-3">
-                        <Button className='px-5 mx-1'>
+                        <Button href='/register' className='px-5 mx-1'>
                             ¿Tienes una chaza?
                         </Button>
-                        <Button className='px-5 mx-1'>
+                        <Button href='/login' className='px-5 mx-1'>
                             Iniciar Sesion
                         </Button>
-                        <Button className='px-5 mx-1'>
+                        <Button href='/register' className='px-5 mx-1'>
                             Registrarse
                         </Button>
                     </div>}

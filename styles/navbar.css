@@ -2,17 +2,16 @@
     background-color: #d63447;
 }
 
-.NavbarMain button {
+.NavbarMain a[type=button]{
     background-color: #f5f5f5;
     color: #d63447;
     border-color: #d63447;
 }
 
 .NavbarMain a {
-    color: aliceblue;
 }
 body {
-    background: url("../public/images/backHomes.svg") no-repeat center center fixed;
+    background: url("../public/images/Background.svg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -53,9 +52,6 @@ body {
 .action:hover{
     background-color: #fc929e !important;
     color: #f5f5f5 !important;
-}
-.CardProfile{
-    margin-top: 5em;
 }
 
 .ListComment{

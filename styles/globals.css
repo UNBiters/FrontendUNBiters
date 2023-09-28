@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.formSearch {
+    align-items: center;
+    align-content: center;
+}
+.formSearch button {
+    background-color: #9d5b5b;
+}
+
+.filters {
+    padding-top: 6em;
+}
+.filters button {
+    width: 90%;
+}
+.sendfilters button {
+    background-color: #9d5b5b;
+}
