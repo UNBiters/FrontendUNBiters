@@ -1,5 +1,5 @@
-import ProfileView from '@/components/ProfileView'
-import NavbarHome from '../components/NavbarMain'
+import NavbarMain from '../components/NavbarMain'
+import Footer from '../components/Footer'
 import '../styles/globals.css';
 import '../styles/navbar.css';
 import '../styles/card.css';
@@ -13,13 +13,14 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
-  
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}
-
-        <NavbarHome isLogin={true} />
-        <ProfileView></ProfileView></body>
+      <body className={inter.className}>
+        <NavbarMain isLogin={true} />
+        {children}
+        <Footer  />
+      </body>
 
     </html>
   )

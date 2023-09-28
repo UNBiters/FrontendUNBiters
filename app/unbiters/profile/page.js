@@ -1,8 +1,7 @@
 'use client';
 
-import '../styles/card.css'
-import CardComent from './CardComment';
-import NavbarProfile from './NavbarProfile';
+import CardComent from '../../../components/CardComment';
+import NavbarProfile from '../../../components/NavbarProfile';
 
 export default function ProfileView() {
     var cards = [

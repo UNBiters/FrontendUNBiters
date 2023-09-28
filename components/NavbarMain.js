@@ -4,12 +4,12 @@ import { Button, Dropdown, Navbar, Avatar } from 'flowbite-react';
 
 export default function NavbarMain({ isLogin }) {
     return (
-        <div>
+        <div className=''>
 
             <Navbar
                 fluid
                 
-                className='NavbarMain justify-end'
+                className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
             >
                 <Navbar.Brand href="https://flowbite-react.com">
                     <img
