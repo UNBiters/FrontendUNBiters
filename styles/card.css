@@ -1,0 +1,43 @@
+
+.image img{
+    width: 100%;
+}
+.containerProfile{
+    max-width: 100%;
+    background-color: #9d5b5b;
+    text-align: -webkit-center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+.containerProfile img{
+    border-radius: 50%;
+    max-width: 30%;
+}
+.CardProfile{
+
+    background: url("../public/images/Background.svg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-bottom: 10em;
+}
+
+.tags li{
+    background-color: #d17fb5;
+    border-radius: 15%;
+    /*border-end-end-radius:100%;
+    boder-top-right-radius:100%;*/
+    padding: .2em;
+    padding-right: .3em;
+}
+
+.overlap {
+}
+
+ .text-wrapper-3 {
+}
+
+.containerHome{
+    margin-top: 100px;
+}
