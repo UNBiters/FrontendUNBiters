@@ -8,11 +8,12 @@ export default function NavbarMain({ isLogin }) {
 
             <Navbar
                 fluid
-                
+
                 className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
             >
                 <Navbar.Brand href="/">
                     <img
+                        id='logo'
                         alt="Logo"
                         className="mr-3 lg:h-12 sm:h-9"
                         src="/images/logo.png"
@@ -42,7 +43,7 @@ export default function NavbarMain({ isLogin }) {
                                 <span className="bar"></span>
                             </Navbar.Collapse>
                         </div>
-                        <div className=" flex md:order-2">
+                        <div className=" flex sm:order-2">
                             <Dropdown
                                 arrowIcon={false}
                                 inline
