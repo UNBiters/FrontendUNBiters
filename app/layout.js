@@ -16,12 +16,16 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
+      <head>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+      </head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js" async></script>
+
       <body className={inter.className}>
         <NavbarMain isLogin={true} />
         {children}
-        <Footer  />
+        <Footer />
       </body>
-
     </html>
   )
 }
