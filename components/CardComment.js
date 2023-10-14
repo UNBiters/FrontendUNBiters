@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react'
 import { Card, Button } from 'flowbite-react';
 
-export default function CardComent({ className }) {
+export default function CardComent({ className, card }) {
+  console.log(card)
   const [isClient, setIsClient] = useState(false)
   var start = [1, 1, 1, 1]
   useEffect(() => {
