@@ -1,7 +1,18 @@
-'use client';
-import CardComent from '../components/CardComment';
-export default function Home() {
 
+import CardComent from '../components/CardComment';
+import client from "../config/client";
+
+async function loadPost() {
+  try {
+    return await client.get("chazas");
+  } catch (err) {
+    console.log("err", err);
+  }
+}
+
+async function Home() {
+  const post = (await loadPost()).data.data
+  console.log(post.data[0])
   var cards = [
     { name: "sad" },
     { name: "sad" },
@@ -130,8 +141,8 @@ export default function Home() {
         </div>
         <div className="CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3  gap-4">
           {
-            cards.map((card) =>
-              <CardComent key={card.id} className={"ListComment"}></CardComent>
+            post.data.map((card) =>(
+              <CardComent key={card._id} card={card} className={"ListComment"}></CardComent>)
             )
 
           }
@@ -140,3 +151,5 @@ export default function Home() {
     </div>
   )
 }
+
+export default Home;
