@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
       <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js" async></script>
 
       <body className={inter.className}>
-        <NavbarMain isLogin={true} />
+        <NavbarMain isLogin={false} />
         {children}
         <Footer />
       </body>

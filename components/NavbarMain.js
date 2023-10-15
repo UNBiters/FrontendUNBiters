@@ -37,8 +37,8 @@ export default function NavbarMain({ isLogin }) {
                                     Chazas
                                 </Button>
                                 <span className="bar"></span>
-                                <Button href='/unbiters/tags' className='px-5 mx-1'>
-                                    Categorias
+                                <Button href='/unbiters/about' className='px-5 mx-1'>
+                                    Nosotros
                                 </Button>
                                 <span className="bar"></span>
                             </Navbar.Collapse>
@@ -79,13 +79,13 @@ export default function NavbarMain({ isLogin }) {
                         </div>
                     </div> :
                     <div className="flex md:order-3">
-                        <Button href='/register' className='px-5 mx-1'>
+                        <Button href='/unbiters/register' className='px-5 mx-1'>
                             ¿Tienes una chaza?
                         </Button>
-                        <Button href='/login' className='px-5 mx-1'>
+                        <Button href='/unbiters/login' className='px-5 mx-1'>
                             Iniciar Sesion
                         </Button>
-                        <Button href='/register' className='px-5 mx-1'>
+                        <Button href='/unbiters/register' className='px-5 mx-1'>
                             Registrarse
                         </Button>
                     </div>}
