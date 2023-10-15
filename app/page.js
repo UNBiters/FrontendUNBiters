@@ -96,7 +96,6 @@ async function Home() {
         {
           post.data.map((card) => (
             <>
-
               <CardComent key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></CardComent>
               <Card key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></Card></>
           )

@@ -1,6 +1,6 @@
 export default function About() {
     return (
-        <div className="pt-12">
+        <div className="pt-12 pb-12">
 
             <section className="bg-white dark:bg-gray-900">
                 <div className="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
