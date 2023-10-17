@@ -29,7 +29,7 @@ export default function Login() {
     }
     return (
         <div style={{ backgroundImage: 'url(/images/backLogin.png)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>x
-            <div className=" pt-24 pb-24 flex justify-center items-center">
+            <div className=" pt-24 flex justify-center items-center">
                 <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
                     <div className="md:flex md:flex-col md:items-center p-5">
                         <Image
@@ -75,7 +75,7 @@ export default function Login() {
                             </Button>
                         </form>
 
-                        <a href="/unbiters/help/password" className='text-sm mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+                        <a href="/unbiters/help/password" className='text-sm mt-2 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
 
 
 
