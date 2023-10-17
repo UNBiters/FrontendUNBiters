@@ -101,7 +101,7 @@ export default function CardChaza({ className, card }) {
           </div>
         </Card>
       </button>
-      
+
       <Comments id={card._id} data={comments}></Comments>
     </div>
   )
