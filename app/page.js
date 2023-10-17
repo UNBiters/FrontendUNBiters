@@ -8,6 +8,7 @@ import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
 
+
 async function loadPost() {
   try {
     var res = await client.get("chazas");
