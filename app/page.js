@@ -9,7 +9,7 @@ export default function Home() {
     { name: "sad" },
     { name: "sad" }]
   return (
-    <div className='containerHome grid grid-cols-1 gap-1 sm:grid-cols-2'>
+    <div className='containerHome grid grid-cols-1 gap-1 sm:grid-cols-2' >
       <div className='filters mx-auto'>
 
         <ul>
