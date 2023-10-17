@@ -76,7 +76,7 @@ export default function Card({ className, card, comments }) {
                     </div>
                 </div>
             </button>
-            <Comments id={card._id+"chaza"} data={comments}></Comments>
+            <Comments id={card._id + "chaza"} data={comments}></Comments>
         </div>
 
     )

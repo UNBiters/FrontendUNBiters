@@ -5,6 +5,7 @@ import client from "../config/client";
 import Comments from '../components/Comments';
 import Card from '../components/Card';
 import Filter from '@/components/Filter';
+import NewPost from '@/components/NewPost';
 
 
 async function loadPost() {
@@ -20,8 +21,20 @@ async function loadPost() {
 async function Home() {
   const post = (await loadPost())
   //console.log(post.data[0])
-
-
+  var user = {
+    "_id": "652dcf14f3bb2caef117ee50",
+    "nombre": "David",
+    "correo": "david123@gmail.com",
+    "foto": "default.jpg",
+    "rol": "usuario",
+    "chaza": false,
+    "createdAt": "2023-10-17T00:02:28.357Z",
+    "updatedAt": "2023-10-17T00:02:28.357Z",
+    "__v": 0
+  }
+  if (typeof window !== "undefined") {
+    window.sessionStorage.setItem("id", user);
+  }
   var comments = [
     {
       "id": 1,
@@ -92,6 +105,9 @@ async function Home() {
         </form>
 
       </div>
+      <div className='newpost col-span-2 flex justify-end px-3'>
+        <NewPost></NewPost>
+      </div>
       <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
         {
           post.data.map((card) => (
@@ -103,6 +119,10 @@ async function Home() {
 
         }
       </div>
+      <a href="/unbiters/pricing" className="btn-flotante text-white  right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        Explora Premium
+      </a>
+
     </div>
   )
 }
