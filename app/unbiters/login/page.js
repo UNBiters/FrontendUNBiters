@@ -1,7 +1,27 @@
-'use client';
+'use client'
 import { Button } from 'flowbite-react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function Login() {
+    
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const response = await axios.post('https://backend-un-biters-git-main-unbiters.vercel.app/api/', { email, password });
+
+            if (response.data.success) {
+                setIsLoggedIn(true); 
+            }
+        } catch (error) {
+            console.error('Error al enviar la solicitud:', error);
+        }
+    }
     return (
         <div style={{ backgroundImage: 'url(/images/backLogin.png)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>x
             <div className="containerLogin flex justify-center items-center">
@@ -9,20 +29,41 @@ export default function Login() {
                     <div className="md:flex md:flex-col md:items-center p-10">
                         <img alt="Logo" className="h-20" src="/images/logo.png" />
 
-                        <a href="/unbiters/t&c" className="block mt-1 text-md leading-tight font-medium text-black hover:underline">Al continuar aceptas los terminos y
+                        <a href="/unbiters/help/t&c" className="block mt-1 text-md leading-tight font-medium text-black hover:underline">Al continuar aceptas los terminos y
                             condiciones y aceptas nuestra politica de tratamiento de datos</a>
 
-                        <input type="email" id="email" className="w-full mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light " placeholder="Email" required />
-                        <input type="password" id="s" className="w-full mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light" placeholder="Contraseña" required />
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="email"
+                                id="email"
+                                className="w-full mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light "
+                                placeholder="Email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <input
+                                type="password"
+                                id="password"
+                                className="w-full mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                                placeholder="Contraseña"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
 
 
-                        <a href="#" className='text-sm mb-3 block ml-auto'>¿Olvido su contraseña?</a>
+                            <Button type="submit" className='boton-lg px-5 mx-1 hover:bg-sky-700 text-balck shadow-xl'>
+                                Iniciar Sesión
+                            </Button>
+                        </form>
 
-                        <Button href='/' className='boton-lg px-5 mx-1 hover:bg-sky-700 text-balck shadow-xl'>
-                            Iniciar Sesión
-                        </Button>
+                        <a href="/unbiters/help/password" className='text-sm mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+
+
 
                         <hr className="border-t border-red-500 border-2 my-4" style={{ width: '90%' }} />
+
 
                         <Button href='#' className='boton-gx px-5 mx-1 mb-4 text-balck shadow-xl w-full' style={{ width: '70%' }}>
                             <img className='mr-3 lg:h-6 sm:h-6' src='/images/GoogleLogo.png'></img>
