@@ -21,8 +21,20 @@ async function loadPost() {
 async function Home() {
   const post = (await loadPost())
   //console.log(post.data[0])
-
-
+  var user = {
+    "_id": "652dcf14f3bb2caef117ee50",
+    "nombre": "David",
+    "correo": "david123@gmail.com",
+    "foto": "default.jpg",
+    "rol": "usuario",
+    "chaza": false,
+    "createdAt": "2023-10-17T00:02:28.357Z",
+    "updatedAt": "2023-10-17T00:02:28.357Z",
+    "__v": 0
+  }
+  if (typeof window !== "undefined") {
+    window.sessionStorage.setItem("id", user);
+  }
   var comments = [
     {
       "id": 1,
