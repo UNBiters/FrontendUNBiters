@@ -21,8 +21,20 @@
     -o-background-size: cover;
     background-size: cover;
     padding-bottom: 10em;
+    max-width: 100%;
 }
 
+@media (max-width: 930px) {
+    .CardProfile {
+      max-width: 90%;
+    }
+  }
+  
+@media (max-width: 830px) {
+    .CardProfile {
+      padding-left: 2rem;
+    }
+  }
 .tags li{
     background-color: #d17fb5;
     border-radius: 15%;

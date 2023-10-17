@@ -8,11 +8,12 @@ export default function NavbarMain({ isLogin }) {
 
             <Navbar
                 fluid
-                
+
                 className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
             >
                 <Navbar.Brand href="/">
                     <img
+                        id='logo'
                         alt="Logo"
                         className="mr-3 lg:h-12 sm:h-9"
                         src="/images/logo.png"
@@ -36,13 +37,13 @@ export default function NavbarMain({ isLogin }) {
                                     Chazas
                                 </Button>
                                 <span className="bar"></span>
-                                <Button href='/unbiters/tags' className='px-5 mx-1'>
-                                    Categorias
+                                <Button href='/unbiters/about' className='px-5 mx-1'>
+                                    Nosotros
                                 </Button>
                                 <span className="bar"></span>
                             </Navbar.Collapse>
                         </div>
-                        <div className=" flex md:order-2">
+                        <div className=" flex sm:order-2">
                             <Dropdown
                                 arrowIcon={false}
                                 inline
@@ -78,13 +79,13 @@ export default function NavbarMain({ isLogin }) {
                         </div>
                     </div> :
                     <div className="flex md:order-3">
-                        <Button href='/register' className='px-5 mx-1'>
+                        <Button href='/unbiters/register' className='px-5 mx-1'>
                             ¿Tienes una chaza?
                         </Button>
-                        <Button href='/login' className='px-5 mx-1'>
+                        <Button href='/unbiters/login' className='px-5 mx-1'>
                             Iniciar Sesion
                         </Button>
-                        <Button href='/register' className='px-5 mx-1'>
+                        <Button href='/unbiters/register' className='px-5 mx-1'>
                             Registrarse
                         </Button>
                     </div>}
