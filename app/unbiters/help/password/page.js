@@ -42,7 +42,7 @@ export default function ForgotPassword() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
 
-                            <Button type='submit' className='boton-lg px-5 mx-1 font-bold text-balck shadow-xl'>
+                            <Button type='submit' className='px-5 mx-1 font-bold text-balck shadow-xl' style={{ background: "#D63447" }}>
                                 Restablecer contraseña
                             </Button>
                         </form>
