@@ -18,9 +18,11 @@ export default function Login() {
             
             if (response.data.status === 'success') {
                 const { token } = response.data;
+                const { nombre,_id } = response.data.data.user;
                 window.sessionStorage.setItem('token', token);
-                console.log('Tengo el token');
-                console.log(response.data)
+                window.sessionStorage.setItem('nombre', nombre);
+                window.sessionStorage.setItem('id', _id);
+                
                 
             }
         } catch (error) {
