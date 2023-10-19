@@ -94,7 +94,7 @@ async function Home() {
 
             </div>
             <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
-                {
+                {post ?
                     post.data.map((card) => (
                         <>
                             <Card key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></Card>
@@ -102,7 +102,7 @@ async function Home() {
                     )
                     )
 
-                }
+                    : null}
             </div>
         </div>
     )
