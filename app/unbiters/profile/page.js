@@ -4,10 +4,12 @@ import client from "../../../config/client";
 
 async function loadPost() {
     try {
-        console.log("post")
-        var res = await client.get("chazas");
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        return res.data.data;
+        console.log("loadPost")
+        const res = await fetch("https://backend-un-biters.vercel.app/api/v1/chazas")
+        const data = await res.json()
+        /*var res = await client.get("chazas");
+        await new Promise((resolve) => setTimeout(resolve, 5000))*/
+        return data;
     } catch (err) {
         //console.log("err", err);
     }
@@ -85,12 +87,12 @@ async function ProfileView() {
             </div>
             <NavbarProfile></NavbarProfile>
             <div className="CardProfile grid justify-items-center">
-                {
+                {post ?
                     post.data.map((card) => (
                         <CardComent key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></CardComent>
                     ))
 
-                }
+                : null}
             </div>
         </>
     )

@@ -108,9 +108,9 @@ export default function Login() {
                             Iniciar Sesión con X
                         </Button>
                         <hr className="border-t border-red-500 border-2 my-6" style={{ width: '90%' }} />
-                        <div class="flex flex-row">
-                            <div class="basis-32">¿No tienes cuenta?</div>
-                            <div class="basis-10">
+                        <div className="flex flex-row">
+                            <div className="basis-32">¿No tienes cuenta?</div>
+                            <div className="basis-10">
                                 <a href="#" className="block mt-1 text-md leading-tight font-bold text-black hover:underline">
                                     Registrate
                                 </a>
