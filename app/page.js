@@ -8,33 +8,19 @@ import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
 
+
 async function loadPost() {
   try {
     var res = await client.get("chazas");
-    await new Promise((resolve) => setTimeout(resolve, 5000))
+    //console.log(res.data.data)
     return res.data.data;
   } catch (err) {
-    //console.log("err", err);
+    console.log("err", err);
   }
 }
 
 async function Home() {
-  const post = (await loadPost())
-  //console.log(post.data[0])
-  var user = {
-    "_id": "652dcf14f3bb2caef117ee50",
-    "nombre": "David",
-    "correo": "david123@gmail.com",
-    "foto": "default.jpg",
-    "rol": "usuario",
-    "chaza": false,
-    "createdAt": "2023-10-17T00:02:28.357Z",
-    "updatedAt": "2023-10-17T00:02:28.357Z",
-    "__v": 0
-  }
-  if (typeof window !== "undefined") {
-    window.sessionStorage.setItem("id", user);
-  }
+  const post = await loadPost()
   var comments = [
     {
       "id": 1,
@@ -109,7 +95,7 @@ async function Home() {
         <NewPost></NewPost>
       </div>
       <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
-        {
+        {post ? 
           post.data.map((card) => (
             <>
               <CardComent key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></CardComent>
@@ -117,7 +103,7 @@ async function Home() {
           )
           )
 
-        }
+        : null}
       </div>
       <a href="/unbiters/pricing" className="btn-flotante text-white  right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         Explora Premium

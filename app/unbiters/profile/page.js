@@ -4,9 +4,9 @@ import client from "../../../config/client";
 
 async function loadPost() {
     try {
-        console.log("post")
-        var res = await client.get("chazas");
-        await new Promise((resolve) => setTimeout(resolve, 1000))
+        const res = await fetch("chazas")
+        /*var res = await client.get("chazas");
+        await new Promise((resolve) => setTimeout(resolve, 5000))*/
         return res.data.data;
     } catch (err) {
         //console.log("err", err);
@@ -15,14 +15,7 @@ async function loadPost() {
 async function ProfileView() {
 
     const post = (await loadPost())
-    console.log(post)
-    var cards = [
-        { name: "sad" },
-        { name: "sad" },
-        { name: "sad" },
-        { name: "sad" }
-    ]
-
+    
     var comments = [
         {
             "id": 1,
@@ -85,12 +78,12 @@ async function ProfileView() {
             </div>
             <NavbarProfile></NavbarProfile>
             <div className="CardProfile grid justify-items-center">
-                {
+                {post ?
                     post.data.map((card) => (
                         <CardComent key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></CardComent>
                     ))
 
-                }
+                : null}
             </div>
         </>
     )
