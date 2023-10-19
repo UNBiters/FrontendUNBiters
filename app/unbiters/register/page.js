@@ -1,11 +1,10 @@
-"use client";
+'use client'
 
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "flowbite-react";
 import client from "@/config/client";
-import axios from "axios";
-import { useState } from "react";
+import React, { useState } from 'react';
 
 export default function Register() {
   const [nombre, setNombre] = useState("");
@@ -17,6 +16,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("submit");
     try {
       const response = await client.post("users/signup", {
         nombre,
@@ -31,7 +31,7 @@ export default function Register() {
         console.log(response);
       }
     } catch (error) {
-      console.error("error al registrarte", error);
+      console.error("Error al registrarte", error.response);
     }
   };
 
@@ -111,9 +111,8 @@ export default function Register() {
                 />
                 <Button
                   type="submit"
-                  href="#"
                   style={{ background: "#D63447" }}
-                  className="px-5 mx-1 shadow-xl"
+                  className="w-full px-5 mx-1 shadow-xl"
                 >
                   Registrarse
                 </Button>
