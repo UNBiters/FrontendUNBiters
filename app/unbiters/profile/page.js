@@ -4,12 +4,10 @@ import client from "../../../config/client";
 
 async function loadPost() {
     try {
-        console.log("loadPost")
-        const res = await fetch("https://backend-un-biters.vercel.app/api/v1/chazas")
-        const data = await res.json()
+        const res = await fetch("chazas")
         /*var res = await client.get("chazas");
         await new Promise((resolve) => setTimeout(resolve, 5000))*/
-        return data;
+        return res.data.data;
     } catch (err) {
         //console.log("err", err);
     }
@@ -17,14 +15,7 @@ async function loadPost() {
 async function ProfileView() {
 
     const post = (await loadPost())
-    console.log(post)
-    var cards = [
-        { name: "sad" },
-        { name: "sad" },
-        { name: "sad" },
-        { name: "sad" }
-    ]
-
+    
     var comments = [
         {
             "id": 1,
