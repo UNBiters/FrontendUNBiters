@@ -3,9 +3,11 @@ import { Button } from 'flowbite-react';
 import React, { useState } from 'react';
 import client from "@/config/client";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
 
+    const { push } = useRouter();
     const [correo, setEmail] = useState('');
     const [contraseña, setPassword] = useState('');
 
@@ -22,7 +24,7 @@ export default function Login() {
                 window.sessionStorage.setItem('token', token);
                 window.sessionStorage.setItem('nombre', nombre);
                 window.sessionStorage.setItem('id', _id);
-                
+                push('/')
                 
             }
         } catch (error) {
