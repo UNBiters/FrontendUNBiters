@@ -1,27 +1,31 @@
 'use client'
 import { Button } from 'flowbite-react';
 import React, { useState } from 'react';
+import client from "@/config/client";
 import Image from "next/image";
-import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { push } = useRouter();
+    const [correo, setEmail] = useState('');
+    const [contraseña, setPassword] = useState('');
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
         try {
-            const response = await axios.post('https://backend-un-biters-git-main-unbiters.vercel.app/api/', { email, password });
-
-            if (response.data.success) {
-
-
-                setIsLoggedIn(true);
-
+            const response = await client.post('users/login', { correo, contraseña });
+            
+            if (response.data.status === 'success') {
+                const { token } = response.data;
+                const { nombre,_id } = response.data.data.user;
+                window.sessionStorage.setItem('token', token);
+                window.sessionStorage.setItem('nombre', nombre);
+                window.sessionStorage.setItem('id', _id);
+                push('/')
+                
             }
         } catch (error) {
             console.error('Error al enviar la solicitud:', error);
@@ -50,20 +54,20 @@ export default function Login() {
                         <form onSubmit={handleSubmit}>
                             <input
                                 type="email"
-                                id="email"
+                                id="correo"
                                 className="w-full mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light "
                                 placeholder="Email"
                                 required
-                                value={email}
+                                value={correo}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                             <input
                                 type="password"
-                                id="password"
+                                id="contraseña"
                                 className="w-full mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                                 placeholder="Contraseña"
                                 required
-                                value={password}
+                                value={contraseña}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
 
@@ -123,3 +127,4 @@ export default function Login() {
 
     )
 }
+

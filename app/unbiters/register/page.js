@@ -1,10 +1,40 @@
-"use client";
+'use client'
 
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "flowbite-react";
+import client from "@/config/client";
+import React, { useState } from 'react';
 
 export default function Register() {
+  const [nombre, setNombre] = useState("");
+  const [chaza, setChaza] = useState("");
+  const [correo, setEmail] = useState("");
+  const [contraseña, setPassword] = useState("");
+  const [confirmarContraseña, setconfirmarContraseña] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    console.log("submit");
+    try {
+      const response = await client.post("users/signup", {
+        nombre,
+        correo,
+        contraseña,
+        confirmarContraseña,
+        chaza
+      });
+
+      console.log(response);
+      if (response.data.success) {
+        console.log(response);
+      }
+    } catch (error) {
+      console.error("Error al registrarte", error.response);
+    }
+  };
+
   return (
     <>
       <div
@@ -15,7 +45,7 @@ export default function Register() {
           minHeight: "100vh",
         }}
       >
-        <div className=" pt-24 flex justify-center items-center">
+        <div className="pt-44 flex justify-center items-center">
           <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
             <div className="md:flex md:flex-col md:items-center p-5">
               {/* <img alt="Logo" className="h-20" src="/images/logo.png" /> */}
@@ -34,40 +64,55 @@ export default function Register() {
                 nuestra politica de tratamiento de datos
               </a>
 
-              <div>
+              <form onSubmit={handleSubmit}>
                 <input
-                  type="nombre"
                   id="nombre"
                   className="w-80 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-                  placeholder="Nombres"
+                  placeholder="Nombre Completo"
                   required
+                  value={nombre}
+                  onChange={(e) => setNombre(e.target.value)}
                 />
                 <input
-                  type="apellido"
-                  id="apellido"
+                  id="chaza"
                   className="w-full mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light "
-                  placeholder="Apellidos"
+                  placeholder="Chaza"
                   required
+                  value={chaza}
+                  onChange={(e) => setChaza(e.target.value)}
                 />
                 <input
                   type="email"
-                  id="email"
+                  id="correo"
                   className="w-full mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light "
                   placeholder="Email"
                   required
+                  value={correo}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
 
                 <input
                   type="password"
-                  id="s"
+                  id="contraseña"
                   className="w-full mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Contraseña"
                   required
+                  value={contraseña}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <input
+                  type="password"
+                  id="confirmarContraseña"
+                  className="w-full mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  placeholder="Confirmar Contraseña"
+                  required
+                  value={confirmarContraseña}
+                  onChange={(e) => setconfirmarContraseña(e.target.value)}
                 />
                 <Button
-                  href="#"
+                  type="submit"
                   style={{ background: "#D63447" }}
-                  className="px-5 mx-1 shadow-xl"
+                  className="w-full px-5 mx-1 shadow-xl"
                 >
                   Registrarse
                 </Button>
@@ -119,7 +164,7 @@ export default function Register() {
                     Inicia sesión
                   </Link>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
