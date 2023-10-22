@@ -1,10 +1,15 @@
 
-'use client';
-
+'use client'
 import { Button, Dropdown, Navbar, Avatar } from 'flowbite-react';
-import FomrChaza from './FormChaza';
+import FormChaza from './FormChaza';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
-export default function NavbarProfile() {
+export default function NavbarProfile({ id, data }) {
+    const [isChaza, setIsChaza] = useState('false')
+    useEffect(() => {
+        setIsChaza(window.sessionStorage.getItem('chaza'))
+    }, [])
     return (
         <div>
 
@@ -17,22 +22,22 @@ export default function NavbarProfile() {
                     <div className="">
                         <Navbar.Collapse>
                             <span className="bar"></span>
-                            <Button className='px-5 mx-1'>
+                            <Link href='/unbiters/profile/posts' className='px-5 mx-1'>
                                 Mis comentarios
-                            </Button>
+                            </Link>
                             <span className="bar"></span>
-                            <Button className='px-5 mx-1'>
+                            <Link href='/unbiters/profile' className='px-5 mx-1'>
                                 Seguidos
-                            </Button>
+                            </Link>
                             <span className="bar"></span>
-                            <Button className='px-5 mx-1'>
+                            <Link href='/unbiters/profile/posts' className='px-5 mx-1'>
                                 Mis estadisticas
-                            </Button>
+                            </Link>
                             <span className="bar"></span>
                             <Button id='action' data-modal-target="edit" data-modal-toggle="edit" className="action hover:bg-sky-700 px-5 mx-1">
-                                Editar Perfil
+                                {isChaza ? "Tu Chaza" : "Editar Perfil"}
                             </Button>
-                            <FomrChaza modal="edit" title="Actualiza tus datos" _id={"652dbb955de988ab1c455dcc"}></FomrChaza>
+                            <FormChaza modal="edit" title={isChaza ? "Tu Chaza" : "Editar Perfil"} _id={id}></FormChaza>
                         </Navbar.Collapse>
                     </div>
                 </div>

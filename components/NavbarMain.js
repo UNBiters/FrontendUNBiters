@@ -1,6 +1,8 @@
 'use client';
 
 import { Button, Dropdown, Navbar, Avatar } from 'flowbite-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function NavbarMain({ isLogin }) {
     return (
@@ -29,17 +31,17 @@ export default function NavbarMain({ isLogin }) {
 
                             <Navbar.Collapse>
                                 <span className="bar"></span>
-                                <Button href='/' className='px-5 mx-1'>
+                                <Link href='/' className='px-5 mx-1'>
                                     Comunidad
-                                </Button>
+                                </Link>
                                 <span className="bar"></span>
-                                <Button href='/unbiters/chazas' className='px-5 mx-1'>
+                                <Link href='/unbiters/chazas' className='px-5 mx-1'>
                                     Chazas
-                                </Button>
+                                </Link>
                                 <span className="bar"></span>
-                                <Button href='/unbiters/about' className='px-5 mx-1'>
+                                <Link href='/unbiters/about' className='px-5 mx-1'>
                                     Nosotros
-                                </Button>
+                                </Link>
                                 <span className="bar"></span>
                             </Navbar.Collapse>
                         </div>
@@ -79,15 +81,15 @@ export default function NavbarMain({ isLogin }) {
                         </div>
                     </div> :
                     <div className="flex md:order-3">
-                        <Button href='/unbiters/register' className='px-5 mx-1'>
+                        <Link href='/unbiters/register' className='px-5 mx-1'>
                             ¿Tienes una chaza?
-                        </Button>
-                        <Button href='/unbiters/login' className='px-5 mx-1'>
+                        </Link>
+                        <Link href='/unbiters/login' className='px-5 mx-1'>
                             Iniciar Sesion
-                        </Button>
-                        <Button href='/unbiters/register' className='px-5 mx-1'>
+                        </Link>
+                        <Link href='/unbiters/register' className='px-5 mx-1'>
                             Registrarse
-                        </Button>
+                        </Link>
                     </div>}
             </Navbar>
         </div>

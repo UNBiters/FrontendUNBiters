@@ -1,6 +1,38 @@
-export default function Comments({ id, data }) {
-    //console.log(id)
+'use client'
+import { useEffect, useState } from "react";
 
+import client from "@/config/client";
+export default function Comments({ id, data }) {
+    console.log(data)
+
+    const [token, setToken] = useState('');
+    const [review, setComment] = useState('');
+    const [idReview, setIdReview] = useState('');
+    const onSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            var body = {
+                review,
+                id
+            }
+            console.log(token)
+            const response = await client.post('publications/' + id + "/reviews", body, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            console.error('adta: ', response);
+            if (response) {
+            }
+        } catch (error) {
+            console.error('Error: ', error);
+        }
+    }
+    useEffect(() => {
+        setToken(window.sessionStorage.getItem('token'))
+    }, [])
+    if (!data) return <></>
     return (
         <div>
 
@@ -21,29 +53,31 @@ export default function Comments({ id, data }) {
                         </div>
                         <div className="p-6 space-y-6 ">
                             <div className="divide-y">
-                                {data.map((data) => (
-
-                                    <div key={data.id} className="p-2 ">
-                                        <span>{data.id}</span>
+                                {data ? data.map((data) => {
+                                    console.log(data.user)
+                                    var { nombre } = data.user
+                                    return (<div key={data._id} className="p-2 ">
+                                        <span>{nombre}</span>
                                         <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                                            {data.comentario}
+                                            {data.review}
                                         </p>
-                                    </div>
+                                    </div>)
 
-                                ))}
+                                }) : null}
                             </div>
+                            <form onSubmit={onSubmit}>
+                                <div className="p-1">
+                                    <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
+                                    <textarea id={"message" + data.id} onChange={(e) => setComment(e.target.value)} value={review} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
 
-                            <div className="p-1">
-                                <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
-                                <textarea id={"message"+data.id} rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+                                </div>
+                                <div className="flex justify-end">
+                                    <button type="submit" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 ">
+                                        Comentar
+                                    </button>
 
-                            </div>
-                            <div className="flex justify-end">
-                                <button type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 ">
-                                    Comentar
-                                </button>
-
-                            </div>
+                                </div>
+                            </form>
                         </div>
                         {
                             /**<div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">

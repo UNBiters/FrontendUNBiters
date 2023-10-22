@@ -32,7 +32,7 @@ export default function CardComent({ className, card, comments }) {
           </a>
           <div className=" p-2 text-center font-normal text-gray-700 dark:text-gray-400">
             <p className='mx-auto'>
-              Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
+              {card.texto}
             </p>
             <div className="flex justify-end mb-5 mt-2.5 items-center">
               {stars(5).map((star) => {
@@ -49,10 +49,10 @@ export default function CardComent({ className, card, comments }) {
                 <div className="overlap">
                   <ul className="text-wrapper-3 flex flex-wrap items-center sm:flex-row md:text-lg">
 
-                    {card.categorias.map((categorias) => (
+                    {card.categorias ? card.categorias.map((categorias) => (
 
                       <li key={categorias.index} className="mr-2">{categorias}</li>)
-                    )}
+                    ) : null}
                   </ul>
                 </div>
               </div>

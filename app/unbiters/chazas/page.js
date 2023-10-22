@@ -1,4 +1,3 @@
-
 import CardComent from '@/components/CardComment';
 import CardChaza from '@/components/CardChaza';
 import client from "@/config/client";
@@ -6,6 +5,7 @@ import Comments from '@/components/Comments';
 import Card from '@/components/Card';
 import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
+import { myClient } from "@/config/client";
 
 
 async function loadPost() {
@@ -18,11 +18,21 @@ async function loadPost() {
     }
 }
 
-async function Home() {
-    const post = (await loadPost())
+export default async function Home() {
+    //const post = (await loadPost())
     //console.log(post.data[0])
+    const res = await fetch(`${myClient.url}chazas`, { next: { revalidate: false | 0 | 300 } })
 
+    if (!res.ok) {
+        // This will activate the closest `error.js` Error Boundary
+        throw new Error('Failed to fetch data')
+    }
 
+    var posts = await res.json()
+    posts = posts.data.data
+    if (!posts) return "An error has occurred.";
+    //if (isLoading) return "Loading...";
+    console.log(posts)
     var comments = [
         {
             "id": 1,
@@ -94,11 +104,9 @@ async function Home() {
 
             </div>
             <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
-                {post ?
-                    post.data.map((card) => (
-                        <>
-                            <Card key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></Card>
-                        </>
+                {posts ?
+                    posts.map((card) => (
+                        <Card key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></Card>
                     )
                     )
 
@@ -107,5 +115,3 @@ async function Home() {
         </div>
     )
 }
-
-export default Home;

@@ -1,12 +1,13 @@
-
-import CardComent from '../components/CardComment';
-import CardChaza from '../components/CardChaza';
-import client from "../config/client";
-import Comments from '../components/Comments';
-import Card from '../components/Card';
+import React from 'react';
+import CardComent from '@/components/CardComment';
+import CardChaza from '@/components/CardChaza';
+import Comments from '@/components/Comments';
+import Card from '@/components/Card';
 import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
+import useSWR from "swr";
+import { myClient } from "@/config/client";
 
 
 async function loadPost() {
@@ -19,8 +20,24 @@ async function loadPost() {
   }
 }
 
-async function Home() {
-  const post = await loadPost()
+
+export default async function Home() {
+  var res = await fetch(`${myClient.url}chazas`, { next: { revalidate: false | 0 | 300 } })
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+  var chazas = await res.json()
+  chazas = chazas.data.data
+  if (!chazas) return "An error has occurred.";
+
+  res = await fetch(`${myClient.url}publications`, { next: { revalidate: false | 0 | 300 } })
+  if (!res.ok) {
+    throw new Error('Failed to fetch data')
+  }
+  var posts = await res.json()
+  posts = posts.data.data
+  if (!posts) return "An error has occurred.";
+  //const post = await loadPost()
   var comments = [
     {
       "id": 1,
@@ -78,7 +95,7 @@ async function Home() {
       <Filter className={"formSearch justify-items-center px-3 flex mx-auto text-center"} ></Filter>
       <div className='formSearch justify-items-center px-3'>
         <form>
-          <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+          <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -86,7 +103,7 @@ async function Home() {
               </svg>
             </div>
             <input type="search" id="default-search" className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
-            <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+            <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
           </div>
         </form>
 
@@ -95,15 +112,26 @@ async function Home() {
         <NewPost></NewPost>
       </div>
       <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
-        {post ? 
-          post.data.map((card) => (
+        {posts ?
+          posts.map((card) => (
             <>
-              <CardComent key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></CardComent>
-              <Card key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></Card></>
+              <CardComent key={card._id} card={card} comments={card.reviews} className={"ListComment pb-2"}></CardComent>
+
+            </>
           )
           )
 
-        : null}
+          : null}
+        {chazas ?
+          chazas.map((card) => (
+            <>
+              <Card key={card._id} card={card} className={"ListComment pb-2"}></Card>
+
+            </>
+          )
+          )
+
+          : null}
       </div>
       <a href="/unbiters/pricing" className="btn-flotante text-white  right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         Explora Premium
@@ -112,5 +140,3 @@ async function Home() {
     </div>
   )
 }
-
-export default Home;
