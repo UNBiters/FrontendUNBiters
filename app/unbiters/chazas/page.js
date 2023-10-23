@@ -21,18 +21,14 @@ async function loadPost() {
 export default async function Home() {
     //const post = (await loadPost())
     //console.log(post.data[0])
-    const res = await fetch(`${myClient.url}chazas`, { next: { revalidate: false | 0 | 300 } })
+    const res = await client.get(`${myClient.url}chazas`, { next: { revalidate: false | 0 | 300 } })
 
-    if (!res.ok) {
-        // This will activate the closest `error.js` Error Boundary
+    if (!res.status == "201") {
         throw new Error('Failed to fetch data')
     }
-
-    var posts = await res.json()
-    posts = posts.data.data
-    if (!posts) return "An error has occurred.";
+    var chazas = res.data.data.data
+    if (!chazas) return "An error has occurred.";
     //if (isLoading) return "Loading...";
-    console.log(posts)
     var comments = [
         {
             "id": 1,
@@ -104,8 +100,8 @@ export default async function Home() {
 
             </div>
             <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
-                {posts ?
-                    posts.map((card) => (
+                {chazas ?
+                    chazas.map((card) => (
                         <Card key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></Card>
                     )
                     )

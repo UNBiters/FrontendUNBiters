@@ -7,15 +7,15 @@ import { useEffect, useState } from 'react';
 export default function NavbarMain() {
     const [isLogin, setIsLogin] = useState("")
     useEffect(() => {
-        if (window.sessionStorage.getItem('token')) {
+        console.log(window.sessionStorage.getItem('token'))
+        if (window.sessionStorage.getItem('token') !== null) {
             setIsLogin(true)
         } else {
-
             setIsLogin(false)
         }
     }, [])
-    
-    if (isLogin == "") return <></>
+
+    if (isLogin == null) return <></>
     return (
         <div className=''>
             <Navbar

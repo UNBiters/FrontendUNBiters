@@ -6,7 +6,7 @@ import Card from '@/components/Card';
 import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
-import { myClient } from "@/config/client";
+import client, { myClient } from "@/config/client";
 
 
 async function loadPost() {
@@ -21,20 +21,18 @@ async function loadPost() {
 
 
 export default async function Home() {
-  var res = await fetch(`${myClient.url}chazas`, { next: { revalidate: true | 0 | 60 } })
-  if (!res.ok) {
+  var res = await client.get(`chazas`, { next: { revalidate: true | 0 | 60 } })
+  if (!res.status == "201") {
     throw new Error('Failed to fetch data')
   }
-  var chazas = await res.json()
-  chazas = chazas.data.data
+  var chazas = res.data.data.data
   if (!chazas) return "An error has occurred.";
 
-  res = await fetch(`${myClient.url}publications`, { next: { revalidate: true | 0 | 60 } })
-  if (!res.ok) {
+  var res = await client.get(`publications`, { next: { revalidate: true | 0 | 60 } })
+  if (!res.status == "201") {
     throw new Error('Failed to fetch data')
   }
-  var posts = await res.json()
-  posts = posts.data.data
+  var posts = res.data.data.data
   if (!posts) return "An error has occurred.";
   //const post = await loadPost()
   var comments = [
