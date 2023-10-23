@@ -102,7 +102,7 @@ export default function Comments({ id, data }) {
                             <div className="divide-y">
                                 {comments ? comments.map((data) => {
                                     if (data.user) { var { nombre } = data.user }
-                                    return (<div key={data._id} className="p-2 ">
+                                    return (<div key={data._id ? data._id : data.id} className="p-2 ">
                                         <span>{nombre}</span>
                                         <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                             {data.review}

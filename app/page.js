@@ -1,4 +1,5 @@
-import React from 'react';
+'use client'
+import React, { useEffect, useState } from 'react';
 import CardComent from '@/components/CardComment';
 import CardChaza from '@/components/CardChaza';
 import Comments from '@/components/Comments';
@@ -7,6 +8,8 @@ import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
 import client, { myClient } from "@/config/client";
+import ModalComments from '@/components/Modal/ModalComments';
+import { useSearchParams, useRouter } from 'next/navigation'
 
 
 async function loadPost() {
@@ -20,20 +23,33 @@ async function loadPost() {
 }
 
 
-export default async function Home() {
-  var res = await client.get(`chazas`, { next: { revalidate: true | 0 | 60 } })
-  if (!res.status == "201") {
-    throw new Error('Failed to fetch data')
-  }
-  var chazas = res.data.data.data
-  if (!chazas) return "An error has occurred.";
+export default function Home() {
+  const searchParams = useSearchParams()
+  const idSearch = searchParams.get('id')
+  const router = useRouter()
+  const [chazas, setChazas] = useState([])
+  const [posts, setPosts] = useState([])
+  useEffect(() => {
 
-  var res = await client.get(`publications`, { next: { revalidate: true | 0 | 60 } })
-  if (!res.status == "201") {
-    throw new Error('Failed to fetch data')
-  }
-  var posts = res.data.data.data
-  if (!posts) return "An error has occurred.";
+    client.get(`chazas`, { next: { revalidate: true | 0 | 60 } })
+      .then((res) => {
+        if (!res.status == "200") {
+          throw new Error('Failed to fetch data')
+        }
+        setChazas(res.data.data.data)
+      })
+
+    client.get(`publications`, { next: { revalidate: true | 0 | 60 } }).
+      then((res) => {
+
+        if (!res.status == "200") {
+          throw new Error('Failed to fetch data')
+        }
+        setPosts(res.data.data.data)
+        //if (!posts) return "An error has occurred.";
+      })
+  }, [])
+
   //const post = await loadPost()
   var comments = [
     {
@@ -89,6 +105,9 @@ export default async function Home() {
   ]
   return (
     <div id='home' className='grid grid-cols-2'>
+      {idSearch && (<ModalComments onClose={() => { router.push("/") }} _id={idSearch} />)
+
+      }
       <Filter className={"formSearch justify-items-center px-3 flex mx-auto text-center"} ></Filter>
       <div className='formSearch justify-items-center px-3'>
         <form>
@@ -112,7 +131,7 @@ export default async function Home() {
         {posts ?
           posts.map((card) => (
             <>
-              <CardComent key={card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2"}></CardComent>
+              <CardComent key={"pub" + card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2"}></CardComent>
 
             </>
           )
@@ -122,7 +141,7 @@ export default async function Home() {
         {chazas ?
           chazas.map((chaz) => (
             <>
-              <Card key={chaz._id} card={chaz} idModal={chaz._id} comments={comments} className={"ListComment pb-2"}></Card>
+              <Card key={"cha" + chaz._id} card={chaz} idModal={chaz._id} comments={comments} className={"ListComment pb-2"}></Card>
             </>
           )
           )

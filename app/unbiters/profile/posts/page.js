@@ -61,7 +61,7 @@ function Posts() {
 
                     : null}
             </div > :
-            <NotFoundChaza></NotFoundChaza>
+            <NotFoundChaza tittle={"Opiniones "}></NotFoundChaza>
         }
         </>
     )

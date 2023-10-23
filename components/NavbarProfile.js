@@ -28,46 +28,50 @@ export default function NavbarProfile({ id, data }) {
             })
     }, [])
     return (
-        <div>
-            <nav class="NavbarMain w-full ">
-                <div class="NavbarProfile max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
-                        <span class="sr-only">Open main menu</span>
-                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-                        </svg>
-                    </button>
-                    <div class="NavbarProfile hidden w-full md:block md:w-auto" id="navbar-default">
-                        <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                            <li>
-                                <Link className="block py-2 pl-3 pr-4 rounded md:bg-transparent md:p-0 " href='/unbiters/profile/posts' >
-                                    <span className="bar"></span>
-                                    Mis publicaciones
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href='/unbiters/profile' className="block py-2 pl-3 pr-4 rounded md:bg-transparent md:p-0 ">
-                                    <span className="bar"></span>
-                                    Mis comentarios
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href='/unbiters/profile/posts' className="block py-2 pl-3 pr-4 rounded md:bg-transparent md:p-0 ">
-                                    <span className="bar"></span>
-                                    Mis estadisticas
-                                </Link>
-                            </li>
-                            <li>
-                                <Button id='action' data-modal-target="edit" data-modal-toggle="edit" className="action hover:bg-sky-700 ">
-                                    <span className="bar"></span>
-                                    {existChaza ? isChaza ? "Editar Chaza" : "Editar Perfil" : "Crea tu chaza"}
-                                </Button>
-                            </li>
-                        </ul>
+        <div className=''>
+
+            <Navbar
+                fluid
+                className='NavbarMain justify-end w-full'
+            >
+                <Navbar.Brand href="/">
+                </Navbar.Brand>
+                <div className="NavbarProfile flex md:order-2">
+                    <div className="pt-2 mr-5">
+                        <Navbar.Collapse >
+                            <span className="bar"></span>
+                            <Link href='/unbiters/profile/posts' className='grid content-center px-5 mx-1'>
+                                Mis publicaciones
+                            </Link>
+                            <span className="bar"></span>
+                            <Link href='/unbiters/profile' className='grid content-center  px-5 mx-1'>
+                                Mis estadisticas
+                            </Link>
+                            <span className="bar"></span>
+                            <Link href='/unbiters/profile/comments' className='grid content-center  px-5 mx-1'>
+                                Mis comentarios
+                            </Link>
+                            <span className="bar"></span>
+
+                            <Link href='/unbiters/profile/edit' id='action' className='py-2 rounded-md action hover:bg-sky-700 grid content-center  px-5 mx-1'>
+                                <span className="bar"></span>
+                                {existChaza ? isChaza ? "Editar Chaza" : "Editar Perfil" : "Crea tu chaza"}
+                            </Link>
+                            {/*data-modal-target="edit" data-modal-toggle="edit"  */}
+                            {/*<FormChaza modal="edit" title={!existChaza ? "Crea tu chaza" : "Editar Perfil"} created={!existChaza ? true : false} _id={id}></FormChaza>*/}
+                        </Navbar.Collapse>
                     </div>
-                    <FormChaza modal="edit" title={!existChaza ? "Crea tu chaza" : "Editar Perfil"} created={!existChaza ? true : false} _id={id}></FormChaza>
-                </div>
-            </nav>
+                    <div className="flex sm:order-2">
+                        <Dropdown
+                            arrowIcon={false}
+                            inline  >
+                            <Dropdown.Header className='text-center'>
+                            </Dropdown.Header>
+                        </Dropdown>
+                        <Navbar.Toggle />
+
+                    </div></div>
+            </Navbar>
         </div>
     )
 }

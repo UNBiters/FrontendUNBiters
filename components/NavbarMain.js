@@ -6,12 +6,28 @@ import { useEffect, useState } from 'react';
 
 export default function NavbarMain() {
     const [isLogin, setIsLogin] = useState("")
+    const [nombre, setNombre] = useState("")
+    const [email, setEmail] = useState("")
     useEffect(() => {
         console.log(window.sessionStorage.getItem('token'))
         if (window.sessionStorage.getItem('token') !== null) {
             setIsLogin(true)
         } else {
             setIsLogin(false)
+        }
+        console.log(window.sessionStorage.getItem('email'))
+        var correo = window.sessionStorage.getItem('email')
+        if (correo !== null) {
+            setEmail(correo)
+        } else {
+            setEmail("")
+        }
+        console.log(window.sessionStorage.getItem('nombre'))
+        var name = window.sessionStorage.getItem('nombre')
+        if (name !== null) {
+            setNombre(name)
+        } else {
+            setNombre("false")
         }
     }, [])
 
@@ -52,36 +68,48 @@ export default function NavbarMain() {
                                 <span className="bar"></span>
                             </Navbar.Collapse>
                         </div>
-                        <div className=" flex sm:order-2">
+                        <div className="flex sm:order-2">
                             <Dropdown
                                 arrowIcon={false}
                                 inline
                                 label={<Avatar className="pr-2" alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />}
                             >
-                                <Dropdown.Header>
+                                <Dropdown.Header className='text-center'>
                                     <span className="block text-sm">
-                                        Bonnie Green
+                                        {nombre}
                                     </span>
                                     <span className="block truncate text-sm font-medium">
-                                        name@flowbite.com
+                                        {email}
                                     </span>
                                 </Dropdown.Header>
-                                <Dropdown.Item href='/unbiters/profile'>
-                                    Editar Perfil
-                                </Dropdown.Item>
-                                <Dropdown.Item href='/'>
-                                    Información
-                                </Dropdown.Item>
-                                <Dropdown.Item href='/'>
-                                    Actividad reciente
-                                </Dropdown.Item>
-                                <Dropdown.Item href='/'>
-                                    Calificaciones
-                                </Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item href='/login'>
-                                    Cerrar Sesion
-                                </Dropdown.Item>
+                                <ul className='bg-white text-end mx-auto px-auto '>
+                                    <li className='pr-4'>
+                                        <Link href='/unbiters/profile'>
+                                            Editar Perfil
+                                        </Link>
+                                    </li>
+                                    <li className='pr-4'>
+                                        <Link href='/'>
+                                            Información
+                                        </Link>
+                                    </li>
+                                    <li className='pr-4'>
+                                        <Link href='/'>
+                                            Actividad reciente
+                                        </Link>
+                                    </li>
+                                    <li className='pr-4'>
+                                        <Link href='/'>
+                                            Calificaciones
+                                        </Link>
+                                    </li>
+                                    <Dropdown.Divider />
+                                    <li className='pr-4'>
+                                        <Link href='/login'>
+                                            Cerrar Sesion
+                                        </Link>
+                                    </li>
+                                </ul>
                             </Dropdown>
                             <Navbar.Toggle />
 

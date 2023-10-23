@@ -32,7 +32,7 @@ export default function ProfileLayout({ children }) {
                 </button>
                 <UploadImage modal="upload"></UploadImage>
             </div>
-            <NavbarProfile ></NavbarProfile>
+            <NavbarProfile id={"asdsa"}></NavbarProfile>
             {children}
         </>
     )

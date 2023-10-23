@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import client from "@/config/client"
 
-export default function FormChaza({ modal, title, created }) {
+export default function FormChaza({ modal, title, created, _id }) {
 
     const [id, setId] = useState('');
     const [nombre, setNombre] = useState('');

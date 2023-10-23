@@ -38,7 +38,7 @@ export default function ProfileView({ data }) {
     }, [])
     return (
         <div className=''>
-            {chaza ? <NotFoundChaza></NotFoundChaza>
+            {chaza ? <NotFoundChaza tittle={"Chaza "}></NotFoundChaza>
                 :
                 <div className="pt-6 px-8 bg-[#ffffff] border h-screen">
                     <div className="px-4 sm:px-0">

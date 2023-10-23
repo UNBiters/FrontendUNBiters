@@ -32,52 +32,52 @@ export default async function Home() {
     var comments = [
         {
             "id": 1,
-            "comentario": "¡Este es un comentario genial!",
+            "review": "¡Este es un comentario genial!",
             "urlImagen": "https://www.example.com/imagen1.jpg"
         },
         {
             "id": 2,
-            "comentario": "Este es otro comentario genial",
+            "review": "Este es otro comentario genial",
             "urlImagen": "https://www.example.com/imagen2.jpg"
         },
         {
             "id": 3,
-            "comentario": "¡Esta imagen es increíble!",
+            "review": "¡Esta imagen es increíble!",
             "urlImagen": "https://www.example.com/imagen3.jpg"
         },
         {
             "id": 4,
-            "comentario": "¡Este es un comentario muy profundo!",
+            "review": "¡Este es un comentario muy profundo!",
             "urlImagen": "https://www.example.com/imagen4.jpg"
         },
         {
             "id": 5,
-            "comentario": "¡Esta imagen me hace reír!",
+            "review": "¡Esta imagen me hace reír!",
             "urlImagen": "https://www.example.com/imagen5.jpg"
         },
         {
             "id": 6,
-            "comentario": "¡Esta imagen es muy triste!",
+            "review": "¡Esta imagen es muy triste!",
             "urlImagen": "https://www.example.com/imagen6.jpg"
         },
         {
             "id": 7,
-            "comentario": "¡Esta imagen es muy hermosa!",
+            "review": "¡Esta imagen es muy hermosa!",
             "urlImagen": "https://www.example.com/imagen7.jpg"
         },
         {
             "id": 8,
-            "comentario": "¡Esta imagen es muy graciosa!",
+            "review": "¡Esta imagen es muy graciosa!",
             "urlImagen": "https://www.example.com/imagen8.jpg"
         },
         {
             "id": 9,
-            "comentario": "¡Esta imagen es muy inspiradora!",
+            "review": "¡Esta imagen es muy inspiradora!",
             "urlImagen": "https://www.example.com/imagen9.jpg"
         },
         {
             "id": 10,
-            "comentario": "¡Esta imagen es muy creativa!",
+            "review": "¡Esta imagen es muy creativa!",
             "urlImagen": "https://www.example.com/imagen10.jpg"
         }
     ]
@@ -102,7 +102,7 @@ export default async function Home() {
             <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
                 {chazas ?
                     chazas.map((card) => (
-                        <Card key={card._id} card={card} comments={comments} className={"ListComment pb-2"}></Card>
+                        <Card key={"chaza" + card._id} card={card} idModal={card._id} comments={comments} className={"ListComment pb-2"}></Card>
                     )
                     )
 

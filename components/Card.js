@@ -47,9 +47,11 @@ export default function Card({ className, card, comments, idModal }) {
                             Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                         </p>
                         <div className="flex justify-end mb-5 mt-2.5 items-center">
-                            {stars(5).map((star) => {
-                                return star
-                            })}
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <svg key={star} className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                </svg>
+                            ))}
                             <span className="ml-3 mr-2 rounded bg-cyan-100 px-2.5 py-0.5 text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
                                 <p>
                                     5.0
@@ -63,17 +65,17 @@ export default function Card({ className, card, comments, idModal }) {
 
                                         {card.categorias.map((categorias) => (
 
-                                            <li key={categorias.index} className="mr-2">{categorias}</li>)
+                                            <li key={"car"+categorias.indexOf(categorias)} className="mr-2">{categorias}</li>)
                                         )}
-                                    </ul>
-                                </div>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-            </button>
-            <Comments id={idModal} data={comments}></Comments>
         </div>
+            </button >
+        <Comments id={idModal} data={comments}></Comments>
+        </div >
 
     )
 }
