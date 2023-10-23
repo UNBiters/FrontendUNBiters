@@ -2,7 +2,7 @@
 'use client'
 import Comments from './Comments';
 
-export default function Card({ className, card, comments }) {
+export default function Card({ className, card, comments, idModal }) {
 
     const stars = (length) => {
         var arrStar = []
@@ -16,14 +16,10 @@ export default function Card({ className, card, comments }) {
     return (
         <div className={className}>
 
-            <button data-modal-target={card._id} data-modal-toggle={card._id} className="block" type="button">
-
+            <button data-modal-target={idModal} data-modal-toggle={idModal} className="block" type="button">
                 <div className="max-w-xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <a href="#">
-                        <img className="rounded-t-lg" src="/images/test.jpg" alt="" />
-                    </a>
+                    <img className="rounded-t-lg" src="/images/test.jpg" alt="" />
                     <div className="p-2 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-
                         <div className="grid grid-flow-col">
                             <div className='flex items-center'>
                                 <p className="mx-auto">
@@ -76,7 +72,7 @@ export default function Card({ className, card, comments }) {
                     </div>
                 </div>
             </button>
-            <Comments id={card._id} data={comments}></Comments>
+            <Comments id={idModal} data={comments}></Comments>
         </div>
 
     )

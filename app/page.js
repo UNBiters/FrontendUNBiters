@@ -6,7 +6,6 @@ import Card from '@/components/Card';
 import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
-import useSWR from "swr";
 import { myClient } from "@/config/client";
 
 
@@ -22,7 +21,7 @@ async function loadPost() {
 
 
 export default async function Home() {
-  var res = await fetch(`${myClient.url}chazas`, { next: { revalidate: false | 0 | 300 } })
+  var res = await fetch(`${myClient.url}chazas`, { next: { revalidate: true | 0 | 60 } })
   if (!res.ok) {
     throw new Error('Failed to fetch data')
   }
@@ -30,7 +29,7 @@ export default async function Home() {
   chazas = chazas.data.data
   if (!chazas) return "An error has occurred.";
 
-  res = await fetch(`${myClient.url}publications`, { next: { revalidate: false | 0 | 300 } })
+  res = await fetch(`${myClient.url}publications`, { next: { revalidate: true | 0 | 60 } })
   if (!res.ok) {
     throw new Error('Failed to fetch data')
   }
@@ -41,52 +40,52 @@ export default async function Home() {
   var comments = [
     {
       "id": 1,
-      "comentario": "¡Este es un comentario genial!",
+      "review": "¡Este es un comentario genial!",
       "urlImagen": "https://www.example.com/imagen1.jpg"
     },
     {
       "id": 2,
-      "comentario": "Este es otro comentario genial",
+      "review": "Este es otro comentario genial",
       "urlImagen": "https://www.example.com/imagen2.jpg"
     },
     {
       "id": 3,
-      "comentario": "¡Esta imagen es increíble!",
+      "review": "¡Esta imagen es increíble!",
       "urlImagen": "https://www.example.com/imagen3.jpg"
     },
     {
       "id": 4,
-      "comentario": "¡Este es un comentario muy profundo!",
+      "review": "¡Este es un comentario muy profundo!",
       "urlImagen": "https://www.example.com/imagen4.jpg"
     },
     {
       "id": 5,
-      "comentario": "¡Esta imagen me hace reír!",
+      "review": "¡Esta imagen me hace reír!",
       "urlImagen": "https://www.example.com/imagen5.jpg"
     },
     {
       "id": 6,
-      "comentario": "¡Esta imagen es muy triste!",
+      "review": "¡Esta imagen es muy triste!",
       "urlImagen": "https://www.example.com/imagen6.jpg"
     },
     {
       "id": 7,
-      "comentario": "¡Esta imagen es muy hermosa!",
+      "review": "¡Esta imagen es muy hermosa!",
       "urlImagen": "https://www.example.com/imagen7.jpg"
     },
     {
       "id": 8,
-      "comentario": "¡Esta imagen es muy graciosa!",
+      "review": "¡Esta imagen es muy graciosa!",
       "urlImagen": "https://www.example.com/imagen8.jpg"
     },
     {
       "id": 9,
-      "comentario": "¡Esta imagen es muy inspiradora!",
+      "review": "¡Esta imagen es muy inspiradora!",
       "urlImagen": "https://www.example.com/imagen9.jpg"
     },
     {
       "id": 10,
-      "comentario": "¡Esta imagen es muy creativa!",
+      "review": "¡Esta imagen es muy creativa!",
       "urlImagen": "https://www.example.com/imagen10.jpg"
     }
   ]
@@ -115,7 +114,7 @@ export default async function Home() {
         {posts ?
           posts.map((card) => (
             <>
-              <CardComent key={card._id} card={card} comments={card.reviews} className={"ListComment pb-2"}></CardComent>
+              <CardComent key={card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2"}></CardComent>
 
             </>
           )
@@ -123,10 +122,9 @@ export default async function Home() {
 
           : null}
         {chazas ?
-          chazas.map((card) => (
+          chazas.map((chaz) => (
             <>
-              <Card key={card._id} card={card} className={"ListComment pb-2"}></Card>
-
+              <Card key={chaz._id} card={chaz} idModal={chaz._id} comments={comments} className={"ListComment pb-2"}></Card>
             </>
           )
           )

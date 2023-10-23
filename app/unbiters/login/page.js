@@ -33,7 +33,7 @@ export default function Login() {
                 } else {
                     window.sessionStorage.setItem('chaza', 'false');
                 }
-                //push('/')
+                push('/')
 
             }
         } catch (error) {

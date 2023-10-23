@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import client from "@/config/client"
 
-export default function FormChaza({ modal, title }) {
+export default function FormChaza({ modal, title, created }) {
 
     const [id, setId] = useState('');
     const [nombre, setNombre] = useState('');
+    const [eslogan, setEslogan] = useState('');
     const [fechaFundacion, setFechaFundacion] = useState('');
     const [categorias, setCategorias] = useState([]);
+    const [metodos, setMetodos] = useState([]);
     const [ubicacion, setUbicacion] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [horarioAtencion, setHorarioAtencion] = useState('');
@@ -17,8 +19,10 @@ export default function FormChaza({ modal, title }) {
         e.preventDefault();
 
         try {
+            console.log(metodos)
             var body = {
                 nombre,
+                eslogan,
                 fechaFundacion,
                 categorias,
                 ubicacion,
@@ -34,6 +38,18 @@ export default function FormChaza({ modal, title }) {
             console.error('Error: ', error);
         }
     }
+    const handleChange = (e) => {
+        e.preventDefault()
+        const checked = e.target.checked;
+        const checkedValue = e.target.value;
+        const checkedName = e.target.name;
+        if (checked) {
+            setCategorias(categorias => [...categorias, checkedValue])
+        } else {
+            setCategorias(categorias => [categorias.filter((data) => data == checkedValue)])
+        }
+        console.log("categorias", categorias)
+    }
 
     useEffect(() => {
         try {
@@ -48,12 +64,16 @@ export default function FormChaza({ modal, title }) {
                 console.log("page", res)
                 chaza = res.data.data.myChaza
                 console.log("page", chaza)
-                setNombre(chaza.nombre)
-                setDescripcion(chaza.descripcion)
-                setCategorias(chaza.categorias)
-                setFechaFundacion(chaza.fechaFundacion)
-                setUbicacion(chaza.ubicacion)
-                setHorarioAtencion(chaza.horarioAtencion)
+                if (chaza.length != 0) {
+
+                    console.log("page2", chaza)
+                    setNombre(chaza.nombre)
+                    setDescripcion(chaza.descripcion)
+                    setCategorias(chaza.categorias)
+                    setFechaFundacion(chaza.fechaFundacion)
+                    setUbicacion(chaza.ubicacion)
+                    setHorarioAtencion(chaza.horarioAtencion)
+                }
             })
         } catch (error) {
             console.log(error)
@@ -164,7 +184,7 @@ export default function FormChaza({ modal, title }) {
                                         </div>
                                         <div className="sm:col-span-2">
                                             <label htmlFor="slug" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Eslogan de tu chaza:</label>
-                                            <input type="text" name="slug" id="slug" onChange={(e) => setNombre(e.target.value)} value={nombre} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required />
+                                            <input type="text" name="slug" id="slug" onChange={(e) => setEslogan(e.target.value)} value={eslogan} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required />
                                         </div>
                                         <div className="text-center">
                                             <label htmlFor="date" className="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categorias</label>
@@ -178,7 +198,7 @@ export default function FormChaza({ modal, title }) {
                                                     {categoriasList.map((cate) => (
                                                         <li key={cate.id}>
                                                             <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                                                <input id="categorias" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                                                <input id="categorias" type="checkbox" name={cate.nombreCategoria} value={cate.nombreCategoria} onChange={(e) => handleChange(e)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                                                 <label htmlFor="categorias" className="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{cate.nombreCategoria}</label>
                                                             </div>
                                                         </li>
@@ -204,7 +224,7 @@ export default function FormChaza({ modal, title }) {
                                                     {mediosPago.map((cate) => (
                                                         <li key={cate.id}>
                                                             <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                                                <input id="pagos" type="checkbox" value={cate.nombre} onChange={(e) => setCategorias(e.target.value)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                                                <input id="pagos" type="checkbox" value={cate.nombre} onChange={(e) => setMetodos(e.target.value)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                                                 <label htmlFor="pagos" className="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{cate.nombre}</label>
                                                             </div>
                                                         </li>
@@ -230,7 +250,7 @@ export default function FormChaza({ modal, title }) {
                                                     {horario.map((cate) => (
                                                         <li key={cate.id}>
                                                             <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                                                <input id="pagos" type="checkbox" value={cate.nombre} onChange={(e) => setCategorias(e.target.value)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
+                                                                <input id="pagos" type="checkbox" value={cate.nombre} onChange={(e) => setMetodos(e.target.value)} className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" />
                                                                 <label htmlFor="pagos" className="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{cate.nombre}</label>
                                                             </div>
                                                         </li>
@@ -245,23 +265,23 @@ export default function FormChaza({ modal, title }) {
                                             <textarea id="descripcion" onChange={(e) => setDescripcion(e.target.value)} value={descripcion} rows="8" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Agrega una descripción"></textarea>
                                         </div>
                                     </div>
-                                    <div class="relative mt-2 rounded-md shadow-sm">
-                                        <input type="text" name="price" id="price" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="@facebook" />
-                                        <div class="absolute inset-y-0 right-0 flex items-center">
+                                    <div className="relative mt-2 rounded-md shadow-sm">
+                                        <input type="text" name="price" id="price" className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="@facebook" />
+                                        <div className="absolute inset-y-0 right-0 flex items-center">
                                             <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
                                                 <path fillRule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clipRule="evenodd" />
                                             </svg>
                                         </div>
                                     </div>
-                                    <div class="relative mt-2 rounded-md shadow-sm">
-                                        <input type="text" name="price" id="price" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="@instagram" />
-                                        <div class="absolute inset-y-0 right-0 flex items-center">
+                                    <div className="relative mt-2 rounded-md shadow-sm">
+                                        <input type="text" name="price" id="price" className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="@instagram" />
+                                        <div className="absolute inset-y-0 right-0 flex items-center">
                                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" /></svg>
                                         </div>
                                     </div>
-                                    <div class="relative mt-2 rounded-md shadow-sm">
-                                        <input type="text" name="price" id="price" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="www.website.com" />
-                                        <div class="absolute inset-y-0 right-0 flex items-center">
+                                    <div className="relative mt-2 rounded-md shadow-sm">
+                                        <input type="text" name="price" id="price" className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="www.website.com" />
+                                        <div className="absolute inset-y-0 right-0 flex items-center">
                                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" /></svg>
                                         </div>
                                     </div>

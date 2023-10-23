@@ -4,13 +4,22 @@ import { Button, Dropdown, Navbar, Avatar } from 'flowbite-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-export default function NavbarMain({ isLogin }) {
+export default function NavbarMain() {
+    const [isLogin, setIsLogin] = useState("")
+    useEffect(() => {
+        if (window.sessionStorage.getItem('token')) {
+            setIsLogin(true)
+        } else {
+
+            setIsLogin(false)
+        }
+    }, [])
+    
+    if (isLogin == "") return <></>
     return (
         <div className=''>
-
             <Navbar
                 fluid
-
                 className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
             >
                 <Navbar.Brand href="/">
@@ -25,10 +34,8 @@ export default function NavbarMain({ isLogin }) {
                     </span>
                 </Navbar.Brand>
                 {isLogin ?
-
                     <div className="NavbarProfile flex md:order-2">
                         <div className="pt-2 mr-5">
-
                             <Navbar.Collapse>
                                 <span className="bar"></span>
                                 <Link href='/' className='px-5 mx-1'>

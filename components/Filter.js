@@ -68,10 +68,9 @@ export default function Filter({ className }) {
                     </div>
                 </li>
                 <li className="px-1">
-
                     <div>
-                        <select id="small" className="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option selected>Filtra por chaza</option>
+                        <select id="small" defaultValue={""} className="block w-full p-2 mb-6 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value={""} selected>Filtra por chaza</option>
                             <option value="US">United States</option>
                             <option value="CA">Canada</option>
                             <option value="FR">France</option>

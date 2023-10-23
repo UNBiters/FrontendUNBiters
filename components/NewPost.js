@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function NewPost() {
 
-    const { push, refresh } = useRouter();
+    const router = useRouter();
     const [error, setError] = useState('');
     const [succes, setSucces] = useState('');
     const [token, setToken] = useState('');
@@ -37,7 +37,7 @@ export default function NewPost() {
                 console.log('sucess: ', response);
                 setError('')
                 setSucces("La publicacíon se ha creado exitosamente!")
-                refresh()
+                //refresh()
                 setTimeout(function () {
                     document.querySelectorAll("#closeModal")[0].click();
                 }, 3000);
@@ -60,14 +60,13 @@ export default function NewPost() {
         }
         setRating(number)
     }
-
     useEffect(() => {
         setToken(window.sessionStorage.getItem('token'))
     }, [])
     return (
         <>
             <div className="inline-flex rounded-md shadow-sm" role="group">
-                <button type="button" className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
+                <button onClick={() => router.refresh()} type="button" className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
                     Actualizar Publicaciones
                 </button>
 
@@ -90,51 +89,51 @@ export default function NewPost() {
                                     </button>
                                 </div>
                                 {error ?
-                                    <div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
-                                        <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <div className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+                                        <svg className="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                         </svg>
-                                        <span class="sr-only">Info</span>
+                                        <span className="sr-only">Info</span>
                                         <div>
-                                            <span class="font-medium">Advertencia!</span> {error}
+                                            <span className="font-medium">Advertencia!</span> {error}
                                         </div>
                                     </div>
                                     : null}
 
                                 {succes ?
-                                    <div class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
-                                        <svg class="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <div className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+                                        <svg className="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                                         </svg>
-                                        <span class="sr-only">Info</span>
+                                        <span className="sr-only">Info</span>
                                         <div>
-                                            <span class="font-medium">Exitoso!</span> {succes}
+                                            <span className="font-medium">Exitoso!</span> {succes}
                                         </div>
                                     </div>
                                     : null}
                                 <div className="p-6 space-y-6">
 
                                     <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Escribe tu opinión</label>
-                                    <div><textarea name="message" rows="4" onChange={(e) => setComment(e.target.value)} value={texto} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Algún comentario..." maxlength="600" ></textarea></div>
+                                    <div><textarea name="message" rows="4" onChange={(e) => setComment(e.target.value)} value={texto} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Algún comentario..." maxLength="600" ></textarea></div>
                                     <label htmlFor="message" className="block  text-sm font-medium text-gray-900 dark:text-white">Califica tu experiencia y selecciona la chaza de la cual opinaras</label>
-                                    <div class="grid grid-cols-2 grid-flow-col items-baseline">
+                                    <div className="grid grid-cols-2 grid-flow-col items-baseline">
 
                                         <div className="flex  ">
 
-                                            <div class="flex flex-row-reverse mx-auto items-center space-x-1">
-                                                <svg onClick={() => onClick(5)} class={classe4 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                            <div className="flex flex-row-reverse mx-auto items-center space-x-1">
+                                                <svg onClick={() => onClick(5)} className={classe4 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                                 </svg>
-                                                <svg onClick={() => onClick(4)} class={classe3 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <svg onClick={() => onClick(4)} className={classe3 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                                 </svg>
-                                                <svg onClick={() => onClick(3)} class={classe2 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <svg onClick={() => onClick(3)} className={classe2 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                                 </svg>
-                                                <svg onClick={() => onClick(2)} class={classe1 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <svg onClick={() => onClick(2)} className={classe1 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                                 </svg>
-                                                <svg onClick={() => onClick(1)} class={classe + " w-8 h-8 text-gray-300 dark:text-gray-500 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                                <svg onClick={() => onClick(1)} className={classe + " w-8 h-8 text-gray-300 dark:text-gray-500 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
                                                 </svg>
                                             </div>
