@@ -9,6 +9,7 @@ export default function PricingCard({
   color,
   features,
   btnText,
+  link
 }) {
   return (
     <div
@@ -39,7 +40,7 @@ export default function PricingCard({
         ))}
       </ul>
       <Button
-        href="#"
+        href={link}
         style={{ background: "#D63447" }}
         className="px-5 mx-1 shadow-xl"
       >
