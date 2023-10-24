@@ -62,7 +62,10 @@ export default function Login() {
 
 
                         <form onSubmit={handleSubmit}
+
                         className="flex flex-col items-center">
+
+
                             <input
                                 type="email"
                                 id="correo"
@@ -91,6 +94,7 @@ export default function Login() {
                         </form>
 
                         <a href="/unbiters/help/password" className='text-sm mt-5 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+
 
 
                         <hr className="border-t border-red-500 border-2 my-6" style={{ width: '90%' }} />

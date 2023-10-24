@@ -25,8 +25,9 @@ export default function Values() {
             "url": "/images/1697919953864.jpg"
         },
 
+
         {
-            "id": "2",
+            "id": "3",
             "nombre": "John Jairo Riaño Martinez",
             "cargo": "Desarrollador FullStack",
             "description": "Cuento con habildades en desarrollo de Frontend con tecnologias como ReactJS, NextJS",
@@ -34,6 +35,19 @@ export default function Values() {
             "linkedin": "",
             "github": "",
             "url": "/images/1697919953864.jpg"
+
+
+        },
+        {
+            "id": "4",
+            "nombre": "Gian Emanuel Morales González",
+            "cargo": "Desarrollador Frontend",
+            "description": "Cuento con habilidades en desarrollo de Frontend en Frameworks como NextJS, Vue o tailwindCSS",
+            "facebook": "",
+            "linkedin": "https://www.linkedin.com/in/gmoralesg/",
+            "github": "https://github.com/gimoralesg",
+            "url": "/images/gemgpfp.jpg"
+
         }
     ]
     return (
