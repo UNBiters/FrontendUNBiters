@@ -14,10 +14,10 @@ export default function PricingCard({
   return (
     <div
       style={{ backgroundColor: color }}
-      className="flex min-h-[428px] w-[380px] flex-col rounded-3xl p-8 transform transition-transform hover:scale-110"
+      className="flex min-h-[438px] w-[400px]  flex-col rounded-3xl p-8 transform transition-transform hover:scale-110"
     >
-      <h2 className="mb-5 text-xl font-medium">{name}</h2>
-      <div className="mb-5 flex items-end text-4xl font-black">{precio}</div>
+      <h2 className="mb-5 text-3xl font-medium text-center">{name}</h2>
+      <div className="mb-5 flex items-end text-4xl font-black justify-center text-center">{precio}</div>
       <p className="mb-5 flex font-medium">{description}</p>
       <ul className="mb-10 flex flex-col gap-y-2">
         {features.map((feature, index) => (
