@@ -6,7 +6,7 @@ export default function TC() {
     return (
         <div style={{ backgroundImage: 'url(/images/backLogin.png)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>x
             <div className=" pt-24 pb-24 flex justify-center items-center">
-                <div className=" max-w-md mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ancho-personalizado">
+                <div className=" max-w-bg mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ancho-personalizado">
                     <div className="md:flex md:flex-col md:items-center p-5">
                         <Image
                             alt="Logo"

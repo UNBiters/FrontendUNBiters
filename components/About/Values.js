@@ -5,13 +5,13 @@ export default function Values() {
     const team = [
         {
             "id": "1",
-            "nombre": "John Jairo Riaño Martinez",
-            "cargo": "Desarrollador FullStack",
-            "description": "Cuento con habildades en desarrollo de Frontend con tecnologias como ReactJS, NextJS",
-            "facebook": "ada",
-            "linkedin": "",
-            "github": "",
-            "url": "/images/1697919953864.jpg"
+            "nombre": "Andrés Felipe López Gutiérrez",
+            "cargo": "Desarrollador Frontend Junior",
+            "description": "Estoy perfeccionando mis habilidades y aumentando mis conociminetos día a día :D",
+            "facebook": "https://web.facebook.com/andres.lopezgutierrez.94/",
+            "linkedin": "https://www.linkedin.com/in/anlopezgu/",
+            "github": "https://github.com/anlopezgu",
+            "url": "/images/Andrelo.jpg"
         },
 
         {
