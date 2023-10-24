@@ -24,6 +24,7 @@ export default function Pricing() {
             "Acceso a Calificaciones, reseñas y funciones que te encantaran",
             "Busca tu chaza favorita o filtra por el tipo de comida que quieras",
           ]}
+          link="/"
           btnText="Acceder ahora"
         />  
         <PricingCard
@@ -37,6 +38,7 @@ export default function Pricing() {
             "Desglose de Datos para que veas como le va a tu chaza",
             "Servicio 24/7"
           ]}
+          link="https://payco.link/2469899"
           btnText="Acceder ahora"
           
         />
