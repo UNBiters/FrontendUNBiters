@@ -98,22 +98,29 @@ export default function Login() {
                         </Link>
                         <form onSubmit={handleSubmit}
 
-                        className="flex flex-col items-center">
 
+                            className="flex flex-col items-center">
 
+                            <div className="flex flex-col items-start w-full">
+                                <label className='mt-3 text-s leading-tight font-medium text-black'>Correo del usuario:</label>
+
+                            </div>
                             <input
                                 type="email"
                                 id="correo"
-                                className="w-full mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light "
-                                placeholder="Email"
+                                className="w-full mt-1.5 mb-2 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light "
+                                placeholder="Correo"
                                 required
                                 value={correo}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+                            <div className="flex flex-col items-start w-full">
+                                <label className='mt-1 text-s leading-tight font-medium text-black'>Contraseña:</label>
+                            </div>
                             <input
                                 type="password"
                                 id="contraseña"
-                                className="w-full mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                                className="w-full mt-1.5 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                                 placeholder="Contraseña"
                                 required
                                 value={contraseña}
@@ -123,24 +130,27 @@ export default function Login() {
 
 
                             <Button type="submit" style={{ background: "#D63447" }}
-                                className="px-5 mx-1 shadow-xl">
+                                className="px-5 mx-1 w-full shadow-xl">
                                 Iniciar Sesión
                             </Button>
                         </form>
 
-                        <a href="/unbiters/help/password" className='text-sm mt-5 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+
+                        <Link href="/unbiters/help/password" className='text-sm mt-5 mb-2 block ml-auto hover:underline'>¿Olvido su contraseña?</Link>
 
 
 
                         <hr className="border-t border-red-500 border-2 my-6" style={{ width: '90%' }} />
-                        <div className="flex flex-row">
-                            <div className="basis-32">¿No tienes cuenta?</div>
-                            <div className="basis-10">
-                                <a href="#" className="block mt-1 text-md leading-tight font-bold text-black hover:underline">
-                                    Registrate
-                                </a>
-                            </div>
+
+                        <div className="flex justify-center items-center">
+                            <p className="mr-2">¿No tienes cuenta?</p>
+                            <Link
+                                href={"/unbiters/register"}
+                                className="block mt-1 text-md leading-tight font-bold text-black hover:underline">
+                                Registrate
+                            </Link>
                         </div>
+
                     </div>
                 </div>
             </div>

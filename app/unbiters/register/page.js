@@ -100,7 +100,7 @@ export default function Register() {
                 href="#"
                 className="block mt-1 text-xs leading-tight font-medium text-black hover:underline text-center"
               >
-                Al continuar aceptas los términos y condiciones al igual que 
+                Al continuar aceptas los términos y condiciones al igual que
                 nuestra política de tratamiento de datos
               </a>
 
@@ -156,41 +156,7 @@ export default function Register() {
                   Registrarse
                 </Button>
 
-                <div className="flex items-center w-full">
-                  <hr className="flex-1 border-t border-[#D63447]" />
-                  <span className=" text-[#D63447] ">o</span>
-                  <hr className="flex-1 border-t border-[#D63447]" />
-                </div>
 
-                <Button
-                  href="#"
-                  className="px-5 mx-1 mb-4 text-balck shadow-xl w-full"
-                  style={{ width: "97%", background: "#F5F5F5" }}
-                >
-                  <Image
-                    alt="Logo de google"
-                    width={20}
-                    height={20}
-                    className="mr-2"
-                    src="/images/GoogleLogo.png"
-                  ></Image>
-                  Continua con Google
-                </Button>
-
-                <Button
-                  href="#"
-                  className="px-5 mx-1 mb-2 text-balck shadow-xl w-full"
-                  style={{ width: "97%", background: "#F5F5F5" }}
-                >
-                  <Image
-                    alt="Logo de google"
-                    width={20}
-                    height={20}
-                    className="mr-2"
-                    src="/images/XLogo.png"
-                  ></Image>
-                  Continua con X
-                </Button>
 
                 <hr className="flex-1 border-t border-[#D63447]" />
 
@@ -198,8 +164,9 @@ export default function Register() {
                   <p className="mr-2">¿Ya tienes cuenta?</p>
                   <Link
                     href={"/unbiters/login"}
-                    className="text-black-500 hover:underline"
-                  >
+
+                    className="block mt-1 text-md leading-tight font-bold text-black hover:underline">
+
                     Inicia sesión
                   </Link>
                 </div>
