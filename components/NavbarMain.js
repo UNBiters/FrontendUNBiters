@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import Cookies from 'js-cookie';
+import Logout from './Modal/Logout';
 
 export default function NavbarMain() {
     const [isLogin, setIsLogin] = useState("")
@@ -14,7 +15,7 @@ export default function NavbarMain() {
     const router = useRouter();
     const [isOpen1, setIsOpen1] = useState(false)
 
-    const Logout = () => {
+    const isLogout = () => {
         Cookies.remove('token', { path: '/' })
         window.sessionStorage.clear()
         router.push('/unbiters/login')
@@ -48,8 +49,8 @@ export default function NavbarMain() {
     return (
         <div className=''>
 
-            {isOpen1 && (<Logout onClose={() => { router.push("/?id=" + _id); setIsOpen1(false) }}
-                onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
+            {isOpen1 && (<Logout onClose={() => { setIsOpen1(false) }} onLogout={() => { router.push("/unbiters/login"); isLogout(); setIsOpen1(false); }}
+                onRedirect={() => { setIsOpen1(false) }} />)
             }
             <Navbar
                 fluid

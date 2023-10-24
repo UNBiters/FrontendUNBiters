@@ -2,7 +2,7 @@
 
 export default function Filter({ className }) {
     return (
-        <div className={className}>
+        <div className={className + ""}>
             <ul className="flex">
                 <li className="px-1">
 

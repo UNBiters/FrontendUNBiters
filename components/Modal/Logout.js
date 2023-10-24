@@ -2,7 +2,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
-export default function Logout({ onClose, onRedirect }) {
+export default function Logout({ onClose, onRedirect, onLogout }) {
     let [isOpen, setIsOpen] = useState(true)
 
     function closeModal() {
@@ -45,21 +45,28 @@ export default function Logout({ onClose, onRedirect }) {
                                         as="h3"
                                         className="text-lg font-medium leading-6 text-gray-900"
                                     >
-                                        No has inciado sesión!!
+                                        No te vayas, todavía tenemos mucho que explorar.
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            Aún no tienes una sesión inciada, por favor inicia sesión para poder realizar esta accion.
+                                            ¿Estás seguro de que quieres cerrar sesión?
                                         </p>
                                     </div>
 
                                     <div className="mt-4">
                                         <button
                                             type="button"
-                                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                            className="inline-flex justify-center rounded-md border border-transparent bg-blue-200 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                            onClick={onLogout}
+                                        >
+                                            Cerrar sesión
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="ml-4 inline-flex justify-center rounded-md border border-transparent bg-blue-400 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                             onClick={onRedirect}
                                         >
-                                            Iniciar Sesion
+                                            Cancelar
                                         </button>
                                     </div>
                                 </Dialog.Panel>
