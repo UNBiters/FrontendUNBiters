@@ -3,10 +3,14 @@ import { useEffect, useState } from 'react';
 import Comments from './Comments';
 import client from "@/config/client";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import NotSesion from './Modal/NotSesion';
 
 export default function CardComent({ className, card, comments, idModal }) {
   //console.log(card)
   var start = [1, 1, 1, 1]
+  const router = useRouter();
+  const [isOpen1, setIsOpen1] = useState(false)
   const [fill, setFill] = useState("text-blue-700 border border-blue-700 ")
   const [token, setToken] = useState('');
   const stars = (length) => {
@@ -18,27 +22,36 @@ export default function CardComent({ className, card, comments, idModal }) {
     }
     return arrStar
   }
-
+  function openModal(token) {
+    var flag = true
+    if (!token) {
+      setIsOpen1(true)
+      console.log(isOpen1)
+      flag = false
+    }
+    return flag
+  }
   const onClick = async (e) => {
     try {
+      if (openModal(token)) {
+        console.log(token)
+        const response = await client.post('publications/' + card._id + "/likes", {}, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
 
-      console.log(token)
-      const response = await client.post('publications/' + card._id + "/likes", {}, {
-        headers: {
-          "Authorization": `Bearer ${token}`
+        console.log(response)
+
+        if (response.status == "200") {
+          console.log('adta: ', response.data.data.userLike.active);
+          if (response.data.data.userLike.active) {
+            setFill("bg-blue-700 text-white ")
+          } else {
+            setFill("text-blue-700 border border-blue-700 ")
+          }
+          //refreshData();
         }
-      });
-
-      console.log(response)
-
-      if (response.status == "200") {
-        console.log('adta: ', response.data.data.userLike.active);
-        if (response.data.data.userLike.active) {
-          setFill("bg-blue-700 text-white ")
-        } else {
-          setFill("text-blue-700 border border-blue-700 ")
-        }
-        //refreshData();
       }
     } catch (error) {
       console.error(error)
@@ -50,6 +63,10 @@ export default function CardComent({ className, card, comments, idModal }) {
   }, [])
   return (
     <div className={className}>
+
+      {isOpen1 && (<NotSesion onClose={() => { router.push("/"); setIsOpen1(false) }}
+        onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
+      }
 
 
       <div className="max-w-xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -93,9 +110,8 @@ export default function CardComent({ className, card, comments, idModal }) {
         </button>
         <div className="p-2 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
 
-          <div className="grid grid-cols-2 gap-4content-center">
+          <div className="grid grid-cols-2 gap-4 content-center">
             <div>
-
               <button onClick={onClick} type="button" className={`${fill} hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500`}>
                 <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                   <path d="M3 7H1a1 1 0 0 0-1 1v8a2 2 0 0 0 4 0V8a1 1 0 0 0-1-1Zm12.954 0H12l1.558-4.5a1.778 1.778 0 0 0-3.331-1.06A24.859 24.859 0 0 1 6 6.8v9.586h.114C8.223 16.969 11.015 18 13.6 18c1.4 0 1.592-.526 1.88-1.317l2.354-7A2 2 0 0 0 15.954 7Z" />
@@ -106,28 +122,18 @@ export default function CardComent({ className, card, comments, idModal }) {
               </button>
             </div>
             <div>
-              <button data-modal-target={card._id} data-modal-toggle={card._id} type="button" className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
+              <Link href={"/?id=" + card._id} type="button" className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
                 <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                   <path d="M18 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.546l3.2 3.659a1 1 0 0 0 1.506 0L13.454 14H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-8 10H5a1 1 0 0 1 0-2h5a1 1 0 1 1 0 2Zm5-4H5a1 1 0 0 1 0-2h10a1 1 0 1 1 0 2Z" />
                 </svg>
                 <span className="rounded bg-cyan-100 text-center text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
                   {card.numComentarios}
                 </span>
-              </button>
-              <Link href={"/?id=" + card._id} type="button" className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500">
-                <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                  <path d="M18 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.546l3.2 3.659a1 1 0 0 0 1.506 0L13.454 14H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-8 10H5a1 1 0 0 1 0-2h5a1 1 0 1 1 0 2Zm5-4H5a1 1 0 0 1 0-2h10a1 1 0 1 1 0 2Z" />
-                </svg>
-                <span className="rounded bg-cyan-100 text-center text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
-                  modal
-                </span>
               </Link>
             </div>
           </div>
         </div>
       </div>
-
-      <Comments id={idModal} data={comments}></Comments>
     </div>
   )
 }

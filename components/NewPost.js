@@ -3,11 +3,14 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import client from "@/config/client";
 import { useRouter } from 'next/navigation';
+import NotSesion from './Modal/NotSesion';
 
 export default function NewPost() {
 
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false)
+    const [isOpen1, setIsOpen1] = useState(false)
+    const [notLogin, setNotLogin] = useState(false)
     const [error, setError] = useState('');
     const [succes, setSucces] = useState('');
     const [token, setToken] = useState('');
@@ -22,7 +25,14 @@ export default function NewPost() {
 
 
     function openModal() {
-        setIsOpen(true)
+        if (!token) {
+            console.log(token)
+            //setIsOpen(false)
+            setIsOpen1(true)
+            console.log(isOpen1)
+        } else {
+            setIsOpen(true)
+        }
     }
 
     function closeModal() {
@@ -83,6 +93,9 @@ export default function NewPost() {
                     }, 2000);
                 }
             }
+            setTimeout(function () {
+                setError("")
+            }, 2000);
 
         } catch (error) {
             console.error('Error: ', error);
@@ -104,6 +117,7 @@ export default function NewPost() {
     }
     useEffect(() => {
         setToken(window.sessionStorage.getItem('token'))
+
     }, [])
     return (
         <>
@@ -119,7 +133,9 @@ export default function NewPost() {
                     Crear publicacíon
                 </button>
             </div>
-
+            {isOpen1 && (<NotSesion onClose={() => { router.push("/"); setIsOpen1(false) }}
+                onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
+            }
 
             <Transition appear show={isOpen} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={closeModal}>

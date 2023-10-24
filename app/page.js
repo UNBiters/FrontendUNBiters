@@ -10,6 +10,7 @@ import NewPost from '@/components/NewPost';
 import client, { myClient } from "@/config/client";
 import ModalComments from '@/components/Modal/ModalComments';
 import { useSearchParams, useRouter } from 'next/navigation'
+import CardReview from '@/components/Cards/CardReview';
 
 
 async function loadPost() {
@@ -46,6 +47,7 @@ export default function Home() {
           throw new Error('Failed to fetch data')
         }
         setPosts(res.data.data.data)
+        console.log(posts[0])
         //if (!posts) return "An error has occurred.";
       })
   }, [])
@@ -131,8 +133,7 @@ export default function Home() {
         {posts ?
           posts.map((card) => (
             <>
-              <CardComent key={"pub" + card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2"}></CardComent>
-
+              <CardReview key={"pub" + card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2"} />
             </>
           )
           )

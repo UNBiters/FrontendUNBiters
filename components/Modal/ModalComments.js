@@ -2,9 +2,13 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import client from "@/config/client";
+import { useRouter } from 'next/navigation';
+import NotSesion from './NotSesion';
 
 export default function ModalComments({ onClose, _id }) {
     let [isOpen, setIsOpen] = useState(true)
+    const [isOpen1, setIsOpen1] = useState(false)
+    const router = useRouter();
     let [posts, setPosts] = useState([])
     let [comments, setComments] = useState([])
     let [review, setComment] = useState([])
@@ -16,6 +20,14 @@ export default function ModalComments({ onClose, _id }) {
         setIsOpen(false)
     }
 
+    function openModalLogin(token) {
+        var flag = true
+        if (token) {
+            setIsOpen1(true)
+            flag = false
+        }
+        return flag
+    }
     function openModal() {
         setIsOpen(true)
     }
@@ -31,44 +43,50 @@ export default function ModalComments({ onClose, _id }) {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (!validation({ review })) {
-                var body = {
-                    review
-                }
-                console.log(body)
-                const response = await client.post('publications/' + _id + "/reviews", body, {
-                    headers: {
-                        "Authorization": `Bearer ${token}`
+            console.log(openModalLogin(token))
+            if (openModalLogin(token)) {
+                if (!validation({ review })) {
+                    var body = {
+                        review
                     }
-                });
-                if (response.status == "201") {
-                    setError('')
-                    setSucces("Tu comentario se ha creado exitosamente!")
-                    setComment("")
-
-                    const response = await client.get('reviews/' + _id, {
+                    console.log(body)
+                    const response = await client.post('publications/' + _id + "/reviews", body, {
                         headers: {
                             "Authorization": `Bearer ${token}`
                         }
                     });
-                    console.log('adta: ', response);
-                    if (response.status == "200") {
-                        console.log('adta: ', "201");
-                        setComments(response.data.data.data)
-                        //refreshData();
+                    if (response.status == "201") {
+                        setError('')
+                        setSucces("Tu comentario se ha creado exitosamente!")
+                        setComment("")
+
+                        const response = await client.get('reviews/' + _id, {
+                            headers: {
+                                "Authorization": `Bearer ${token}`
+                            }
+                        });
+                        console.log('adta: ', response);
+                        if (response.status == "200") {
+                            console.log('adta: ', "201");
+                            setComments(response.data.data.data)
+                            //refreshData();
+                        }
+                        setTimeout(function () {
+                            setSucces("")
+                        }, 2000);
+                        //refresh()
+                    } else {
+                        setError(response.data.message)
                     }
-                    setTimeout(function () {
-                        setSucces("")
-                    }, 2000);
-                    //refresh()
                 } else {
-                    setError(response.data.message)
+                    setTimeout(function () {
+                        setError("")
+                    }, 2000);
                 }
             } else {
-                setTimeout(function () {
-                    setError("")
-                }, 2000);
+                openModal()
             }
+
         } catch (error) {
             console.error('Error: ', error);
             setError(error.response.data.message)
@@ -98,16 +116,9 @@ export default function ModalComments({ onClose, _id }) {
     }, [_id])
     return (
         <>
-            <div className="fixed inset-0 flex items-center justify-center">
-                <button
-                    type="button"
-                    onClick={openModal}
-                    className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-                >
-                    Open dialog
-                </button>
-            </div>
-
+            {isOpen1 && (<NotSesion onClose={() => { router.push("/?id=" + _id); setIsOpen1(false) }}
+                onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
+            }
             <Transition appear show={true} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={onClose}>
                     <Transition.Child
