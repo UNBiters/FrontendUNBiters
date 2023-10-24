@@ -24,18 +24,15 @@ export default function Values() {
             "github": "",
             "url": "/images/1697919953864.jpg"
         },
-
-
         {
-            "id": "3",
-            "nombre": "John Jairo Riaño Martinez",
-            "cargo": "Desarrollador FullStack",
-            "description": "Cuento con habildades en desarrollo de Frontend con tecnologias como ReactJS, NextJS",
-            "facebook": "ada",
-            "linkedin": "",
-            "github": "",
-            "url": "/images/1697919953864.jpg"
-
+            "id": "1",
+            "nombre": "David Stiven Poveda Tabirda",
+            "cargo": "Desarrollador Backend",
+            "description": "Cuento con habildades en desarrollo de Backend con NodeJS, Django. Manejo bases de datos especializadas en NoSQL pero tambien trabjo en tecnologias como MySQL y PostgresSQL. Soy un programador en constante busqueda de nuevas herramientas!",
+            "facebook": "https://www.facebook.com/davidstiven.povedat/",
+            "linkedin": "https://www.linkedin.com/in/david-stiven-poveda-taborda-521ab7207/",
+            "github": "https://github.com/Dapstab",
+            "url": ""
         },
         {
             "id": "4",
