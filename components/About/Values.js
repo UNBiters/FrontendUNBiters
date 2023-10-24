@@ -25,7 +25,7 @@ export default function Values() {
             "url": "/images/1697919953864.jpg"
         },
         {
-            "id": "1",
+            "id": "3",
             "nombre": "David Stiven Poveda Tabirda",
             "cargo": "Desarrollador Backend",
             "description": "Cuento con habildades en desarrollo de Backend con NodeJS, Django. Manejo bases de datos especializadas en NoSQL pero tambien trabjo en tecnologias como MySQL y PostgresSQL. Soy un programador en constante busqueda de nuevas herramientas!",
@@ -75,12 +75,14 @@ export default function Values() {
 
                             <div key={tea.id} className="mb-10 items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
                                 <div className="w-full rounded-lg sm:rounded-none sm:rounded-l-lg">
-                                    <Image
-                                        src={tea.url}
-                                        width={500}
-                                        height={500}
-                                        alt="Picture of the author"
-                                    />
+                                    {url != "" ?
+                                        <Image
+                                            src={tea.url}
+                                            width={500}
+                                            height={500}
+                                            alt="Picture of the author"
+                                        />
+                                        : null}
                                 </div>
                                 <div className="p-5">
                                     <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
