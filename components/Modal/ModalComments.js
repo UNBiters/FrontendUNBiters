@@ -22,7 +22,7 @@ export default function ModalComments({ onClose, _id }) {
 
     function openModalLogin(token) {
         var flag = true
-        if (token) {
+        if (!token) {
             setIsOpen1(true)
             flag = false
         }

@@ -129,7 +129,7 @@ export default function Home() {
       <div className='newpost col-span-2 flex justify-end px-3'>
         <NewPost></NewPost>
       </div>
-      <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
+      <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1000px]:grid-cols-2 min-[1300px]:grid-cols-3 min-[1300px]:px-3">
         {posts ?
           posts.map((card) => (
             <>
