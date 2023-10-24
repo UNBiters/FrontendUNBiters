@@ -101,15 +101,12 @@ export default function ModalComments({ onClose, _id }) {
     useEffect(() => {
         try {
             setToken(window.sessionStorage.getItem('token'))
-            client.get("publications/" + _id, {
-                headers: {
-                    "Authorization": `Bearer ${window.sessionStorage.getItem('token')}`
-                }
-            }).then((res) => {
-                var post = res.data.data.data
-                setPosts(post)
-                setComments(post.reviews)
-            })
+            client.get("publications/" + _id)
+                .then((res) => {
+                    var post = res.data.data.data
+                    setPosts(post)
+                    setComments(post.reviews)
+                })
         } catch (error) {
             console.log(error)
         }
