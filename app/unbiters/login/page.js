@@ -93,16 +93,16 @@ export default function Login() {
 
 
                             <Button type="submit" style={{ background: "#D63447" }}
-                                className="px-5 mx-1 shadow-xl">
+                                className="px-5 mx-1 w-full shadow-xl">
                                 Iniciar Sesión
                             </Button>
                         </form>
 
-                        <a href="/unbiters/help/password" className='text-sm mt-5 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+                        <a href="/unbiters/help/password" className='text-sm mt-2 mb-2 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
 
 
 
-                        <hr className="border-t border-red-500 border-2 my-6" style={{ width: '90%' }} />
+                        <hr className="border-t border-red-500 border-2 my-3" style={{ width: '90%' }} />
                         <div className="flex justify-center items-center">
                             <p className="mr-2">¿No tienes cuenta?</p>
                             <Link
