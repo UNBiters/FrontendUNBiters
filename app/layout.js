@@ -1,6 +1,10 @@
-import NavbarHome from '../components/NavbarHome'
-import '../styles/globals.css'
-import '../styles/navbar.css'
+import NavbarMain from '@/components/NavbarMain'
+import Footer from '@/components/Footer'
+import '@/styles/globals.css';
+import '@/styles/navbar.css';
+import '@/styles/card.css';
+import '@/styles/login.css';
+import '@/styles/t&c.css';
 import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 
@@ -11,10 +15,19 @@ export const metadata = {
 }
 
 export default function RootLayout({ children }) {
+  //console.log(window.sessionStorage.getItem('sesion'))
   return (
-    <html lang="en">
-      <NavbarHome />
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning={true}>
+      <head>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+      </head>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js" async></script>
+      <script src="../path/to/flowbite/dist/flowbite.min.js" async></script>
+      <body className={inter.className}>
+        <NavbarMain />
+        {children}
+        <Footer />
+      </body>
     </html>
   )
 }

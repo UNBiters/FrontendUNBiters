@@ -1,19 +1,72 @@
-.NavbarHome {
-    background-color: #d63447;
+.NavbarMain {
+    background-color: #d63447 !important;
 }
 
-.NavbarHome button {
+.NavbarMain a[type="button"] {
     background-color: #f5f5f5;
     color: #d63447;
     border-color: #d63447;
 }
-.NavbarHome A {
-    color: aliceblue;
+
+@media (max-width: 770px) {
+    .NavbarMain {
+        position: absolute !important;
+    }
+    .NavbarMain #logo{
+        height: 50px;
+    }
+    .containerFooter {
+        position: inherit !important;
+    }
 }
 body {
-    background: url("../public/images/backHomes.svg") no-repeat center center fixed;
+    background: url("../public/images/Background.svg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+.NavbarProfile ul{
+    background-color: #d63447;
+    border-color: #d63447;
+}
+.NavbarProfile button {
+    background-color: #d63447;
+    color: #f5f5f5;
+    border-color: #d63447;
+}
+.NavbarProfile span.bar {
+    border-right: 1px solid #f5f5f5;
+}
+.NavbarProfile button:hover {
+    background-color: transparent;
+}
+.NavbarProfile ul li button:hover {
+    background-color: #e24557;
+}
+.NavbarProfile a:hover {
+    background-color: #e24557;
+    color: #f5f5f5;
+}
+.MiniNav {
+    margin: 0;
+    padding: 0;
+    align-content: center;
+    justify-content: center;
+}
+.MiniNav div {
+    justify-content: center;
+}
+#action {
+    background-color: #f5f5f5;
+    color: #d63447;
+}
+.action:hover {
+    background-color: #fc929e !important;
+    color: #f5f5f5 !important;
+}
+
+.ListComment {
+    margin-top: 2em;
 }
