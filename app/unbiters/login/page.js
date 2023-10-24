@@ -9,15 +9,18 @@ import Cookies from 'js-cookie';
 
 export default function Login() {
 
-    const { push } = useRouter();
+    const router = useRouter();
     const [correo, setEmail] = useState('');
     const [contraseña, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [succes, setSucces] = useState('');
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
+            setError("Iniciando sesión, espera un momento!")
             const response = await client.post('users/login', { correo, contraseña });
 
             console.log(response)
@@ -35,16 +38,49 @@ export default function Login() {
                 } else {
                     window.sessionStorage.setItem('chaza', 'false');
                 }
-                push('/')
+                router.push('/')
+            } else {
+                setError("Hubo un error inesperado")
+                setTimeout(function () {
+                    setError("")
+                }, 5000);
             }
         } catch (error) {
             console.log('Error al enviar la solicitud:', error);
+            setError(error.response.data.message)
+
+            setTimeout(function () {
+                setError("")
+            }, 5000);
         }
     }
     return (
         <div style={{ backgroundImage: 'url(/images/backLogin.png)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>x
             <div className=" pt-24 flex justify-center items-center">
                 <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
+
+                    {error ?
+                        <div className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+                            <svg className="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span className="sr-only">Info</span>
+                            <div>
+                                <span className="font-medium">Advertencia!</span> {error}
+                            </div>
+                        </div>
+                        : null}
+                    {succes ?
+                        <div className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+                            <svg className="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span className="sr-only">Info</span>
+                            <div>
+                                <span className="font-medium">Exitoso!</span> {succes}
+                            </div>
+                        </div>
+                        : null}
                     <div className="md:flex md:flex-col md:items-center p-5">
                         <Image
                             alt="Logo"
@@ -59,8 +95,6 @@ export default function Login() {
                             className="block mt-1 text-xs leading-tight font-medium text-black hover:underline text-center">Al continuar aceptas los terminos y
                             condiciones y aceptas nuestra politica de tratamiento de datos
                         </a>
-
-
                         <form onSubmit={handleSubmit}>
                             <input
                                 type="email"
