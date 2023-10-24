@@ -3,11 +3,24 @@
 import { Button, Dropdown, Navbar, Avatar } from 'flowbite-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import Cookies from 'js-cookie';
 
 export default function NavbarMain() {
     const [isLogin, setIsLogin] = useState("")
     const [nombre, setNombre] = useState("")
     const [email, setEmail] = useState("")
+    const router = useRouter();
+    const [isOpen1, setIsOpen1] = useState(false)
+
+    const Logout = () => {
+        Cookies.remove('token', { path: '/' })
+        window.sessionStorage.clear()
+        router.push('/unbiters/login')
+
+    }
+
     useEffect(() => {
         console.log(window.sessionStorage.getItem('token'))
         if (window.sessionStorage.getItem('token') !== null) {
@@ -34,6 +47,10 @@ export default function NavbarMain() {
     if (isLogin == null) return <></>
     return (
         <div className=''>
+
+            {isOpen1 && (<Logout onClose={() => { router.push("/?id=" + _id); setIsOpen1(false) }}
+                onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
+            }
             <Navbar
                 fluid
                 className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
@@ -105,9 +122,10 @@ export default function NavbarMain() {
                                     </li>
                                     <Dropdown.Divider />
                                     <li className='pr-4'>
-                                        <Link href='/login'>
+                                        <button onClick={() =>
+                                            setIsOpen1(true)}>
                                             Cerrar Sesion
-                                        </Link>
+                                        </button>
                                     </li>
                                 </ul>
                             </Dropdown>
@@ -125,9 +143,10 @@ export default function NavbarMain() {
                         <Link href='/unbiters/register' className='px-5 mx-1'>
                             Registrarse
                         </Link>
-                    </div>}
-            </Navbar>
-        </div>
+                    </div>
+                }
+            </Navbar >
+        </div >
     )
 }
 

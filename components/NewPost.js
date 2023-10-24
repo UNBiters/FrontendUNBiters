@@ -70,13 +70,11 @@ export default function NewPost() {
                     imagen,
                     rating
                 }
-                console.log(body)
                 const response = await client.post('publications/', body, {
                     headers: {
                         "Authorization": `Bearer ${token}`
                     }
                 });
-                console.log('sucess: ', response);
                 if (response.status == "201") {
                     console.log('sucess: ', response);
                     setError('')
@@ -84,7 +82,7 @@ export default function NewPost() {
                     //refresh()
                     setTimeout(function () {
                         clean()
-                    }, 2000);
+                    }, 4000);
                 } else {
                     console.log('DATA: ', response.data.message);
                     setError(response.data.message)
@@ -95,14 +93,14 @@ export default function NewPost() {
             }
             setTimeout(function () {
                 setError("")
-            }, 2000);
+            }, 5000);
 
         } catch (error) {
             console.error('Error: ', error);
             setError(error.response.data.message)
             setTimeout(function () {
                 setError("")
-            }, 2000);
+            }, 5000);
         }
     }
     const onClick = (number) => {

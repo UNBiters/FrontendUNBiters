@@ -19,6 +19,8 @@ export default function Login() {
 
         try {
             const response = await client.post('users/login', { correo, contraseña });
+
+            console.log(response)
             if (response.data.status === 'success') {
                 const { token } = response.data;
                 const { nombre, _id, chaza } = response.data.data.user;
@@ -34,10 +36,9 @@ export default function Login() {
                     window.sessionStorage.setItem('chaza', 'false');
                 }
                 push('/')
-
             }
         } catch (error) {
-            console.error('Error al enviar la solicitud:', error);
+            console.log('Error al enviar la solicitud:', error);
         }
     }
     return (

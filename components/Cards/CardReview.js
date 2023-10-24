@@ -35,9 +35,6 @@ export default function CardReview({ className, card, comments, idModal }) {
                         "Authorization": `Bearer ${token}`
                     }
                 });
-
-                console.log(response)
-
                 if (response.status == "200") {
                     console.log('adta: ', response.data.data.userLike.active);
                     if (response.data.data.userLike.active) {
@@ -47,6 +44,7 @@ export default function CardReview({ className, card, comments, idModal }) {
                     } else {
                         setFill("")
                         setFillText("")
+                        setLikes(likes - 1)
                     }
                     //refreshData();
                 }

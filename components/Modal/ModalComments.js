@@ -37,6 +37,9 @@ export default function ModalComments({ onClose, _id }) {
         if (data.review == "") {
             setError("Por favor introduce un comentario")
             flag = true
+        } else if (data.review.length < 10) {
+            setError("Por favor introduce un comentario mas largo, mínimo 10 caracteres.")
+            flag = true
         }
         return flag
     }
@@ -73,7 +76,7 @@ export default function ModalComments({ onClose, _id }) {
                         }
                         setTimeout(function () {
                             setSucces("")
-                        }, 2000);
+                        }, 5000);
                         //refresh()
                     } else {
                         setError(response.data.message)
@@ -81,7 +84,7 @@ export default function ModalComments({ onClose, _id }) {
                 } else {
                     setTimeout(function () {
                         setError("")
-                    }, 2000);
+                    }, 5000);
                 }
             } else {
                 openModal()

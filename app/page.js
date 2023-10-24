@@ -47,7 +47,6 @@ export default function Home() {
           throw new Error('Failed to fetch data')
         }
         setPosts(res.data.data.data)
-        console.log(posts[0])
         //if (!posts) return "An error has occurred.";
       })
   }, [])
