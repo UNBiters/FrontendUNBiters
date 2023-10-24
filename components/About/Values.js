@@ -36,7 +36,6 @@ export default function Values() {
             "github": "",
             "url": "/images/1697919953864.jpg"
 
-
         },
         {
             "id": "4",
@@ -57,12 +56,12 @@ export default function Values() {
                 <li className="mb-10 ml-4">
                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                     <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Visión</span>
-                    <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order E-commerce & Marketing pages.</p>
+                    <p className="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Ser la plataforma líder de la Universidad Nacional de Colombia sede Bogotá en promover la calidad y transparencia de nuestros servicios, y en un plazo de dos años, expandirnos a otras sedes a nivel nacional.</p>
                 </li>
                 <li className="mb-10 ml-4">
                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                     <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Misión</span>
-                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">All of the pages and components are first designed in Figma and we keep a parity between the two versions even as we update the project.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">Dar a conocer la opinión de las chazas en la Universidad Nacional de Colombia sede Bogotá. A través de un foro web en el que la comunidad universitaria califica y reseñan sus experiencias, permitiendo a propietarios mejorar la calidad de sus servicios.</p>
                 </li>
                 <li className="mb-10 ml-4">
                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>

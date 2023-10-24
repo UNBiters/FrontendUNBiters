@@ -89,7 +89,6 @@ export default function Register() {
               : null}
 
             <div className="md:flex md:flex-col md:items-center p-5">
-              {/* <img alt="Logo" className="h-20" src="/images/logo.png" /> */}
 
               <Image
                 alt="Logo"
