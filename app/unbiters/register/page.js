@@ -100,8 +100,8 @@ export default function Register() {
                 href="#"
                 className="block mt-1 text-xs leading-tight font-medium text-black hover:underline text-center"
               >
-                Al continuar aceptas los terminos y condiciones y aceptas
-                nuestra politica de tratamiento de datos
+                Al continuar aceptas los términos y condiciones al igual que 
+                nuestra política de tratamiento de datos
               </a>
 
               <form onSubmit={handleSubmit}>

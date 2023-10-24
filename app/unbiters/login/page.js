@@ -6,6 +6,7 @@ import client from "@/config/client";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import Link from 'next/link'
 
 export default function Login() {
 
@@ -44,7 +45,7 @@ export default function Login() {
         <div style={{ backgroundImage: 'url(/images/backLogin.png)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>x
             <div className=" pt-24 flex justify-center items-center">
                 <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
-                    <div className="md:flex md:flex-col md:items-center p-5">
+                    <div className="flex flex-col items-center p-5">
                         <Image
                             alt="Logo"
                             height={110}
@@ -53,14 +54,18 @@ export default function Login() {
                         />
 
 
-                        <a
+                        <Link
                             href="/unbiters/help/t&c"
                             className="block mt-1 text-xs leading-tight font-medium text-black hover:underline text-center">Al continuar aceptas los terminos y
                             condiciones y aceptas nuestra politica de tratamiento de datos
-                        </a>
+                        </Link>
 
 
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}
+
+                        className="flex flex-col items-center">
+
+
                             <input
                                 type="email"
                                 id="correo"
@@ -88,38 +93,10 @@ export default function Login() {
                             </Button>
                         </form>
 
-                        <a href="/unbiters/help/password" className='text-sm mt-2 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+                        <a href="/unbiters/help/password" className='text-sm mt-5 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
 
 
 
-                        <div className="flex items-center w-full space-x-2">
-                            <hr className="flex-1 border-t border-[#D63447]" />
-                            <span className=" text-[#D63447] ">o</span>
-                            <hr className="flex-1 border-t border-[#D63447]" />
-                        </div>
-
-
-                        <Button href='#' style={{ background: "#F5F5F5" }} className='px-5 mx-1 mb-4 text-balck shadow-xl w-full' >
-                            <Image
-                                alt="Logo de google"
-                                width={20}
-                                height={20}
-                                className="mr-2"
-                                src="/images/GoogleLogo.png"
-                            ></Image>
-                            Continua con Google
-                        </Button>
-                        <Button href='#' style={{ background: "#F5F5F5" }} className='px-5 mx-1 text-balck shadow-xl w-full' >
-                            <Image
-                                alt="Logo de google"
-                                width={20}
-                                height={20}
-                                className="mr-2"
-                                src="/images/XLogo.png"
-                            ></Image>
-
-                            Iniciar Sesión con X
-                        </Button>
                         <hr className="border-t border-red-500 border-2 my-6" style={{ width: '90%' }} />
                         <div className="flex flex-row">
                             <div className="basis-32">¿No tienes cuenta?</div>
