@@ -45,7 +45,7 @@ export default function Login() {
         <div style={{ backgroundImage: 'url(/images/backLogin.png)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>x
             <div className=" pt-24 flex justify-center items-center">
                 <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
-                    <div className="md:flex md:flex-col md:items-center p-5">
+                    <div className="flex flex-col items-center p-5">
                         <Image
                             alt="Logo"
                             height={110}
@@ -61,7 +61,8 @@ export default function Login() {
                         </Link>
 
 
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}
+                        className="flex flex-col items-center">
                             <input
                                 type="email"
                                 id="correo"
@@ -89,7 +90,7 @@ export default function Login() {
                             </Button>
                         </form>
 
-                        <a href="/unbiters/help/password" className='text-sm mt-2 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+                        <a href="/unbiters/help/password" className='text-sm mt-5 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
 
 
                         <hr className="border-t border-red-500 border-2 my-6" style={{ width: '90%' }} />
