@@ -2,12 +2,12 @@
 'use client'
 import Comments from './Comments';
 
-export default function Card({ className, card, comments }) {
+export default function Card({ className, card, comments, idModal }) {
 
     const stars = (length) => {
         var arrStar = []
         for (let index = 0; index < length; index++) {
-            arrStar.push(<svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+            arrStar.push(<svg key={index} className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                 <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
             </svg>)
         }
@@ -16,14 +16,10 @@ export default function Card({ className, card, comments }) {
     return (
         <div className={className}>
 
-            <button data-modal-target={card._id} data-modal-toggle={card._id} className="block" type="button">
-
+            <button data-modal-target={idModal} data-modal-toggle={idModal} className="block" type="button">
                 <div className="max-w-xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <a href="#">
-                        <img className="rounded-t-lg" src="/images/test.jpg" alt="" />
-                    </a>
+                    <img className="rounded-t-lg" src="/images/test.jpg" alt="" />
                     <div className="p-2 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-
                         <div className="grid grid-flow-col">
                             <div className='flex items-center'>
                                 <p className="mx-auto">
@@ -51,9 +47,11 @@ export default function Card({ className, card, comments }) {
                             Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.
                         </p>
                         <div className="flex justify-end mb-5 mt-2.5 items-center">
-                            {stars(5).map((star) => {
-                                return star
-                            })}
+                            {[1, 2, 3, 4, 5].map((star) => (
+                                <svg key={star} className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
+                                </svg>
+                            ))}
                             <span className="ml-3 mr-2 rounded bg-cyan-100 px-2.5 py-0.5 text-xs font-semibold text-cyan-800 dark:bg-cyan-200 dark:text-cyan-800">
                                 <p>
                                     5.0
@@ -67,17 +65,17 @@ export default function Card({ className, card, comments }) {
 
                                         {card.categorias.map((categorias) => (
 
-                                            <li key={categorias.index} className="mr-2">{categorias}</li>)
+                                            <li key={"car"+categorias.indexOf(categorias)} className="mr-2">{categorias}</li>)
                                         )}
-                                    </ul>
-                                </div>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-            </button>
-            <Comments id={card._id} data={comments}></Comments>
         </div>
+            </button >
+        <Comments id={idModal} data={comments}></Comments>
+        </div >
 
     )
 }

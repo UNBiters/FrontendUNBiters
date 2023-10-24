@@ -1,9 +1,11 @@
 'use client'
+
 import { Button } from 'flowbite-react';
 import React, { useState } from 'react';
 import client from "@/config/client";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function Login() {
 
@@ -17,15 +19,22 @@ export default function Login() {
 
         try {
             const response = await client.post('users/login', { correo, contraseña });
-            
             if (response.data.status === 'success') {
                 const { token } = response.data;
-                const { nombre,_id } = response.data.data.user;
+                const { nombre, _id, chaza } = response.data.data.user;
+                console.log(response)
+                Cookies.set('token', token)
                 window.sessionStorage.setItem('token', token);
                 window.sessionStorage.setItem('nombre', nombre);
                 window.sessionStorage.setItem('id', _id);
+                window.sessionStorage.setItem('sesion', 'true');
+                if (chaza) {
+                    window.sessionStorage.setItem('chaza', 'true');
+                } else {
+                    window.sessionStorage.setItem('chaza', 'false');
+                }
                 push('/')
-                
+
             }
         } catch (error) {
             console.error('Error al enviar la solicitud:', error);

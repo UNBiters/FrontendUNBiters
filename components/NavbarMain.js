@@ -1,14 +1,41 @@
 'use client';
 
 import { Button, Dropdown, Navbar, Avatar } from 'flowbite-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-export default function NavbarMain({ isLogin }) {
+export default function NavbarMain() {
+    const [isLogin, setIsLogin] = useState("")
+    const [nombre, setNombre] = useState("")
+    const [email, setEmail] = useState("")
+    useEffect(() => {
+        console.log(window.sessionStorage.getItem('token'))
+        if (window.sessionStorage.getItem('token') !== null) {
+            setIsLogin(true)
+        } else {
+            setIsLogin(false)
+        }
+        console.log(window.sessionStorage.getItem('email'))
+        var correo = window.sessionStorage.getItem('email')
+        if (correo !== null) {
+            setEmail(correo)
+        } else {
+            setEmail("")
+        }
+        console.log(window.sessionStorage.getItem('nombre'))
+        var name = window.sessionStorage.getItem('nombre')
+        if (name !== null) {
+            setNombre(name)
+        } else {
+            setNombre("false")
+        }
+    }, [])
+
+    if (isLogin == null) return <></>
     return (
         <div className=''>
-
             <Navbar
                 fluid
-
                 className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
             >
                 <Navbar.Brand href="/">
@@ -23,71 +50,81 @@ export default function NavbarMain({ isLogin }) {
                     </span>
                 </Navbar.Brand>
                 {isLogin ?
-
                     <div className="NavbarProfile flex md:order-2">
                         <div className="pt-2 mr-5">
-
                             <Navbar.Collapse>
                                 <span className="bar"></span>
-                                <Button href='/' className='px-5 mx-1'>
+                                <Link href='/' className='px-5 mx-1'>
                                     Comunidad
-                                </Button>
+                                </Link>
                                 <span className="bar"></span>
-                                <Button href='/unbiters/chazas' className='px-5 mx-1'>
+                                <Link href='/unbiters/chazas' className='px-5 mx-1'>
                                     Chazas
-                                </Button>
+                                </Link>
                                 <span className="bar"></span>
-                                <Button href='/unbiters/about' className='px-5 mx-1'>
+                                <Link href='/unbiters/about' className='px-5 mx-1'>
                                     Nosotros
-                                </Button>
+                                </Link>
                                 <span className="bar"></span>
                             </Navbar.Collapse>
                         </div>
-                        <div className=" flex sm:order-2">
+                        <div className="flex sm:order-2">
                             <Dropdown
                                 arrowIcon={false}
                                 inline
                                 label={<Avatar className="pr-2" alt="User settings" img="https://flowbite.com/docs/images/people/profile-picture-5.jpg" rounded />}
                             >
-                                <Dropdown.Header>
+                                <Dropdown.Header className='text-center'>
                                     <span className="block text-sm">
-                                        Bonnie Green
+                                        {nombre}
                                     </span>
                                     <span className="block truncate text-sm font-medium">
-                                        name@flowbite.com
+                                        {email}
                                     </span>
                                 </Dropdown.Header>
-                                <Dropdown.Item href='/unbiters/profile'>
-                                    Editar Perfil
-                                </Dropdown.Item>
-                                <Dropdown.Item href='/'>
-                                    Información
-                                </Dropdown.Item>
-                                <Dropdown.Item href='/'>
-                                    Actividad reciente
-                                </Dropdown.Item>
-                                <Dropdown.Item href='/'>
-                                    Calificaciones
-                                </Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item href='/login'>
-                                    Cerrar Sesion
-                                </Dropdown.Item>
+                                <ul className='bg-white text-end mx-auto px-auto '>
+                                    <li className='pr-4'>
+                                        <Link href='/unbiters/profile'>
+                                            Editar Perfil
+                                        </Link>
+                                    </li>
+                                    <li className='pr-4'>
+                                        <Link href='/'>
+                                            Información
+                                        </Link>
+                                    </li>
+                                    <li className='pr-4'>
+                                        <Link href='/'>
+                                            Actividad reciente
+                                        </Link>
+                                    </li>
+                                    <li className='pr-4'>
+                                        <Link href='/'>
+                                            Calificaciones
+                                        </Link>
+                                    </li>
+                                    <Dropdown.Divider />
+                                    <li className='pr-4'>
+                                        <Link href='/login'>
+                                            Cerrar Sesion
+                                        </Link>
+                                    </li>
+                                </ul>
                             </Dropdown>
                             <Navbar.Toggle />
 
                         </div>
                     </div> :
                     <div className="flex md:order-3">
-                        <Button href='/unbiters/register' className='px-5 mx-1'>
+                        <Link href='/unbiters/register' className='px-5 mx-1'>
                             ¿Tienes una chaza?
-                        </Button>
-                        <Button href='/unbiters/login' className='px-5 mx-1'>
+                        </Link>
+                        <Link href='/unbiters/login' className='px-5 mx-1'>
                             Iniciar Sesion
-                        </Button>
-                        <Button href='/unbiters/register' className='px-5 mx-1'>
+                        </Link>
+                        <Link href='/unbiters/register' className='px-5 mx-1'>
                             Registrarse
-                        </Button>
+                        </Link>
                     </div>}
             </Navbar>
         </div>

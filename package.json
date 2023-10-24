@@ -9,14 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
     "axios": "^1.5.1",
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "flowbite": "^1.8.1",
-    "flowbite-react": "^0.6.1",
+    "flowbite-react": "^0.6.4",
+    "js-cookie": "^3.0.5",
     "next": "13.4.19",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-stars": "^2.2.5",
+    "swr": "^2.2.4"
   },
   "devDependencies": {
     "autoprefixer": "^10.4.16",
