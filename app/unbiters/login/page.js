@@ -63,10 +63,12 @@ export default function Login() {
 
                         <form onSubmit={handleSubmit}
 
-                            className="mt-5 flex flex-col items-center">
+
+                            className="flex flex-col items-center">
 
                             <div className="flex flex-col items-start w-full">
-                                <label className='mt-1 text-s leading-tight font-medium text-black'>Correo del usuario:</label>
+                                <label className='mt-3 text-s leading-tight font-medium text-black'>Correo del usuario:</label>
+
                             </div>
                             <input
                                 type="email"
@@ -98,11 +100,13 @@ export default function Login() {
                             </Button>
                         </form>
 
-                        <a href="/unbiters/help/password" className='text-sm mt-2 mb-2 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+
+                        <Link href="/unbiters/help/password" className='text-sm mt-5 mb-2 block ml-auto hover:underline'>¿Olvido su contraseña?</Link>
 
 
 
-                        <hr className="border-t border-red-500 border-2 my-3" style={{ width: '90%' }} />
+                        <hr className="border-t border-red-500 border-2 my-6" style={{ width: '90%' }} />
+
                         <div className="flex justify-center items-center">
                             <p className="mr-2">¿No tienes cuenta?</p>
                             <Link

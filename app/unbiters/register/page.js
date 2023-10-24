@@ -157,13 +157,16 @@ export default function Register() {
                 </Button>
 
 
+
                 <hr className="flex-1 border-t border-[#D63447]" />
 
                 <div className="flex justify-center items-center">
                   <p className="mr-2">¿Ya tienes cuenta?</p>
                   <Link
                     href={"/unbiters/login"}
+
                     className="block mt-1 text-md leading-tight font-bold text-black hover:underline">
+
                     Inicia sesión
                   </Link>
                 </div>
