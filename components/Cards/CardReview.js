@@ -5,6 +5,7 @@ import client from "@/config/client";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import NotSesion from '../Modal/NotSesion';
+import Image from 'next/image';
 
 export default function CardReview({ className, card, comments, idModal }) {
 
@@ -15,8 +16,9 @@ export default function CardReview({ className, card, comments, idModal }) {
     const [fillText, setFillText] = useState("")
     const [token, setToken] = useState('');
     const [likes, setLikes] = useState(card.likes);
+    const [numComments, setNumComments] = useState(card.numComentarios);
 
-    console.log("card", card)
+    //console.log("card", card)
     function openModal(token) {
         var flag = true
         if (!token) {
@@ -41,6 +43,7 @@ export default function CardReview({ className, card, comments, idModal }) {
                         setFill("fill-rose-800 ")
                         setFillText("text-rose-800 ")
                         setLikes(likes + 1)
+                        setNumComments(numComments + 1)
                     } else {
                         setFill("")
                         setFillText("")
@@ -65,15 +68,16 @@ export default function CardReview({ className, card, comments, idModal }) {
                 onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
             }
 
-            <div class="relative flex w-full max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
+            <div id={card._id} class="relative flex w-full max-w-[28rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
 
-                <Link href={"/?id=" + card._id} type="button" className=""><div class="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
+                <Link href={`?id=` + card._id}  type="button" className=""><div class="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
 
-                    <img
-                        src="https://images.unsplash.com/photo-1499696010180-025ef6e1a8f9?ixlib=rb-4.0.3&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1470&amp;q=80"
+                    <Image
+                        width={500}
+                        height={500}
+                        src="/images/1499696010180-025ef6e1a8f9.jpg"
                         alt="ui/ux review check"
                     />
-
                     <div class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
                     <button
                         class="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -94,7 +98,7 @@ export default function CardReview({ className, card, comments, idModal }) {
                     </button>
                 </div>
                 </Link>
-                <div class="p-6">
+                <div class="px-5 py-2">
                     <div class="flex items-center justify-between mb-3">
                         <h5 class="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
                             {card.nombreChaza}
@@ -128,11 +132,8 @@ export default function CardReview({ className, card, comments, idModal }) {
                         )) : null}
 
                     </div>
-                    <p class="text-end block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
-                        By: {card.user.nombre}
-                    </p>
                 </div>
-                <div class="p-6 pt-3 grid grid-cols-2 gap-4 content-center">
+                <div class="px-5 pb-3 grid grid-cols-2 gap-4 content-center">
                     <div>
                         <button onClick={onClick}
                             className="block w-full select-none rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -157,11 +158,15 @@ export default function CardReview({ className, card, comments, idModal }) {
                                     <path d="M18 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.546l3.2 3.659a1 1 0 0 0 1.506 0L13.454 14H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-8 10H5a1 1 0 0 1 0-2h5a1 1 0 1 1 0 2Zm5-4H5a1 1 0 0 1 0-2h10a1 1 0 1 1 0 2Z" />
                                 </svg>
                                 <span className='font-bold text-lg'>
-                                    {card.numComentarios}
+                                    {numComments}
                                 </span>
                             </div>
                         </Link>
                     </div>
+                    <div className='col-span-2'>
+                        <p class="text-end block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
+                            By: {card.user.nombre}
+                        </p></div>
                 </div>
             </div ></div >
     )

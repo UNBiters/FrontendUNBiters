@@ -106,7 +106,7 @@ export default function Home() {
   ]
   return (
     <div id='home' className='grid grid-cols-2'>
-      {idSearch && (<ModalComments onClose={() => { router.push("/") }} _id={idSearch} />)
+      {idSearch && (<ModalComments onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
 
       }
       <Filter className={"formSearch justify-items-center px-3 flex mx-auto text-center"} ></Filter>
