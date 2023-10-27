@@ -18,7 +18,7 @@ export default function CardReview({ className, card, comments, idModal }) {
     const [likes, setLikes] = useState(card.likes);
     const [numComments, setNumComments] = useState(card.numComentarios);
 
-    //console.log("card", card)
+    console.log("card", card)
     function openModal(token) {
         var flag = true
         if (!token) {
@@ -125,7 +125,7 @@ export default function CardReview({ className, card, comments, idModal }) {
                     </p>
                     <div class="px-2 pt-4">
 
-                        {["comidachina", "comidarapida"] ? ["comidachina", "comidarapida"].map((categorias) => (
+                        {card.tags ? card.tags.map((categorias) => (
 
                             <span key={"re" + categorias.indexOf(categorias)} class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#{categorias}</span>
 

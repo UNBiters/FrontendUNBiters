@@ -23,7 +23,7 @@ export default function NavbarMain() {
     }
 
     useEffect(() => {
-        console.log(window.sessionStorage.getItem('token'))
+        //console.log(window.sessionStorage.getItem('token'))
         if (window.sessionStorage.getItem('token') !== null) {
             setIsLogin(true)
         } else {

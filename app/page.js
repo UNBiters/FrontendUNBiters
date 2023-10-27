@@ -50,7 +50,6 @@ export default function Home() {
         //if (!posts) return "An error has occurred.";
       })
   }, [])
-
   //const post = await loadPost()
   var comments = [
     {
