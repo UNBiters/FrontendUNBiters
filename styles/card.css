@@ -26,13 +26,13 @@
 
 @media (max-width: 930px) {
     .CardProfile {
-      max-width: 90%;
+      /*/max-width: 90%;-*/
     }
   }
   
 @media (max-width: 830px) {
     .CardProfile {
-      padding-left: 2rem;
+      /*padding-left: 2rem;/**/
     }
   }
 .tags li{

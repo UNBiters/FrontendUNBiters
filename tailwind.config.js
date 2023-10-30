@@ -10,7 +10,7 @@ module.exports = {
     "./public/**/*.html",
   ],
   plugins: [
-    require("flowbite/plugin"),    
+    require("flowbite/plugin"), 
   ],
   theme: {
     extend: {

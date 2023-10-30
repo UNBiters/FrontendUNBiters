@@ -17,7 +17,10 @@ export default function CardReview({ className, card, comments, idModal }) {
     const [token, setToken] = useState('');
     const [likes, setLikes] = useState(card.likes);
     const [numComments, setNumComments] = useState(card.numComentarios);
-
+    var src = "/images/1499696010180-025ef6e1a8f9.jpg"
+    if (card.imagenUrl) {
+        src = card.imagenUrl
+    }
     console.log("card", card)
     function openModal(token) {
         var flag = true
@@ -68,15 +71,16 @@ export default function CardReview({ className, card, comments, idModal }) {
                 onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
             }
 
-            <div id={card._id} class="relative flex w-full max-w-[28rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
+            <div id={card._id} class="relative flex  max-w-[28rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
 
-                <Link href={`?id=` + card._id}  type="button" className=""><div class="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
+                <Link href={`?id=` + card._id} type="button" className=""><div class="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
 
                     <Image
                         width={500}
                         height={500}
-                        src="/images/1499696010180-025ef6e1a8f9.jpg"
+                        src={src}
                         alt="ui/ux review check"
+                        className='max-w-full h-auto'
                     />
                     <div class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
                     <button
@@ -120,7 +124,7 @@ export default function CardReview({ className, card, comments, idModal }) {
                             {Number(card.rating).toFixed(1)}
                         </p>
                     </div>
-                    <p class="block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
+                    <p class="block break-words  font-sans text-base antialiased font-light leading-relaxed text-gray-700">
                         {card.texto}
                     </p>
                     <div class="px-2 pt-4">
