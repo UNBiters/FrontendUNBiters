@@ -1,5 +1,5 @@
 
-
+'use client'
 import { Listbox, Transition, Switch } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
