@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import ModalComments from '@/components/Modal/ModalComments';
 import { useSearchParams, useRouter } from 'next/navigation'
 import NewPost from '@/components/NewPost';
+import MyComments from '@/components/Cards/MyComments';
 
 async function loadPost() {
     try {
@@ -16,9 +17,9 @@ async function loadPost() {
         console.log("err", err);
     }
 }
-function Posts() {
+function Comments() {
 
-    const [posts, setPosts] = useState([])
+    const [comments, setComments] = useState([])
     const searchParams = useSearchParams()
     const router = useRouter()
     const idSearch = searchParams.get('id')
@@ -27,17 +28,17 @@ function Posts() {
         try {
 
             var token = window.sessionStorage.getItem('token');
-            client.get("publications/myPublications", {
+            client.get("reviews/myReviews", {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }
             })
                 .then((res) => {
-                    var post = res.data.data.publications
+                    var post = res.data.data.reviews
                     console.log(post)
                     console.log(post.length)
                     if (post.length != 0) {
-                        setPosts(post)
+                        setComments(post)
                     }
                 })
         } catch (error) {
@@ -50,21 +51,18 @@ function Posts() {
             {idSearch && (<ModalComments onClose={() => { router.push(`/unbiters/profile/posts/#${idSearch}`) }} _id={idSearch} />)
 
             }
-            {posts ?
-                <div className="col-span-2 CardProfile justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                    {posts ?
-                        posts.map((card) => {
-                            return <CardReview mode="edit" idSearch={idSearch} key={"pub" + card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2 md:mx-2 "} />
+            <div className='CardProfile pt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3'>
+                {comments ?
+                    comments.map((comment) => (
 
-                        })
-
-                        : null}
-                </div > :
-                <NotFoundChaza tittle={"Opiniones "}></NotFoundChaza>
-            }
+                        <MyComments key={comment._id} comment={comment}></MyComments>
+                    ))
+                    :
+                    <NotFoundChaza tittle={"Opiniones "}></NotFoundChaza>}
+            </div>
         </>
     )
 }
 
-export default Posts
+export default Comments
 

@@ -5,8 +5,9 @@ import client from "@/config/client";
 import { useRouter } from 'next/navigation';
 import NotSesion from './Modal/NotSesion';
 
-export default function NewPost() {
+export default function NewPost({ mode, open, onClose, post }) {
 
+    console.log(post)
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false)
     const [isOpen1, setIsOpen1] = useState(false)
@@ -25,18 +26,17 @@ export default function NewPost() {
     const [nombreChaza, setNombreChaza] = useState('');
     const [imagen, setImagen] = useState(null);
 
-
-    function openModal() {
+    function openModalPost() {
         if (!token) {
             console.log(token)
             //setIsOpen(false)
             setIsOpen1(true)
             console.log(isOpen1)
         } else {
+            console.log(isOpen)
             setIsOpen(true)
         }
     }
-
     function closeModal() {
         setIsOpen(false)
     }
@@ -71,10 +71,12 @@ export default function NewPost() {
                 data.append('imagen', imagen);
                 data.append('texto', texto);
                 data.append('rating', rating);
+                data.append('nombreChaza', nombreChaza);
                 var body = {
                     texto,
                     imagen: imagen,
-                    rating
+                    rating,
+                    nombreChaza
                 }
                 console.log(data)
                 console.log(body)
@@ -124,28 +126,24 @@ export default function NewPost() {
     }
     useEffect(() => {
         setToken(window.sessionStorage.getItem('token'))
-
-    }, [])
+        setIsOpen(open)
+        if (post) {
+            setComment(post.texto)
+            setNombreChaza(post.nombreChaza)
+            onClick(post.rating) |
+                setImagen(post.urlImagen)
+        }
+    }, [open, post])
     return (
         <>
-            <div className="inline-flex rounded-md shadow-sm" role="group">
-                <button onClick={() => router.refresh()} type="button" className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
-                    Actualizar Publicaciones
-                </button>
-                <button
-                    type="button"
-                    onClick={openModal}
-                    className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-r-md hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
-                >
-                    Crear publicacíon
-                </button>
-            </div>
+            {mode == "edit" ? <></>
+                : <></>
+            }
             {isOpen1 && (<NotSesion onClose={() => { router.push("/"); setIsOpen1(false) }}
                 onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
             }
-
             <Transition appear show={isOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={closeModal}>
+                <Dialog as="div" className="relative z-10" onClose={onClose}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -157,7 +155,6 @@ export default function NewPost() {
                     >
                         <div className="fixed inset-0 bg-black bg-opacity-25" />
                     </Transition.Child>
-
                     <div className="pt-16 pb-16 fixed inset-0 overflow-y-auto">
                         <div className="flex min-h-full items-center justify-center p-4 text-center">
                             <Transition.Child
@@ -170,12 +167,13 @@ export default function NewPost() {
                                 leaveTo="opacity-0 scale-95"
                             >
                                 <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                    <Dialog.Title
-                                        as="h3"
-                                        className="text-lg font-medium leading-6 text-gray-900"
-                                    >
-                                        Crea tu publicación
-                                    </Dialog.Title>
+
+                                    {mode == "edit" ? <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900"
+                                    >   Edita tu publicación </Dialog.Title>
+                                        : <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900"
+                                        >   Crea tu publicación </Dialog.Title>
+                                    }
+
                                     <div className="mt-2">
 
                                         <form onSubmit={onSubmit} encType='multipart/form-data'>
@@ -237,11 +235,11 @@ export default function NewPost() {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label>
 
                                                     <div class="flex items-center justify-center w-full">
-                                                        
+
                                                         <label for="imagen" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                                                 <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -250,12 +248,19 @@ export default function NewPost() {
                                                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
                                                                 <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                                             </div>
-                                                            <input id="imagen" type="file" multiple accept="image/*" class="hidden" onChange={(e) => setImagen(e.target.files[0])}  />
+                                                            <input id="imagen" type="file" multiple accept="image/*" class="hidden" onChange={(e) => setImagen(e.target.files[0])} />
                                                         </label>
                                                     </div>
                                                     <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
-                                                        <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Publicar</button>
-                                                        <button onClick={() => closeModal()} type="button" className="text-dark bg-gray-100 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancelar</button>
+
+                                                        {mode == "edit" ?
+                                                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                                Actualizar
+                                                            </button> : <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                                Publicar
+                                                            </button>
+                                                        }
+                                                        <button onClick={onClose} type="button" className="text-dark bg-gray-100 hover:bg-gray-300 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancelar</button>
                                                     </div>
                                                 </div>
                                             </div>

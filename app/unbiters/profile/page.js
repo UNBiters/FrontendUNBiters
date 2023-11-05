@@ -37,10 +37,10 @@ export default function ProfileView({ data }) {
         //console.log(chaza);*/
     }, [])
     return (
-        <div className=''>
-            {chaza ? <NotFoundChaza tittle={"Chaza "}></NotFoundChaza>
+        <div className='pb-12 bg-[#ffffff] '>
+            {chaza.length == 0 ? <NotFoundChaza tittle={"Chaza "}></NotFoundChaza>
                 :
-                <div className="pt-6 px-8 bg-[#ffffff] border h-screen">
+                <div className="pt-6 px-8 bg-[#ffffff] border">
                     <div className="px-4 sm:px-0">
                         <h3 className="text-base font-bold leading-7 text-gray-900">{nombre}</h3>
                     </div>

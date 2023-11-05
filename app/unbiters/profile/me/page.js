@@ -15,7 +15,7 @@ export default function Form({ modal, title, created, _id }) {
     const [eslogan, setEslogan] = useState('');
     const [fechaFundacion, setFechaFundacion] = useState('');
     const [categorias, setCategorias] = useState([]);
-    const [metodos, setMetodos] = useState([]);
+    const [mediosPagos, setMetodos] = useState([]);
     const [ubicacion, setUbicacion] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [horarioAtencion, setHorarioAtencion] = useState([]);
@@ -23,6 +23,7 @@ export default function Form({ modal, title, created, _id }) {
     const [instagram, setInsta] = useState('')
     const [web, setWeb] = useState('')
     const [domicilio, setDomicilio] = useState('')
+    const [token, setToken] = useState('');
 
 
     const onSubmit = async (e) => {
@@ -30,10 +31,10 @@ export default function Form({ modal, title, created, _id }) {
 
         try {
             var redesSociales = [facebook, instagram, web]
-            console.log(metodos)
             var body = {
                 nombre,
                 eslogan,
+                mediosPagos,
                 fechaFundacion,
                 categorias,
                 ubicacion,
@@ -42,9 +43,12 @@ export default function Form({ modal, title, created, _id }) {
                 domicilio: domicilio == 'on' ? true : false,
             }
             console.log(body)
-            return
-            const response = await client.post('chazas', body);
-            console.error('adta: ', response);
+            const response = await client.post('chazas', body,  {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            console.log('data: ', response);
             if (response) {
             }
         } catch (error) {
@@ -67,7 +71,9 @@ export default function Form({ modal, title, created, _id }) {
     useEffect(() => {
         try {
             var token = window.sessionStorage.getItem('token');
-            console.log("data", token)
+            //console.log("data", token)
+            //console.log("act")
+            setToken(window.sessionStorage.getItem('token'))
             var chaza = null
             client.get("chazas/myChaza", {
                 headers: {
@@ -79,10 +85,14 @@ export default function Form({ modal, title, created, _id }) {
                 console.log("page", chaza)
                 if (chaza.length != 0) {
 
+                    chaza = chaza[0]
                     console.log("page2", chaza)
                     setNombre(chaza.nombre)
                     setDescripcion(chaza.descripcion)
                     setCategorias(chaza.categorias)
+                    setEslogan(chaza.slug)
+                    setMetodos(chaza.mediosPagos)
+                    setDomicilio(chaza.domicilios)
                     setFechaFundacion(chaza.fechaFundacion)
                     setUbicacion(chaza.ubicacion)
                     setHorarioAtencion(chaza.horarioAtencion)
@@ -173,7 +183,7 @@ export default function Form({ modal, title, created, _id }) {
     ]
 
     function MyMultiSelectCategorias() {
-        console.log(categorias)
+        //console.log(categorias)
         return (
             <div className="w-72">
                 <Listbox value={categorias} onChange={setCategorias} multiple>
@@ -231,16 +241,16 @@ export default function Form({ modal, title, created, _id }) {
         )
     }
     function MyMultiSelectMedios() {
-        console.log(metodos)
+        //console.log(mediosPagos)
         return (
             <div className="w-72">
-                <Listbox value={metodos} onChange={setMetodos} multiple>
+                <Listbox value={mediosPagos} onChange={setMetodos} multiple>
                     <div className="relative mt-1">
                         <Listbox.Label>Medios de pago</Listbox.Label>
                         <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                             <span className="block ">
                                 {"Selecciona varios:  "}
-                                {metodos.map((cate) => cate).join(', ')}</span>
+                                {mediosPagos.map((cate) => cate).join(', ')}</span>
                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                 <ChevronUpDownIcon
                                     className="h-5 w-5 text-gray-400"
@@ -264,15 +274,15 @@ export default function Form({ modal, title, created, _id }) {
                                             }`
                                         }
                                     >
-                                        {({ metodos }) => (
+                                        {({ mediosPagos }) => (
                                             <>
                                                 <span
-                                                    className={`block  ${metodos ? 'font-medium' : 'font-normal'
+                                                    className={`block  ${mediosPagos ? 'font-medium' : 'font-normal'
                                                         }`}
                                                 >
                                                     {cate.nombre}
                                                 </span>
-                                                {metodos ? (
+                                                {mediosPagos ? (
                                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                                                         <CheckIcon className="h-5 w-5" aria-hidden="true" />
                                                     </span>
@@ -289,7 +299,7 @@ export default function Form({ modal, title, created, _id }) {
         )
     }
     function MyMultiSelectHorario() {
-        console.log(horarioAtencion)
+        //console.log(horarioAtencion)
         return (
             <div className="w-72">
                 <Listbox value={horarioAtencion} onChange={setHorarioAtencion} multiple>
@@ -348,7 +358,6 @@ export default function Form({ modal, title, created, _id }) {
     }
     return (
         <div class="">
-
             <div className="bg-gray-100 dark:bg-gray-900">
                 <div className=" px-4 mx-auto max-w-2xl  lg:py-16">
                     <form onSubmit={onSubmit} className="pt-5 pb-16">
