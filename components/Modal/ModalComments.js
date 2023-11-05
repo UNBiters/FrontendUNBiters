@@ -165,7 +165,8 @@ export default function ModalComments({ onClose, _id }) {
                                                                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                                                                     {data.review}
                                                                 </p>
-                                                            </div></div>
+                                                            </div>
+                                                        </div>
                                                     </div>)
 
                                                 }) : null}

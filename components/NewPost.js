@@ -7,7 +7,7 @@ import NotSesion from './Modal/NotSesion';
 
 export default function NewPost({ mode, open, onClose, post }) {
 
-    console.log(post)
+    //console.log(post)
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false)
     const [isOpen1, setIsOpen1] = useState(false)

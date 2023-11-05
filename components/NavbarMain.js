@@ -1,6 +1,7 @@
 'use client';
 
 import { Button, Dropdown, Navbar, Avatar } from 'flowbite-react';
+import { useUsers } from '@/context/UserContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -9,7 +10,9 @@ import Cookies from 'js-cookie';
 import Logout from './Modal/Logout';
 
 export default function NavbarMain() {
-    const [isLogin, setIsLogin] = useState("")
+    const { isLogin } = useUsers()
+    console.log(isLogin)
+    //const [isLogin, setIsLogin] = useState("")
     const [nombre, setNombre] = useState("")
     const [email, setEmail] = useState("")
     const router = useRouter();
@@ -25,9 +28,9 @@ export default function NavbarMain() {
     useEffect(() => {
         //console.log(window.sessionStorage.getItem('token'))
         if (window.sessionStorage.getItem('token') !== null) {
-            setIsLogin(true)
+            //setIsLogin(true)
         } else {
-            setIsLogin(false)
+            //setIsLogin(false)
         }
         console.log(window.sessionStorage.getItem('email'))
         var correo = window.sessionStorage.getItem('email')
