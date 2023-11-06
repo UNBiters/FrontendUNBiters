@@ -20,7 +20,6 @@ export const UserProvider = ({ children }) => {
         setIsLogin(true)
     }
     useEffect(() => {
-
         if (Cookies.get('token')) {
             setIsLogin(true)
         }

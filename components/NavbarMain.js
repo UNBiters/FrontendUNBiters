@@ -11,7 +11,7 @@ import Logout from './Modal/Logout';
 
 export default function NavbarMain() {
     const { isLogin } = useUsers()
-    console.log(isLogin)
+    console.log("islogin", isLogin)
     //const [isLogin, setIsLogin] = useState("")
     const [nombre, setNombre] = useState("")
     const [email, setEmail] = useState("")
