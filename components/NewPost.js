@@ -4,11 +4,13 @@ import { Fragment, useEffect, useState } from 'react'
 import client from "@/config/client";
 import { useRouter } from 'next/navigation';
 import NotSesion from './Modal/NotSesion';
+import InputChazas from './Input.js/InputChazas';
 
 export default function NewPost({ mode, open, onClose, post }) {
 
     //console.log(post)
     const router = useRouter();
+    const [selected, setSelected] = useState({})
     const [isOpen, setIsOpen] = useState(false)
     const [isOpen1, setIsOpen1] = useState(false)
     const [notLogin, setNotLogin] = useState(false)
@@ -71,15 +73,24 @@ export default function NewPost({ mode, open, onClose, post }) {
                 data.append('imagen', imagen);
                 data.append('texto', texto);
                 data.append('rating', rating);
-                data.append('nombreChaza', nombreChaza);
+                if (selected.id) {
+                    data.append('chaza', selected.id);
+                } else {
+
+                    data.append('nombreChaza', selected.nombre);
+                }
                 var body = {
                     texto,
                     imagen: imagen,
                     rating,
-                    nombreChaza
+                    nombreChaza,
+                    selected
                 }
-                console.log(data)
-                console.log(body)
+                for (const value of data.values()) {
+                  console.log(value);
+                }
+                //console.log(body)
+                
                 const response = await client.post('publications/', data, {
                     headers: {
                         "content-type": "multipart/form-data",
@@ -155,8 +166,8 @@ export default function NewPost({ mode, open, onClose, post }) {
                     >
                         <div className="fixed inset-0 bg-black bg-opacity-25" />
                     </Transition.Child>
-                    <div className="pt-16 pb-16 fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                    <div className=" pt-16 pb-16 fixed inset-0 overflow-y-auto">
+                        <div className="mx-auto flex items-center justify-center p-4 text-center max-w-lg">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -203,12 +214,18 @@ export default function NewPost({ mode, open, onClose, post }) {
                                                     : null}
                                                 <div className="p-6 space-y-6">
 
+                                                    <div className=" mx-auto my-auto items-center">
+                                                        <div className=" w-full">
+                                                            <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de la chaza:</label>
+                                                            <InputChazas selected={selected} setSelected={setSelected} />
+                                                        </div>
+                                                    </div>
                                                     <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Escribe tu opinión</label>
                                                     <div><textarea name="message" rows="4" onChange={(e) => setComment(e.target.value)} value={texto} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Algún comentario..." maxLength="600" ></textarea></div>
-                                                    <label htmlFor="message" className="block  text-sm font-medium text-gray-900 dark:text-white">Califica tu experiencia y menciona la chaza de la cual opinaras</label>
+                                                    <label htmlFor="message" className="block  text-sm font-medium text-gray-900 dark:text-white">Califica tu experiencia en la chaza</label>
                                                     <div className="grid grid-cols-2 grid-flow-col items-baseline">
 
-                                                        <div className="flex  ">
+                                                        <div className="flex col-span-2 ">
                                                             <div className="flex flex-row-reverse mx-auto items-center space-x-1">
                                                                 <svg onClick={() => onClick(5)} className={classe4 + " w-8 h-8 text-gray-300 peer peer-hover:text-yellow-300 hover:text-yellow-300"} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                                                                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
@@ -227,36 +244,23 @@ export default function NewPost({ mode, open, onClose, post }) {
                                                                 </svg>
                                                             </div>
                                                         </div>
-                                                        <div className=" mx-auto my-auto items-center">
-                                                            <div className="">
-                                                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de tu chaza:</label>
-
-                                                                <input minLength={5} requerid type="text" name="slug" id="slug" onChange={(e) => setNombreChaza(e.target.value)} value={nombreChaza} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Nombre de la chaza" required />
-                                                            </div>
-                                                        </div>
                                                     </div>
 
-                                                    <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Cover photo</label>
+                                                    <label for="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">Sube una imagen de tu experiencia</label>
 
-                                                    <div class="flex items-center justify-center w-full">
+                                                    <div className="flex items-center justify-center w-full">
 
-                                                        <label for="imagen" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                                                </svg>
-                                                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                                                <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                                                            </div>
-                                                            <input id="imagen" type="file" multiple accept="image/*" class="hidden" onChange={(e) => setImagen(e.target.files[0])} />
+                                                        <label className="block">
+                                                            <span className="sr-only">Choose profile photo</span>
+                                                            <input id="imagen" type="file" multiple accept="image/*"  onChange={(e) => setImagen(e.target.files[0])} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold  bg-violet-50 file:text-violet-700 hover:file:bg-violet-100" />
                                                         </label>
                                                     </div>
                                                     <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
 
                                                         {mode == "edit" ?
-                                                            <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                            <button type="submit" className="text-white bg-[#9d5b5b] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                                 Actualizar
-                                                            </button> : <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                            </button> : <button className="text-white bg-[#9d5b5b] hover:bg-[#9d5b5b]/[0.7] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  type="submit">
                                                                 Publicar
                                                             </button>
                                                         }

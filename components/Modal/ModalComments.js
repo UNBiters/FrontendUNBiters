@@ -116,7 +116,7 @@ export default function ModalComments({ onClose, _id }) {
     }, [_id])
     return (
         <>
-            {isOpen1 && (<NotSesion onClose={() => { router.push("/?id=" + _id); setIsOpen1(false) }}
+            {isOpen1 && (<NotSesion onClose={() => { router.push("/?id=" + _id, { scroll: false }); setIsOpen1(false) }}
                 onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
             }
             <Transition appear show={true} as={Fragment}>
@@ -134,7 +134,7 @@ export default function ModalComments({ onClose, _id }) {
                     </Transition.Child>
 
                     <div className="pt-16 pb-16 fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                        <div className="flex min-h-full items-center justify-center p-2 text-center max-w-lg mx-auto">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -144,16 +144,17 @@ export default function ModalComments({ onClose, _id }) {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-screen-lg transform overflow-hidden rounded-2xl bg-white p-2 text-left align-middle shadow-xl transition-all">
                                     <Dialog.Title
                                         as="h3"
                                         className="text-lg font-medium leading-6 text-gray-900"
                                     >
                                         Comentarios
+
                                     </Dialog.Title>
                                     <div className="mt-2">
 
-                                        <div className="p-6 space-y-6 ">
+                                        <div className="p-2 space-y-6 ">
                                             <div className="divide-y">
                                                 {comments ? comments.map((data) => {
                                                     if (data.user) { var { nombre } = data.user }
@@ -201,7 +202,7 @@ export default function ModalComments({ onClose, _id }) {
 
                                                 </div>
                                                 <div className="flex justify-end">
-                                                    <button type="submit" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 ">
+                                                    <button type="submit" className="text-white bg-[#9d5b5b] hover:bg-[#9d5b5b]/[0.7] focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 ">
                                                         Comentar
                                                     </button>
 

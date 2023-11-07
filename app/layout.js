@@ -7,7 +7,9 @@ import '@/styles/card.css';
 import '@/styles/login.css';
 import '@/styles/t&c.css';
 import '@/dist/output.css';
+
 import { Inter } from 'next/font/google'
+import Navbar from '@/components/Navbar/Navbar';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -24,7 +26,7 @@ export default function RootLayout({ children }) {
       <head>
       </head> <body className={inter.className}>
         <UserProvider>
-          <NavbarMain />
+          <Navbar />
           {children}
           <Footer />
         </UserProvider>

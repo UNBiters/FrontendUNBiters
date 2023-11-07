@@ -15,17 +15,33 @@ export const useUsers = () => {
 
 export const UserProvider = ({ children }) => {
     const [isLogin, setIsLogin] = useState(false)
-    const userData = []
+    const [userChazas, setUserChaza] = useState({
+        chaza: false
+    })
+    const [userData, setUserData] = useState({
+        chaza: false
+    })
     const setLogin = () => {
         setIsLogin(true)
     }
+    const setUser = (user) => {
+        setUserData(user)
+    }
+    const setChazas = (chaza) => {
+        setUserChaza(chaza)
+    }
     useEffect(() => {
+        console.log("set login true")
         if (Cookies.get('token')) {
+            console.log("set login true")
             setIsLogin(true)
+            if (Cookies.get('user')) {
+                setUserData(JSON.parse(Cookies.get('user')))
+            }
         }
     }, [isLogin])
     return (
-        <UserContext.Provider value={{ isLogin, userData, setLogin }}>
+        <UserContext.Provider value={{ isLogin, userData,userChazas, setLogin, setUser,setChazas }}>
             {children}
         </UserContext.Provider>
     )

@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import Link from 'next/link'
 
 export default function Login() {
-    const { setLogin } = useUsers()
+    const { setLogin, setUser } = useUsers()
     const router = useRouter();
     const [correo, setEmail] = useState('');
     const [contraseña, setPassword] = useState('');
@@ -28,6 +28,11 @@ export default function Login() {
             if (response.data.status === 'success') {
                 setLogin(true)
                 const { token } = response.data;
+                const { user } = response.data.data;
+                console.log(user)
+                window.sessionStorage.setItem('user', user);
+                Cookies.set('user', JSON.stringify(user))
+                setUser(user)
                 const { nombre, _id, chaza } = response.data.data.user;
                 console.log(response)
                 Cookies.set('token', token)

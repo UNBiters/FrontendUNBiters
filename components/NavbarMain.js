@@ -57,7 +57,7 @@ export default function NavbarMain() {
             }
             <Navbar
                 fluid
-                className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
+                className='NavbarMain justify-end md:fixed w-full z-20 top-0 left-0'
             >
                 <Navbar.Brand href="/">
                     <img

@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 import client from "@/config/client"
 import NotFoundChaza from "@/components/NotFound/NotFoundChaza";
+import { useUsers } from '@/context/UserContext';
 
 export default function ProfileView({ data }) {
+    const { setChazas } = useUsers()
 
     const [chaza, setChaza] = useState([])
     const [id, setId] = useState('');
@@ -23,7 +25,9 @@ export default function ProfileView({ data }) {
         })
             .then((res) => {
                 var chaza = res.data.data.myChaza[0]
+                console.log(chaza)
                 if (chaza) {
+                    setChazas(chaza)
                     setChaza(chaza)
                     setNombre(chaza.nombre)
                     setDescripcion(chaza.descripcion)
