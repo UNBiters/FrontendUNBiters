@@ -16,7 +16,7 @@ export default function Community() {
     const { _id } = userChazas
     const [reciente, setReciente] = useState([])
     let [categories] = useState({
-        Reciente: reciente,
+        Reciente: [{}],
         Popular: [
             {
                 id: 1,
@@ -33,7 +33,7 @@ export default function Community() {
                 shareCount: 12,
             },
         ],
-        "Mas comentado": [
+        Comentarios: [
             {
                 id: 1,
                 title: 'Ask Me Anything: 10 answers to your questions about coffee',
@@ -65,13 +65,16 @@ export default function Community() {
                 }
                 var data = res.data.data.data
                 if (data.length > 0) {
-                    console.log(data)
+                    console.log("daata ", data)
+                    categories.Reciente = data
+                    categories.Popular = data
+                    categories.Comentarios = data
                     setReciente(data)
                 } else {
                     console.log("No hay data")
                 }
             })
-    },[])
+    }, [])
     return (
         <div className="w-full px-4 py-4  ">
             <Tab.Group>
@@ -116,9 +119,11 @@ export default function Community() {
                                         <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
                                             <li>{post.date}</li>
                                             <li>&middot;</li>
-                                            <li>{post.commentCount} comments</li>
+                                            <li>{post.numComentarios} comentarios</li>
                                             <li>&middot;</li>
-                                            <li>{post.shareCount} shares</li>
+                                            <li>{post.likes} me gusta</li>
+                                            <li>&middot;</li>
+                                            <li>{post.rating} estrellas</li>
                                         </ul>
 
                                         <a

@@ -1,4 +1,6 @@
 'use client'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useEffect, useState } from 'react'
 import client from "@/config/client";
@@ -6,11 +8,33 @@ import { useRouter } from 'next/navigation';
 import NotSesion from './Modal/NotSesion';
 import InputChazas from './Input.js/InputChazas';
 
-export default function NewPost({ mode, open, onClose, post }) {
+export default function NewPost({  mode, open, onClose, post, editPostUp, id, posts, setPosts }) {
 
     //console.log(post)
+    const notifyEdit = () => toast.success('Actualizado con exito!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    const notifyDelete = () => toast("Publicación eliminada!");
+    const notifyError = () => toast.error('Ups hubo un error!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     const router = useRouter();
     const [selected, setSelected] = useState({})
+    const [chazaId, setChazaId] = useState({})
     const [isOpen, setIsOpen] = useState(false)
     const [isOpen1, setIsOpen1] = useState(false)
     const [notLogin, setNotLogin] = useState(false)
@@ -68,61 +92,101 @@ export default function NewPost({ mode, open, onClose, post }) {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            if (!validation({ texto, rating })) {
-                var data = new FormData();
-                data.append('imagen', imagen);
-                data.append('texto', texto);
-                data.append('rating', rating);
-                if (selected.id) {
-                    data.append('chaza', selected.id);
-                } else {
+            if (mode != "edit") {
 
-                    data.append('nombreChaza', selected.nombre);
-                }
-                var body = {
-                    texto,
-                    imagen: imagen,
-                    rating,
-                    nombreChaza,
-                    selected
-                }
-                for (const value of data.values()) {
-                  console.log(value);
-                }
-                //console.log(body)
-                
-                const response = await client.post('publications/', data, {
-                    headers: {
-                        "content-type": "multipart/form-data",
-                        "Authorization": `Bearer ${token}`
+                if (!validation({ texto, rating })) {
+                    var data = new FormData();
+                    data.append('imagen', imagen);
+                    data.append('texto', texto);
+                    data.append('rating', rating);
+                    if (selected.id) {
+                        data.append('chaza', selected.id);
+                    } else {
+
+                        data.append('nombreChaza', selected.nombre);
                     }
-                });
-                if (response.status == "201") {
-                    console.log('sucess: ', response);
-                    setError('')
-                    setSucces("La publicacíon se ha creado exitosamente!")
-                    //refresh()
-                    setTimeout(function () {
-                        clean()
-                    }, 4000);
-                } else {
-                    console.log('DATA: ', response.data.message);
-                    setError(response.data.message)
-                    setTimeout(function () {
-                        setError("")
-                    }, 2000);
-                }
-            }
-            setTimeout(function () {
-                setError("")
-            }, 5000);
+                    var body = {
+                        texto,
+                        imagen: imagen,
+                        rating,
+                        nombreChaza,
+                        selected
+                    }
+                    for (const value of data.values()) {
+                        console.log(value);
+                    }
+                    //console.log(body)
 
+                    const response = await client.post('publications/', data, {
+                        headers: {
+                            "content-type": "multipart/form-data",
+                            "Authorization": `Bearer ${token}`
+                        }
+                    });
+                    if (response.status == "201") {
+                        console.log('sucess: ', response);
+                        setError('')
+                        setSucces("La publicacíon se ha creado exitosamente!")
+                        //refresh()
+                        setTimeout(function () {
+                            clean()
+                        }, 4000);
+                    } else {
+                        console.log('DATA: ', response.data.message);
+                        setError(response.data.message)
+                        setTimeout(function () {
+                            setError("")
+                        }, 2000);
+                    }
+                }
+                setTimeout(function () {
+                    setError("")
+                }, 5000);
+            } else {
+                if (!validation({ texto, rating })) {
+
+                    var data = new FormData();
+                    data.append('imagen', imagen);
+                    data.append('texto', texto);
+                    data.append('rating', rating);
+                    if (selected.id) {
+                        data.append('chaza', selected.id);
+                    } else {
+                        data.append('nombreChaza', selected.nombre);
+                    }
+                    //console.log("edittttt22", id)
+                    for (const value of data.values()) {
+                        console.log(value);
+                    }
+                    const response = await client.patch(`publications/updateMyPublication/${id}`, data, {
+                        headers: {
+                            "content-type": "multipart/form-data",
+                            "Authorization": `Bearer ${token}`
+                        }
+                    });
+                    if (response.status == "200") {
+                        const postUp = response.data.data.publication
+                        //console.log('sucess: ', postUp);
+                        //refresh()
+                        const newPosts = posts.map((post) => {
+                            if (post.id == id) {
+                                post = postUp
+                            }
+                            return post
+                        })
+                        setPosts(newPosts)
+                        onClose()
+                        notifyEdit()
+                    } else {
+                        notifyError()
+                    }
+                }
+
+            }
         } catch (error) {
             console.error('Error: ', error);
-            setError(error.response.data.message)
-            setTimeout(function () {
-                setError("")
-            }, 5000);
+            onClose()
+            notifyError()
         }
     }
     const onClick = (number) => {
@@ -139,14 +203,22 @@ export default function NewPost({ mode, open, onClose, post }) {
         setToken(window.sessionStorage.getItem('token'))
         setIsOpen(open)
         if (post) {
+            console.log(post)
             setComment(post.texto)
             setNombreChaza(post.nombreChaza)
-            onClick(post.rating) |
-                setImagen(post.urlImagen)
+            if (post.chaza) {
+                //setSelected({ nombre: selected.map((item) => item.id == post.chaza) })
+                setChazaId(post.chaza)
+            } else {
+                setSelected({ nombre: post.nombreChaza })
+            }
+            onClick(post.rating)
+            setImagen(post.urlImagen)
         }
     }, [open, post])
     return (
         <>
+            <ToastContainer />
             {mode == "edit" ? <></>
                 : <></>
             }
@@ -217,7 +289,7 @@ export default function NewPost({ mode, open, onClose, post }) {
                                                     <div className=" mx-auto my-auto items-center">
                                                         <div className=" w-full">
                                                             <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre de la chaza:</label>
-                                                            <InputChazas selected={selected} setSelected={setSelected} />
+                                                            <InputChazas chazaId={chazaId} selected={selected} setSelected={setSelected} />
                                                         </div>
                                                     </div>
                                                     <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Escribe tu opinión</label>
@@ -252,7 +324,7 @@ export default function NewPost({ mode, open, onClose, post }) {
 
                                                         <label className="block">
                                                             <span className="sr-only">Choose profile photo</span>
-                                                            <input id="imagen" type="file" multiple accept="image/*"  onChange={(e) => setImagen(e.target.files[0])} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold  bg-violet-50 file:text-violet-700 hover:file:bg-violet-100" />
+                                                            <input id="imagen" type="file" multiple accept="image/*" onChange={(e) => setImagen(e.target.files[0])} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold  bg-violet-50 file:text-violet-700 hover:file:bg-violet-100" />
                                                         </label>
                                                     </div>
                                                     <div className="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600">
@@ -260,7 +332,7 @@ export default function NewPost({ mode, open, onClose, post }) {
                                                         {mode == "edit" ?
                                                             <button type="submit" className="text-white bg-[#9d5b5b] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                                 Actualizar
-                                                            </button> : <button className="text-white bg-[#9d5b5b] hover:bg-[#9d5b5b]/[0.7] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"  type="submit">
+                                                            </button> : <button className="text-white bg-[#9d5b5b] hover:bg-[#9d5b5b]/[0.7] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
                                                                 Publicar
                                                             </button>
                                                         }

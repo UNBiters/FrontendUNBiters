@@ -16,7 +16,7 @@ export default function UpdateComment({ onClose, onRedirect, myComment }) {
 
     function onSubmit() {
         console.log("onsubmit")
-        onRedirect()
+        onRedirect(comment)
     }
     useEffect(() => {
         setComment(myComment)
@@ -65,7 +65,7 @@ export default function UpdateComment({ onClose, onRedirect, myComment }) {
                                             <button
                                                 type="onSubmit"
                                                 className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-dark hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                                
+
                                             >
                                                 Editar
                                             </button>

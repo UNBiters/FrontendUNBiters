@@ -12,7 +12,7 @@ const people = [
     { id: 6, nombre: 'Hellen Schmidt' },
 ]
 
-export default function InputChazas({ selected, setSelected }) {
+export default function InputChazas({ chazaId, selected, setSelected }) {
     // const [selected] = useState({})
     const [name, setNames] = useState([])
     const [query, setQuery] = useState('')
@@ -33,26 +33,32 @@ export default function InputChazas({ selected, setSelected }) {
 
     }
     useEffect(() => {
-
         client.get(`chazas/every`, { next: { revalidate: true | 0 | 60 } })
             .then((res) => {
-                console.log(res)
+                //console.log(res)
                 if (!res.status == "200") {
                     throw new Error('Failed to fetch data')
                 }
                 var data = res.data.data.data
                 if (data.length > 0) {
-                    console.log(data)
+                    //console.log(data)
                     setNames(data)
+                    //setName(data)
+                    if (Object.keys(chazaId).length != 0) {
+                        console.log(chazaId)
+                        setSelected(data.filter(item => item.id == chazaId)[0])
+                    }
                     //setSelected(data[0])
                 } else {
                     console.log("No hay data")
                 }
             })
-    }, [])
+    }, [chazaId, setSelected])
 
     return (
         <div className=" ">
+            {console.log(name)}
+            {console.log(selected)}
             <Combobox value={selected} onChange={setSelected}>
                 <div className="relative mt-1 ">
                     <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">

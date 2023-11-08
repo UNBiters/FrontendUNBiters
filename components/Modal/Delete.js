@@ -49,7 +49,7 @@ export default function Delete({ onClose, onRedirect, message }) {
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            Si continuas eliminaras la publicacion. ¿Quieres continuar?
+                                            Si continuas sera eliminado de forma permanente. ¿Quieres continuar?
                                         </p>
                                     </div>
 

@@ -4,10 +4,11 @@ import Delete from '../Modal/Delete';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import UpdateComment from '../Modal/UpdateComment';
-export default function MyComments({ comment }) {
+export default function MyComments({ comment, deleteCommentUp, editCommentUp }) {
     const [isOpenDelete, setIsOpenDelete] = useState(false)
     const [isOpenUpdate, setIsOpenUpdate] = useState(false)
     const router = useRouter();
+    //console.log("asii llegann", comment)
 
     function deletePost(id) {
         console.log("borrarrrr")
@@ -15,11 +16,11 @@ export default function MyComments({ comment }) {
     return (
         <>
 
-            {isOpenDelete && (<Delete message={"Borrar publicación"} onClose={() => { router.push("/unbiters/profile/comments", { scroll: false }); setIsOpenDelete(false) }}
-                onRedirect={() => { deletePost(comment._id); router.push("/unbiters/profile/comments", { scroll: false }); setIsOpenDelete(false) }} />)
+            {isOpenDelete && (<Delete message={"Borrar comentario"} onClose={() => { router.push("/unbiters/profile/comments", { scroll: false }); setIsOpenDelete(false) }}
+                onRedirect={() => { deleteCommentUp(comment._id); router.push("/unbiters/profile/comments", { scroll: false }); setIsOpenDelete(false) }} />)
             }
-            {isOpenUpdate && (<UpdateComment myComment={comment.review} message={"Borrar publicación"} onClose={() => { router.push("/unbiters/profile/comments", { scroll: false }); setIsOpenUpdate(false) }}
-                onRedirect={() => { deletePost(comment._id); router.push("/unbiters/profile/comments", { scroll: false }); setIsOpenUpdate(false) }} />)
+            {isOpenUpdate && (<UpdateComment id={comment.id} editCommentUp={editCommentUp} myComment={comment.review} message={"Borrar publicación"} onClose={() => { router.push("/unbiters/profile/comments", { scroll: false }); setIsOpenUpdate(false) }}
+                onRedirect={(upcomment) => { editCommentUp(comment.id, upcomment); router.push("/unbiters/profile/comments", { scroll: false }); setIsOpenUpdate(false) }} />)
             }
             <div class="mt-2 bg-white relative  mx-4  flex justify-between gap-x-6 p-5 rounded-md">
                 <div class=" flex min-w-0 gap-x-4">

@@ -1,5 +1,7 @@
 
 'use client'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState } from 'react';
 import client from "@/config/client";
 import Link from 'next/link';
@@ -9,10 +11,13 @@ import Image from 'next/image';
 import NewPost from '../NewPost';
 import Delete from '../Modal/Delete';
 
-export default function CardReview({ className, card, mode, idModal, idSearch }) {
+export default function CardReview({ names, posts, setPosts, className, card, mode, idModal, idSearch, deletePostUp, editPostUp }) {
 
+    const notifyDelete = () => toast("Publicación eliminada!");
     var start = [1, 1, 1, 1]
     const router = useRouter();
+    //const [names, setName] = useState([])
+    const [id, setId] = useState(false)
     const [isOpen, setIsOpen] = useState(false)
     const [isOpen1, setIsOpen1] = useState(false)
     const [isOpenDelete, setIsOpenDelete] = useState(false)
@@ -46,8 +51,25 @@ export default function CardReview({ className, card, mode, idModal, idSearch })
             setIsOpen(true)
         }
     }
-    function deletePost(id) {
-        console.log("borrarrrr")
+    async function deletePost(id) {
+        //notify()
+        try {
+            console.log(token)
+            console.log(card.id)
+            const response = await client.delete(`publications/deleteMyPublication/${card.id}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            if (response.status == "204") {
+                //notifyDelete()
+                notifyError()
+                //router.refresh()
+            }
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
     }
     const onClick = async (e) => {
         try {
@@ -84,14 +106,15 @@ export default function CardReview({ className, card, mode, idModal, idSearch })
 
     return (
         <div className={className}>
+            <ToastContainer />
             <div className='newpost col-span-2 flex justify-end px-3 min-[650px]:grid-cols-1'>
-                <NewPost mode="edit" post={card} open={isOpen} onClose={() => { router.push("/unbiters/profile/posts"); setIsOpen(false) }} ></NewPost>
+                <NewPost mode="edit" posts={posts} setPosts={setPosts} id={id} post={card} open={isOpen} editPostUp={editPostUp} onClose={() => { router.push("/unbiters/profile/posts", { scroll: false }); setIsOpen(false) }} ></NewPost>
             </div>
             {isOpen1 && (<NotSesion onClose={() => { router.push("/"); setIsOpen1(false) }}
                 onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
             }
-            {isOpenDelete && (<Delete message={"Borrar publicación"} onClose={() => { router.push("/unbiters/profile/posts"); setIsOpenDelete(false) }}
-                onRedirect={() => { deletePost(card._id); router.push("/unbiters/profile/posts"); setIsOpenDelete(false) }} />)
+            {isOpenDelete && (<Delete message={"Borrar publicación"} onClose={() => { router.push("/unbiters/profile/posts", { scroll: false }); setIsOpenDelete(false) }}
+                onRedirect={() => { deletePostUp(card._id); router.push("/unbiters/profile/posts", { scroll: false }); setIsOpenDelete(false) }} />)
             }
             <div id={card._id} class="relative flex  max-w-[28rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
 
@@ -128,7 +151,7 @@ export default function CardReview({ className, card, mode, idModal, idSearch })
                         <button
                             class="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             type="button"
-                            onClick={() => setIsOpen(true)}
+                            onClick={() => { setIsOpen(true); setId(card.id) }}
                             data-ripple-dark="true"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
@@ -171,7 +194,8 @@ export default function CardReview({ className, card, mode, idModal, idSearch })
                 <div class="px-5 py-2">
                     <div class="flex items-center justify-between mb-3">
                         <h5 class="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
-                            {card.nombreChaza}
+                            {console.log(names)}
+                            {card.chaza ? names.filter(item => item.id == card.chaza)[0].nombre : card.nombreChaza}
                         </h5>
                         <p class="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
                             <svg

@@ -29,6 +29,7 @@ export default function Home() {
   const idSearch = searchParams.get('id')
   const router = useRouter()
   const [chazas, setChazas] = useState([])
+  const [names, setName] = useState([])
   const [posts, setPosts] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   useEffect(() => {
@@ -49,6 +50,21 @@ export default function Home() {
         }
         setPosts(res.data.data.data)
         //if (!posts) return "An error has occurred.";
+      })
+
+    client.get(`chazas/every`, { next: { revalidate: true | 0 | 60 } })
+      .then((res) => {
+        //console.log(res)
+        if (!res.status == "200") {
+          throw new Error('Failed to fetch data')
+        }
+        var data = res.data.data.data
+        if (data.length > 0) {
+          //console.log(data)
+          setName(data)
+        } else {
+          console.log("No hay data")
+        }
       })
   }, [])
   //const post = await loadPost()
@@ -130,7 +146,7 @@ export default function Home() {
         {posts ?
           posts.map((card) => (
             <>
-              <CardReview key={"pub" + card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2 md:mx-2 "} />
+              <CardReview names={names} key={card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2 md:mx-2 "} />
             </>
           )
           )
