@@ -4,11 +4,13 @@ import UploadImage from '@/components/Forms/UploadImage';
 import client from "@/config/client"
 import Image from 'next/image';
 
+import '@/styles/profile.css';
+import Navbar from '@/components/Navbar/Navbar';
 export default function ProfileLayout({ children }) {
 
     return (
         <>
-            <div className='containerProfile mt-10'
+            <div className=' containerProfile mt-0 md:mt-10'
             >
                 <button type="button"
                     style={{
@@ -19,7 +21,6 @@ export default function ProfileLayout({ children }) {
                     <Image
                         sizes="100vw"
                         style={{
-                            width: '100%',
                             height: 'auto',
                         }}
                         width={600}
@@ -32,7 +33,7 @@ export default function ProfileLayout({ children }) {
                 </button>
                 <UploadImage modal="upload"></UploadImage>
             </div>
-            <NavbarProfile id={"asdsa"}></NavbarProfile>
+            <Navbar profile={true}></Navbar>
             {children}
         </>
     )

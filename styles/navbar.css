@@ -4,15 +4,16 @@
 
 .NavbarMain a[type="button"] {
     background-color: #f5f5f5;
+    
     color: #d63447;
     border-color: #d63447;
 }
 
 @media (max-width: 770px) {
-    .NavbarMain {
+    .NavbarMain2 {
         position: absolute !important;
     }
-    .NavbarMain #logo{
+    .NavbarMain2 #logo{
         height: 50px;
     }
     .containerFooter {

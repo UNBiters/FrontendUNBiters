@@ -2,8 +2,10 @@
 import { useEffect, useState } from "react";
 import client from "@/config/client"
 import NotFoundChaza from "@/components/NotFound/NotFoundChaza";
+import { useUsers } from '@/context/UserContext';
 
 export default function ProfileView({ data }) {
+    const { setChazas } = useUsers()
 
     const [chaza, setChaza] = useState([])
     const [id, setId] = useState('');
@@ -23,7 +25,9 @@ export default function ProfileView({ data }) {
         })
             .then((res) => {
                 var chaza = res.data.data.myChaza[0]
+                console.log(chaza)
                 if (chaza) {
+                    setChazas(chaza)
                     setChaza(chaza)
                     setNombre(chaza.nombre)
                     setDescripcion(chaza.descripcion)
@@ -37,10 +41,10 @@ export default function ProfileView({ data }) {
         //console.log(chaza);*/
     }, [])
     return (
-        <div className=''>
-            {chaza ? <NotFoundChaza tittle={"Chaza "}></NotFoundChaza>
+        <div className='pb-12 bg-[#ffffff] '>
+            {chaza.length == 0 ? <NotFoundChaza tittle={"Chaza "}></NotFoundChaza>
                 :
-                <div className="pt-6 px-8 bg-[#ffffff] border h-screen">
+                <div className="pt-6 px-8 bg-[#ffffff] border">
                     <div className="px-4 sm:px-0">
                         <h3 className="text-base font-bold leading-7 text-gray-900">{nombre}</h3>
                     </div>

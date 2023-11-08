@@ -28,7 +28,7 @@ export default function NavbarProfile({ id, data }) {
             })
     }, [])
     return (
-        <div className=''>
+        <div className='md:0px' style={{height: "60px"}}>
 
             <Navbar
                 fluid
@@ -53,7 +53,7 @@ export default function NavbarProfile({ id, data }) {
                             </Link>
                             <span className="bar"></span>
 
-                            <Link href='/unbiters/profile/edit' id='action' className='py-2 rounded-md action hover:bg-sky-700 grid content-center  px-5 mx-1'>
+                            <Link href='/unbiters/profile/me' id='action' className='py-2 rounded-md action hover:bg-sky-700 grid content-center  px-5 mx-1'>
                                 <span className="bar"></span>
                                 {existChaza ? isChaza ? "Editar Chaza" : "Editar Perfil" : "Crea tu chaza"}
                             </Link>

@@ -1,26 +1,38 @@
 'use client'
-
+import { useUsers } from '@/context/UserContext';
 import { Button } from 'flowbite-react';
 import React, { useState } from 'react';
 import client from "@/config/client";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import Link from 'next/link'
 
 export default function Login() {
-
-    const { push } = useRouter();
+    const { setLogin, setUser } = useUsers()
+    const router = useRouter();
     const [correo, setEmail] = useState('');
     const [contraseña, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const [succes, setSucces] = useState('');
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
+            setError("Iniciando sesión, espera un momento!")
             const response = await client.post('users/login', { correo, contraseña });
+
+            console.log(response)
             if (response.data.status === 'success') {
+                setLogin(true)
                 const { token } = response.data;
+                const { user } = response.data.data;
+                console.log(user)
+                window.sessionStorage.setItem('user', user);
+                Cookies.set('user', JSON.stringify(user))
+                setUser(user)
                 const { nombre, _id, chaza } = response.data.data.user;
                 console.log(response)
                 Cookies.set('token', token)
@@ -33,18 +45,50 @@ export default function Login() {
                 } else {
                     window.sessionStorage.setItem('chaza', 'false');
                 }
-                push('/')
-
+                router.push('/')
+            } else {
+                setError("Hubo un error inesperado")
+                setTimeout(function () {
+                    setError("")
+                }, 5000);
             }
         } catch (error) {
-            console.error('Error al enviar la solicitud:', error);
+            console.log('Error al enviar la solicitud:', error);
+            setError("Error al enviar la solicitud")
+
+            setTimeout(function () {
+                setError("")
+            }, 5000);
         }
     }
     return (
         <div style={{ backgroundImage: 'url(/images/backLogin.png)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>x
             <div className=" pt-24 flex justify-center items-center">
                 <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
-                    <div className="md:flex md:flex-col md:items-center p-5">
+
+                    {error ?
+                        <div className="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+                            <svg className="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span className="sr-only">Info</span>
+                            <div>
+                                <span className="font-medium">Advertencia!</span> {error}
+                            </div>
+                        </div>
+                        : null}
+                    {succes ?
+                        <div className="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
+                            <svg className="flex-shrink-0 inline w-4 h-4 mr-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span className="sr-only">Info</span>
+                            <div>
+                                <span className="font-medium">Exitoso!</span> {succes}
+                            </div>
+                        </div>
+                        : null}
+                    <div className="flex flex-col items-center p-5">
                         <Image
                             alt="Logo"
                             height={110}
@@ -53,27 +97,36 @@ export default function Login() {
                         />
 
 
-                        <a
+                        <Link
                             href="/unbiters/help/t&c"
                             className="block mt-1 text-xs leading-tight font-medium text-black hover:underline text-center">Al continuar aceptas los terminos y
                             condiciones y aceptas nuestra politica de tratamiento de datos
-                        </a>
+                        </Link>
+                        <form onSubmit={handleSubmit}
 
 
-                        <form onSubmit={handleSubmit}>
+                            className="flex flex-col items-center">
+
+                            <div className="flex flex-col items-start w-full">
+                                <label className='mt-3 text-s leading-tight font-medium text-black'>Correo del usuario:</label>
+
+                            </div>
                             <input
                                 type="email"
                                 id="correo"
-                                className="w-full mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light "
-                                placeholder="Email"
+                                className="w-full mt-1.5 mb-2 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light "
+                                placeholder="Correo"
                                 required
                                 value={correo}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
+                            <div className="flex flex-col items-start w-full">
+                                <label className='mt-1 text-s leading-tight font-medium text-black'>Contraseña:</label>
+                            </div>
                             <input
                                 type="password"
                                 id="contraseña"
-                                className="w-full mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                                className="w-full mt-1.5 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                                 placeholder="Contraseña"
                                 required
                                 value={contraseña}
@@ -83,52 +136,27 @@ export default function Login() {
 
 
                             <Button type="submit" style={{ background: "#D63447" }}
-                                className="px-5 mx-1 shadow-xl">
+                                className="px-5 mx-1 w-full shadow-xl">
                                 Iniciar Sesión
                             </Button>
                         </form>
 
-                        <a href="/unbiters/help/password" className='text-sm mt-2 mb-3 block ml-auto hover:underline'>¿Olvido su contraseña?</a>
+
+                        <Link href="/unbiters/help/password" className='text-sm mt-5 mb-2 block ml-auto hover:underline'>¿Olvido su contraseña?</Link>
 
 
 
-                        <div className="flex items-center w-full space-x-2">
-                            <hr className="flex-1 border-t border-[#D63447]" />
-                            <span className=" text-[#D63447] ">o</span>
-                            <hr className="flex-1 border-t border-[#D63447]" />
-                        </div>
-
-
-                        <Button href='#' style={{ background: "#F5F5F5" }} className='px-5 mx-1 mb-4 text-balck shadow-xl w-full' >
-                            <Image
-                                alt="Logo de google"
-                                width={20}
-                                height={20}
-                                className="mr-2"
-                                src="/images/GoogleLogo.png"
-                            ></Image>
-                            Continua con Google
-                        </Button>
-                        <Button href='#' style={{ background: "#F5F5F5" }} className='px-5 mx-1 text-balck shadow-xl w-full' >
-                            <Image
-                                alt="Logo de google"
-                                width={20}
-                                height={20}
-                                className="mr-2"
-                                src="/images/XLogo.png"
-                            ></Image>
-
-                            Iniciar Sesión con X
-                        </Button>
                         <hr className="border-t border-red-500 border-2 my-6" style={{ width: '90%' }} />
-                        <div className="flex flex-row">
-                            <div className="basis-32">¿No tienes cuenta?</div>
-                            <div className="basis-10">
-                                <a href="#" className="block mt-1 text-md leading-tight font-bold text-black hover:underline">
-                                    Registrate
-                                </a>
-                            </div>
+
+                        <div className="flex justify-center items-center">
+                            <p className="mr-2">¿No tienes cuenta?</p>
+                            <Link
+                                href={"/unbiters/register"}
+                                className="block mt-1 text-md leading-tight font-bold text-black hover:underline">
+                                Registrate
+                            </Link>
                         </div>
+
                     </div>
                 </div>
             </div>

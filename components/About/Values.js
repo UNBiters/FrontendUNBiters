@@ -5,13 +5,13 @@ export default function Values() {
     const team = [
         {
             "id": "1",
-            "nombre": "John Jairo Riaño Martinez",
-            "cargo": "Desarrollador FullStack",
-            "description": "Cuento con habildades en desarrollo de Frontend con tecnologias como ReactJS, NextJS",
-            "facebook": "ada",
-            "linkedin": "",
-            "github": "",
-            "url": "/images/1697919953864.jpg"
+            "nombre": "Andrés Felipe López Gutiérrez",
+            "cargo": "Desarrollador Frontend Junior",
+            "description": "Estoy perfeccionando mis habilidades y aumentando mis conociminetos día a día :D",
+            "facebook": "https://web.facebook.com/andres.lopezgutierrez.94/",
+            "linkedin": "https://www.linkedin.com/in/anlopezgu/",
+            "github": "https://github.com/anlopezgu",
+            "url": "/images/Andrelo.jpg"
         },
 
         {
@@ -24,16 +24,15 @@ export default function Values() {
             "github": "",
             "url": "/images/1697919953864.jpg"
         },
-
         {
             "id": "3",
-            "nombre": "John Jairo Riaño Martinez",
-            "cargo": "Desarrollador FullStack",
-            "description": "Cuento con habildades en desarrollo de Frontend con tecnologias como ReactJS, NextJS",
-            "facebook": "ada",
-            "linkedin": "",
-            "github": "",
-            "url": "/images/1697919953864.jpg"
+            "nombre": "David Stiven Poveda Tabirda",
+            "cargo": "Desarrollador Backend",
+            "description": "Cuento con habildades en desarrollo de Backend con NodeJS, Django. Manejo bases de datos especializadas en NoSQL pero tambien trabjo en tecnologias como MySQL y PostgresSQL. Soy un programador en constante busqueda de nuevas herramientas!",
+            "facebook": "https://www.facebook.com/davidstiven.povedat/",
+            "linkedin": "https://www.linkedin.com/in/david-stiven-poveda-taborda-521ab7207/",
+            "github": "https://github.com/Dapstab",
+            "url": "/images/12311421.jpg"
         },
         {
             "id": "4",
@@ -44,6 +43,7 @@ export default function Values() {
             "linkedin": "https://www.linkedin.com/in/gmoralesg/",
             "github": "https://github.com/gimoralesg",
             "url": "/images/gemgpfp.jpg"
+
         }
     ]
     return (
@@ -70,17 +70,19 @@ export default function Values() {
                     <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Nuestro equipo</span>
                     <p className="mb-10 text-base font-normal text-gray-500 dark:text-gray-400"> El equipo de UNBiters está formado por un grupo de profesionales apasionados que están comprometidos a [objetivos del proyecto].
                     </p>
-                    <div className="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2">
+                    <div className="grid gap-8 mb-6 lg:mb-16 sm:grid-cols-2">
                         {team ? team.map((tea) => (
 
                             <div key={tea.id} className="mb-10 items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
-                                <div className="w-full rounded-lg sm:rounded-none sm:rounded-l-lg">
-                                    <Image
-                                        src={tea.url}
-                                        width={500}
-                                        height={500}
-                                        alt="Picture of the author"
-                                    />
+                                <div className="sm:min-w-250 relative flex w-full min-w-[12rem] max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
+                                    {tea.url != "" ?
+                                        <Image
+                                            src={tea.url}
+                                            width={500}
+                                            height={500}
+                                            alt="Picture of the author"
+                                        />
+                                        : null}
                                 </div>
                                 <div className="p-5">
                                     <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
