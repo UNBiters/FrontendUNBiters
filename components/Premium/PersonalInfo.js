@@ -1,12 +1,76 @@
 "use client";
 
 import { useState } from "react";
+import client from "@/config/client";
 import { Button } from "flowbite-react";
 
 const PersonalInfo = ({ SiguienteForm }) => {
-  
-  const handleSiguiente = () => {
-    SiguienteForm();
+  const [errors, setErrors] = useState([]);
+  const [name, setName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardExpYear, setCardExpYear] = useState("");
+  const [cardExpMonth, setCardExpMonth] = useState("");
+  const [cardCvc, setCardCvc] = useState("");
+  const [last_name, setLast_name] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [cell_phone, setCell_phone] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+
+  const handleSiguiente = async (e) => {
+    e.preventDefault();
+    try {
+      var body = {
+        name,
+        last_name,
+        email,
+        phone,
+        cell_phone,
+        city,
+        address,
+        cardNumber,
+        cardExpYear,
+        cardExpMonth,
+        cardCvc,
+      };
+      console.log(body);
+      const response = await client.post("", body);
+      console.log("request ", response);
+      if (response.data.status === "success") {
+        const {
+          name,
+          last_name,
+          email,
+          phone,
+          cell_phone,
+          city,
+          address,
+          cardNumber,
+          cardExpYear,
+          cardExpMonth,
+          cardCvc,
+        } = response.data.data.user;
+        window.sessionStorage.setItem("name", name);
+        window.sessionStorage.setItem("last_name", last_name);
+        window.sessionStorage.setItem("email", email);
+        window.sessionStorage.setItem("phone", phone);
+        window.sessionStorage.setItem("cell_phone", cell_phone);
+        window.sessionStorage.setItem("city", city);
+        window.sessionStorage.setItem("address", address);
+        window.sessionStorage.setItem("cardNumber", cardNumber);
+        window.sessionStorage.setItem("cardExpYear", cardExpYear);
+        window.sessionStorage.setItem("cardExpMonth", cardExpMonth );
+        window.sessionStorage.setItem("cardCvc", cardCvc);
+        /* push("/unbiters/profile"); */
+        SiguienteForm();
+      }
+    } catch (err) {
+      console.log("error", err);
+      var error = err.response.data.error;
+      console.error("Error en alguno de tus datos", err.response.data);
+      setErrors([error]);
+    }
   };
 
   return (
@@ -20,8 +84,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
         }}
       >
         <div className="pt-32 flex ">
-          <div className=" p-8 max-w-lg mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden">
-            {/*  {!errors
+          <div className=" p-8 max-w-xxxl mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden">
+            {!errors
               ? errors.map((err) => (
                   <div
                     key="e"
@@ -67,10 +131,13 @@ const PersonalInfo = ({ SiguienteForm }) => {
                     </button>
                   </div>
                 ))
-              : null} */}
-            <h1 className="text-2xl font-semibold mb-4">Información Personal</h1>
+              : null}
+            <h1 className="text-2xl font-semibold mb-4">
+              Información Personal
+            </h1>
             <form
-              className="grid grid-cols-1 gap-4 md:grid-cols-2" /* onSubmit={handleSubmit} */
+              className="grid grid-cols-1 gap-4 lg:grid-cols-3"
+              onSubmit={handleSiguiente}
             >
               <div className="col-span-1 flex flex-col items-start w-full">
                 <label className="mt-4 text-s leading-tight font-medium text-black">
@@ -81,8 +148,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Nombres"
                   required
-                  /* value={name}
-                  onChange={(e) => setNombre(e.target.value)} */
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
 
@@ -95,8 +162,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   className="w-56 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Apellidos"
                   required
-                  /* value={name}
-                  onChange={(e) => setNombre(e.target.value)} */
+                  value={last_name}
+                  onChange={(e) => setLast_name(e.target.value)}
                 />
               </div>
 
@@ -109,8 +176,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Correo"
                   required
-                  /* value={name}
-                  onChange={(e) => setNombre(e.target.value)} */
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -123,8 +190,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Telefono"
                   required
-                  /* value={name}
-                  onChange={(e) => setNombre(e.target.value)} */
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
 
@@ -137,8 +204,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Celular"
                   required
-                  /* value={name}
-                  onChange={(e) => setNombre(e.target.value)} */
+                  value={cell_phone}
+                  onChange={(e) => setCell_phone(e.target.value)}
                 />
               </div>
               <div className="col-span-1 flex flex-col items-start w-full">
@@ -150,8 +217,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Ciudad"
                   required
-                  /* value={name}
-                  onChange={(e) => setNombre(e.target.value)} */
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
                 />
               </div>
 
@@ -164,8 +231,64 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   className="w-52  mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Dirección"
                   required
-                  /* value={name}
-                  onChange={(e) => setNombre(e.target.value)} */
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </div>
+              <div className="col-span-1 flex flex-col items-start w-full">
+                <label className="mt-4 text-s leading-tight font-medium text-black">
+                  Número de tarjeta:
+                </label>
+                <input
+                  id="cardNumber"
+                  className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  placeholder="Número de tarjeta"
+                  type="number"
+                  required
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(e.target.value)}
+                />
+              </div>
+              <div className="col-span-1 flex flex-col items-start w-full">
+                <label className="mt-4 text-s leading-tight font-medium text-black">
+                  Año de expiración:
+                </label>
+                <input
+                  id="cardExpYear"
+                  className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  placeholder="Año de expiración"
+                  type="number"
+                  required
+                  value={cardExpYear}
+                  onChange={(e) => setCardExpYear(e.target.value)}
+                />
+              </div>
+              <div className="col-span-1 flex flex-col items-start w-full">
+                <label className="mt-4 text-s leading-tight font-medium text-black">
+                  Mes de expiración:
+                </label>
+                <input
+                  id="cardExpMonth"
+                  className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  placeholder="Mes de expiración"
+                  type="number"
+                  required
+                  value={cardExpMonth}
+                  onChange={(e) => setCardExpMonth(e.target.value)}
+                />
+              </div>
+              <div className="col-span-1 flex flex-col items-start w-full">
+                <label className="mt-4 text-s leading-tight font-medium text-black">
+                  Codigo de seguridad:
+                </label>
+                <input
+                  id="cardCvc"
+                  className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+                  placeholder="Codigo de Seguridad"
+                  type="number"
+                  required
+                  value={cardCvc}
+                  onChange={(e) => setCardCvc(e.target.value)}
                 />
               </div>
             </form>
@@ -182,6 +305,6 @@ const PersonalInfo = ({ SiguienteForm }) => {
       </div>
     </>
   );
-}
+};
 
 export default PersonalInfo;

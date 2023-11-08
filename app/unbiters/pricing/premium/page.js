@@ -3,7 +3,7 @@
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import PersonalInfo from "@/components/Premium/PersonalInfo";
-import CardInfo from "@/components/Premium/CardInfo";
+import PayInfo from "@/components/Premium/PayInfo";
 
 
 export default function Premium() {
@@ -19,7 +19,7 @@ export default function Premium() {
       {FormActual === 1 ? (
         <PersonalInfo SiguienteForm={handleSigForm} />
       ) : (
-        <CardInfo/>
+        <PayInfo/>
       )}
       </div>
     </>
