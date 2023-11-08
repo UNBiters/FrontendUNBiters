@@ -74,7 +74,7 @@ export default function CardReview({ names, posts, setPosts, className, card, mo
     const onClick = async (e) => {
         try {
             if (openModal(token)) {
-                console.log(token)
+                //console.log(token)
                 const response = await client.post('publications/' + card._id + "/likes", {}, {
                     headers: {
                         "Authorization": `Bearer ${token}`
@@ -194,7 +194,7 @@ export default function CardReview({ names, posts, setPosts, className, card, mo
                 <div class="px-5 py-2">
                     <div class="flex items-center justify-between mb-3">
                         <h5 class="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
-                            {console.log(names)}
+                            
                             {card.chaza ? names.filter(item => item.id == card.chaza)[0].nombre : card.nombreChaza}
                         </h5>
                         <p class="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">

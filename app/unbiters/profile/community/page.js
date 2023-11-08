@@ -33,21 +33,7 @@ export default function Community() {
                 shareCount: 12,
             },
         ],
-        Comentarios: [
-            {
-                id: 1,
-                title: 'Ask Me Anything: 10 answers to your questions about coffee',
-                date: '2d ago',
-                commentCount: 9,
-                shareCount: 5,
-            },
-            {
-                id: 2,
-                title: "The worst advice we've ever heard about coffee",
-                date: '4d ago',
-                commentCount: 1,
-                shareCount: 2,
-            },
+        Comentarios: [{}
         ],
     })
     useEffect(() => {
@@ -63,12 +49,32 @@ export default function Community() {
                 if (!res.status == "200") {
                     throw new Error('Failed to fetch data')
                 }
+                var commets = []
                 var data = res.data.data.data
                 if (data.length > 0) {
                     console.log("daata ", data)
+                    for (var i = 0; i < data.length; i++) {
+                        client.get(`reviews/${data[0].id}`, {
+                            headers: {
+                                "Authorization": `Bearer ${token}`
+                            }
+                        }, { next: { revalidate: true | 0 | 60 } })
+                            .then((res) => {
+
+                                console.log(res)
+                                if (!res.status == "200") {
+                                    throw new Error('Failed to fetch data')
+                                }
+                                var commets = res.data.data.data
+                                if (data.length > 0) {
+                                    categories.Comentarios = commets
+                                } else {
+                                    console.log("No hay data")
+                                }
+                            })
+                    }
                     categories.Reciente = data
                     categories.Popular = data
-                    categories.Comentarios = data
                     setReciente(data)
                 } else {
                     console.log("No hay data")
@@ -76,7 +82,7 @@ export default function Community() {
             })
     }, [])
     return (
-        <div className="w-full px-4 py-4  ">
+        <div className="container w-full px-4 py-4 min-h-full ">
             <Tab.Group>
                 <Tab.List className="flex space-x-1 rounded-xl bg-white p-1">
                     {Object.keys(categories).map((category) => (
@@ -99,6 +105,7 @@ export default function Community() {
                 <Tab.Panels className="mt-2">
                     {console.log(categories)}
                     {Object.values(categories).map((posts, idx) => (
+
                         <Tab.Panel
                             key={idx}
                             className={classNames(
@@ -107,23 +114,26 @@ export default function Community() {
                             )}
                         >
                             <ul>
+                                {console.log(idx)}
                                 {posts.map((post) => (
                                     <li
                                         key={post.id}
                                         className="relative rounded-md p-3 hover:bg-gray-100"
                                     >
                                         <h3 className="text-sm font-medium leading-5">
-                                            {post.texto}
+                                            {idx != 2 ? post.texto : post.review}
                                         </h3>
 
                                         <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
-                                            <li>{post.date}</li>
-                                            <li>&middot;</li>
-                                            <li>{post.numComentarios} comentarios</li>
-                                            <li>&middot;</li>
-                                            <li>{post.likes} me gusta</li>
-                                            <li>&middot;</li>
-                                            <li>{post.rating} estrellas</li>
+                                            <li>
+                                                {idx != 2 ? "hoy" : post.createdAt}
+                                            </li>
+                                            {idx != 2 ? <li>&middot;</li> : null}
+                                            <li>{idx != 2 ? post.numComentarios + " comentarios" : null} </li>
+                                            {idx != 2 ? <li>&middot;</li> : null}
+                                            <li>{idx != 2 ? post.likes + " me gusta" : null}</li>
+                                            {idx != 2 ? <li>&middot;</li> : null}
+                                            <li>{idx != 2 ? post.rating + " estrellas" : null} </li>
                                         </ul>
 
                                         <a

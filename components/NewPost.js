@@ -203,7 +203,7 @@ export default function NewPost({  mode, open, onClose, post, editPostUp, id, po
         setToken(window.sessionStorage.getItem('token'))
         setIsOpen(open)
         if (post) {
-            console.log(post)
+            //console.log(post)
             setComment(post.texto)
             setNombreChaza(post.nombreChaza)
             if (post.chaza) {

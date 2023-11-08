@@ -1,13 +1,13 @@
 
 'use client'
+import client from "@/config/client";
 import { Listbox, Transition, Switch } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 import { useEffect, useState, Fragment } from "react";
 
-export default function Filter({ className }) {
-    const [categorias, setCategorias] = useState([]);
-
+export default function Filter({ className, categorias, setCategorias, posts, setPosts }) {
+    const [search, setSearch] = useState("")
     var categoriasLists = [
         {
             "id": 1,
@@ -50,15 +50,87 @@ export default function Filter({ className }) {
             "nombreCategoria": "Comidas tradicionales"
         }
     ]
+    async function filterPost() {
+        try {
+
+            client.get(`publications`, { next: { revalidate: true | 0 | 60 } }).
+                then((res) => {
+
+                    if (!res.status == "200") {
+                        throw new Error('Failed to fetch data')
+                    }
+                    console.log("filterrr", categorias)
+                    var filterPost = posts.filter(item => {
+                        if (item.categorias) {
+                            item.categorias.includes(categorias)
+                        }
+                    })
+                    setPosts(filterPost)
+                    //if (!posts) return "An error has occurred.";
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    async function filterPostOff() {
+        try {
+            client.get(`publications`, { next: { revalidate: true | 0 | 60 } }).
+                then((res) => {
+
+                    if (!res.status == "200") {
+                        throw new Error('Failed to fetch data')
+                    }
+                    setPosts(res.data.data.data)
+                    setCategorias([])
+                    //if (!posts) return "An error has occurred.";
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async function searchButton() {
+        console.log(search)
+        try {
+            client.get(`publications`, { next: { revalidate: true | 0 | 60 } }).
+                then((res) => {
+
+                    if (!res.status == "200") {
+                        throw new Error('Failed to fetch data')
+                    }
+                    setPosts(res.data.data.data)
+                    setCategorias([])
+                    //if (!posts) return "An error has occurred.";
+                })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        /*console.log(posts)
+        if (categorias.length != 0) {
+            var filterPost = posts.filter(item => {
+                if (item.categorias) {
+
+                    console.log("item ", item)
+                    item.categorias.includes(categorias)
+                }
+            })
+            console.log(filterPost)
+            setPosts(filterPost)
+        }*/
+    }, [])
     function MyMultiSelectCategorias() {
 
         return (
-            <div className="w-72">
+            <div className=" w-72">
                 <Listbox value={categorias} onChange={setCategorias} multiple>
                     <div className="relative mt-1">
                         <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+
                             <span className="block ">
-                                {"Filtra por categorias "}
+                                {"Filtra por categorias "}</span>
+                            <span className="block text-white">
                                 {categorias.map((cate) => cate).join(', ')}</span>
                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                 <ChevronUpDownIcon
@@ -73,7 +145,7 @@ export default function Filter({ className }) {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            <Listbox.Options className="mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
 
                                 {categoriasLists.map((cate) => (
                                     <Listbox.Option
@@ -110,8 +182,18 @@ export default function Filter({ className }) {
     return (
         <div id="filter" className='pb-2 col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4'>
 
-            <div className="mx-auto text-sm font-medium ">
-                {MyMultiSelectCategorias()}
+            <div className="grid mx-auto text-sm font-medium ">
+                <div>
+                    {MyMultiSelectCategorias()}
+                </div>
+                <div className='flex justify-end pt-1 '>
+                    <button type="button" onClick={filterPostOff} className="mr-1 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Quitar Filtros
+                    </button>
+                    <button type="button" onClick={filterPost} className="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                        Filtrar
+                    </button>
+                </div>
             </div>
             <div className='px-3'>
                 <form>
@@ -122,8 +204,8 @@ export default function Filter({ className }) {
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                         </div>
-                        <input type="search" id="default-search" className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
-                        <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
+                        <input type="search" name="search" onChange={(e) => setSearch(e.target.value)} value={search} className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
+                        <button type="button" onClick={searchButton} className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
                     </div>
                 </form>
 

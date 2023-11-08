@@ -45,7 +45,7 @@ export default function InputChazas({ chazaId, selected, setSelected }) {
                     setNames(data)
                     //setName(data)
                     if (Object.keys(chazaId).length != 0) {
-                        console.log(chazaId)
+                        //console.log(chazaId)
                         setSelected(data.filter(item => item.id == chazaId)[0])
                     }
                     //setSelected(data[0])
@@ -57,8 +57,6 @@ export default function InputChazas({ chazaId, selected, setSelected }) {
 
     return (
         <div className=" ">
-            {console.log(name)}
-            {console.log(selected)}
             <Combobox value={selected} onChange={setSelected}>
                 <div className="relative mt-1 ">
                     <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">

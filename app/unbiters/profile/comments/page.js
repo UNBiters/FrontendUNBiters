@@ -59,8 +59,8 @@ function Comments() {
             })
                 .then((res) => {
                     var post = res.data.data.reviews
-                    console.log(post)
-                    console.log(post.length)
+                    //console.log(post)
+                    //console.log(post.length)
                     if (post.length != 0) {
                         setComments(post)
                     }
@@ -71,7 +71,7 @@ function Comments() {
     }, [])
 
     async function deleteCommentUp(id) {
-        console.log("borrarrrr", id)
+        //console.log("borrarrrr", id)
         try {
             const response = await client.delete(`reviews/${id}`, {
                 headers: {
@@ -113,7 +113,7 @@ function Comments() {
                 })
                 notifyEdit()
                 setComments(newComments)
-                console.log(comments)
+                //console.log(comments)
                 //router.refresh()
             } else {
                 notifyError()

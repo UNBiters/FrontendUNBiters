@@ -7,7 +7,7 @@ import Card from '@/components/Card';
 import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
-import client, { myClient } from "@/config/client";
+import client from "@/config/client";
 import ModalComments from '@/components/Modal/ModalComments';
 import { useSearchParams, useRouter } from 'next/navigation'
 import CardReview from '@/components/Cards/CardReview';
@@ -26,6 +26,7 @@ async function loadPost() {
 
 export default function Home() {
   const searchParams = useSearchParams()
+  const [categorias, setCategorias] = useState([]);
   const idSearch = searchParams.get('id')
   const router = useRouter()
   const [chazas, setChazas] = useState([])
@@ -67,65 +68,12 @@ export default function Home() {
         }
       })
   }, [])
-  //const post = await loadPost()
-  var comments = [
-    {
-      "id": 1,
-      "review": "¡Este es un comentario genial!",
-      "urlImagen": "https://www.example.com/imagen1.jpg"
-    },
-    {
-      "id": 2,
-      "review": "Este es otro comentario genial",
-      "urlImagen": "https://www.example.com/imagen2.jpg"
-    },
-    {
-      "id": 3,
-      "review": "¡Esta imagen es increíble!",
-      "urlImagen": "https://www.example.com/imagen3.jpg"
-    },
-    {
-      "id": 4,
-      "review": "¡Este es un comentario muy profundo!",
-      "urlImagen": "https://www.example.com/imagen4.jpg"
-    },
-    {
-      "id": 5,
-      "review": "¡Esta imagen me hace reír!",
-      "urlImagen": "https://www.example.com/imagen5.jpg"
-    },
-    {
-      "id": 6,
-      "review": "¡Esta imagen es muy triste!",
-      "urlImagen": "https://www.example.com/imagen6.jpg"
-    },
-    {
-      "id": 7,
-      "review": "¡Esta imagen es muy hermosa!",
-      "urlImagen": "https://www.example.com/imagen7.jpg"
-    },
-    {
-      "id": 8,
-      "review": "¡Esta imagen es muy graciosa!",
-      "urlImagen": "https://www.example.com/imagen8.jpg"
-    },
-    {
-      "id": 9,
-      "review": "¡Esta imagen es muy inspiradora!",
-      "urlImagen": "https://www.example.com/imagen9.jpg"
-    },
-    {
-      "id": 10,
-      "review": "¡Esta imagen es muy creativa!",
-      "urlImagen": "https://www.example.com/imagen10.jpg"
-    }
-  ]
   return (
     <div id='home' className='grid grid-cols-2'>
       {idSearch && (<ModalComments onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
 
       }
-      <Filter />
+      <Filter posts={posts} setPosts={setPosts} categorias={categorias} setCategorias={setCategorias} />
       <div className='newpost col-span-2 flex justify-end px-3 min-[650px]:grid-cols-1'>
         <div className="inline-flex rounded-md shadow-sm" role="group">
           <button onClick={() => router.refresh()} type="button" className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
