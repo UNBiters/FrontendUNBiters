@@ -118,7 +118,7 @@ export default function Register() {
                 ))
               : null}
 
-            <div className="md:flex md:flex-col md:items-center p-5">
+            <div className="flex flex-col items-center p-5 ">
               <Image
                 alt="Logo"
                 height={110}
