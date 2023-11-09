@@ -2,14 +2,58 @@
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Dialog, Transition } from '@headlessui/react'
+import { Listbox, Switch } from '@headlessui/react'
+import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { Fragment, useEffect, useState } from 'react'
 import client from "@/config/client";
 import { useRouter } from 'next/navigation';
 import NotSesion from './Modal/NotSesion';
 import InputChazas from './Input.js/InputChazas';
 
-export default function NewPost({  mode, open, onClose, post, editPostUp, id, posts, setPosts }) {
-
+export default function NewPost({ mode, open, onClose, post, editPostUp, id, posts, setPosts }) {
+    var categoriasLists = [
+        {
+            "id": 1,
+            "nombreCategoria": "Platos principales"
+        },
+        {
+            "id": 2,
+            "nombreCategoria": "Entrantes"
+        },
+        {
+            "id": 3,
+            "nombreCategoria": "Postres"
+        },
+        {
+            "id": 4,
+            "nombreCategoria": "Bebidas"
+        },
+        {
+            "id": 5,
+            "nombreCategoria": "Comidas rápidas"
+        },
+        {
+            "id": 6,
+            "nombreCategoria": "Comidas vegetarianas"
+        },
+        {
+            "id": 7,
+            "nombreCategoria": "Comidas veganas"
+        },
+        {
+            "id": 8,
+            "nombreCategoria": "Comidas saludables"
+        },
+        {
+            "id": 9,
+            "nombreCategoria": "Comidas internacionales"
+        },
+        {
+            "id": 10,
+            "nombreCategoria": "Comidas tradicionales"
+        }
+    ]
+    const [tags, setCategorias] = useState([]);
     //console.log(post)
     const notifyEdit = () => toast.success('Actualizado con exito!', {
         position: "top-right",
@@ -91,6 +135,7 @@ export default function NewPost({  mode, open, onClose, post, editPostUp, id, po
     }
     const onSubmit = async (e) => {
         e.preventDefault();
+        console.log(tags);
         try {
             if (mode != "edit") {
 
@@ -99,6 +144,7 @@ export default function NewPost({  mode, open, onClose, post, editPostUp, id, po
                     data.append('imagen', imagen);
                     data.append('texto', texto);
                     data.append('rating', rating);
+                    data.append('tags', JSON.stringify(tags));
                     if (selected.id) {
                         data.append('chaza', selected.id);
                     } else {
@@ -110,13 +156,12 @@ export default function NewPost({  mode, open, onClose, post, editPostUp, id, po
                         imagen: imagen,
                         rating,
                         nombreChaza,
-                        selected
+                        selected, tags
                     }
                     for (const value of data.values()) {
                         console.log(value);
                     }
-                    //console.log(body)
-
+                    console.log(body)
                     const response = await client.post('publications/', data, {
                         headers: {
                             "content-type": "multipart/form-data",
@@ -216,6 +261,66 @@ export default function NewPost({  mode, open, onClose, post, editPostUp, id, po
             setImagen(post.urlImagen)
         }
     }, [open, post])
+
+    function MyMultiSelectCategorias() {
+
+        return (
+            <div className="bg-[#9d5b5b] rounded-lg">
+                <Listbox value={tags} onChange={setCategorias} multiple>
+                    <div className="relative mt-1  ">
+                        <Listbox.Button className="hover:bg-[#9d5b5b]/[0.7]  relative w-full cursor-default  rounded-md py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+
+                            <span className="block ">
+                                {"Añade algunas etiquetas"}</span>
+                            <span className="block text-white">
+                                {tags.map((cate) => cate).join(', ')}</span>
+                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                <ChevronUpDownIcon
+                                    className="h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
+                                />
+                            </span>
+                        </Listbox.Button>
+                        <Transition
+                            as={Fragment}
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <Listbox.Options className="mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+
+                                {categoriasLists.map((cate) => (
+                                    <Listbox.Option
+                                        key={cate.id} value={cate.nombreCategoria}
+                                        className={({ active }) =>
+                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                                            }`
+                                        }
+                                    >
+                                        {({ tags }) => (
+                                            <>
+                                                <span
+                                                    className={`block  ${tags ? 'font-medium' : 'font-normal'
+                                                        }`}
+                                                >
+                                                    {cate.nombreCategoria}
+                                                </span>
+                                                {tags ? (
+                                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
+                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                                    </span>
+                                                ) : null}
+                                            </>
+                                        )}
+                                    </Listbox.Option>
+                                ))}
+                            </Listbox.Options>
+                        </Transition>
+                    </div>
+                </Listbox>
+            </div>
+        )
+    }
     return (
         <>
             <ToastContainer />
@@ -317,7 +422,11 @@ export default function NewPost({  mode, open, onClose, post, editPostUp, id, po
                                                             </div>
                                                         </div>
                                                     </div>
-
+                                                    <div className=" mx-auto my-auto items-center">
+                                                        <div className=" w-full">
+                                                            {MyMultiSelectCategorias()}
+                                                        </div>
+                                                    </div>
                                                     <label for="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">Sube una imagen de tu experiencia</label>
 
                                                     <div className="flex items-center justify-center w-full">

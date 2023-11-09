@@ -27,6 +27,7 @@ async function loadPost() {
 export default function Home() {
   const searchParams = useSearchParams()
   const [categorias, setCategorias] = useState([]);
+  const [numComments, setNumComments] = useState("");
   const idSearch = searchParams.get('id')
   const router = useRouter()
   const [chazas, setChazas] = useState([])
@@ -70,7 +71,7 @@ export default function Home() {
   }, [])
   return (
     <div id='home' className='grid grid-cols-2'>
-      {idSearch && (<ModalComments onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
+      {idSearch && (<ModalComments numComments={numComments} setNumComments={setNumComments} onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
 
       }
       <Filter posts={posts} setPosts={setPosts} categorias={categorias} setCategorias={setCategorias} />
@@ -94,7 +95,7 @@ export default function Home() {
         {posts ?
           posts.map((card) => (
             <>
-              <CardReview names={names} key={card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2 md:mx-2 "} />
+              <CardReview numComments={numComments} setNumComments={setNumComments} names={names} key={card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2 md:mx-2 "} />
             </>
           )
           )
