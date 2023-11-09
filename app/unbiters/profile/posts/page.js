@@ -20,7 +20,7 @@ async function loadPost() {
 }
 function Posts() {
 
-    const notifyDelete = () => toast("Comentario eliminado!");
+    const notifyDelete = () => toast("Publicación eliminada!");
     const notifyError = () => toast.error('Ups hubo un error!', {
         position: "top-right",
         autoClose: 5000,

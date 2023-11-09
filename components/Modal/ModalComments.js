@@ -5,7 +5,7 @@ import client from "@/config/client";
 import { useRouter } from 'next/navigation';
 import NotSesion from './NotSesion';
 
-export default function ModalComments({ onClose, _id }) {
+export default function ModalComments({ numComments, setNumComments, onClose, _id }) {
     let [isOpen, setIsOpen] = useState(true)
     const [isOpen1, setIsOpen1] = useState(false)
     const router = useRouter();
@@ -47,6 +47,7 @@ export default function ModalComments({ onClose, _id }) {
         e.preventDefault();
         try {
             console.log(openModalLogin(token))
+            console.log((token))
             if (openModalLogin(token)) {
                 if (!validation({ review })) {
                     var body = {
@@ -72,6 +73,7 @@ export default function ModalComments({ onClose, _id }) {
                         if (response.status == "200") {
                             console.log('adta: ', "201");
                             setComments(response.data.data.data)
+                            setNumComments(numComments + 1)
                             //refreshData();
                         }
                         setTimeout(function () {
