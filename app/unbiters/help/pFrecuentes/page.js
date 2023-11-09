@@ -43,7 +43,7 @@ export default function TC() {
     return (
         <div >
             <div className="pt-24 pb-24 flex justify-center items-center">
-                <div className="max-w mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ancho-personalizado w-full">
+                <div className="max-w mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ancho-personalizado">
                     <div className="md:flex md:flex-col md:items-center p-5">
                         <Image
                             alt="Logo"
@@ -54,15 +54,18 @@ export default function TC() {
                         <h1 
                             className="block mt-1 text-2xl leading-tight font-bold text-black text-center">Preguntas Frecuentes
                         </h1>
+                        <h2 
+                            className="block mt-1 text-md leading-tight text-black text-center">Para el equipo UNBITERS siempre sera un placer solucionar tus dudas, por eso acá encontaras las preguntas más recurrentes que nos hacen: 
+                        </h2>
                         {preguntas.map((item, index) => (
                             <div key={index}>
-                                <h2
+                                <h3
                                     className="block mt-4 mb-1 text-md leading-tight font-bold text-black text-center"
                                     onClick={() => handlePreguntaClick(index)}
                                     style={{ cursor: 'pointer' }}
                                 >
                                     {item.pregunta}
-                                </h2>
+                                </h3>
                                 {preguntaAbierta === index && (
                                     <p>{item.respuesta}</p>
                                 )}

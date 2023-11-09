@@ -5,7 +5,7 @@ import client from "@/config/client";
 import { useRouter } from 'next/navigation';
 import NotSesion from './NotSesion';
 
-export default function ModalComments({ onClose, _id }) {
+export default function ModalComments({ numComments, setNumComments, onClose, _id }) {
     let [isOpen, setIsOpen] = useState(true)
     const [isOpen1, setIsOpen1] = useState(false)
     const router = useRouter();
@@ -47,6 +47,7 @@ export default function ModalComments({ onClose, _id }) {
         e.preventDefault();
         try {
             console.log(openModalLogin(token))
+            console.log((token))
             if (openModalLogin(token)) {
                 if (!validation({ review })) {
                     var body = {
@@ -72,6 +73,7 @@ export default function ModalComments({ onClose, _id }) {
                         if (response.status == "200") {
                             console.log('adta: ', "201");
                             setComments(response.data.data.data)
+                            setNumComments(numComments + 1)
                             //refreshData();
                         }
                         setTimeout(function () {
@@ -160,7 +162,8 @@ export default function ModalComments({ onClose, _id }) {
                                                     if (data.user) { var { nombre } = data.user }
                                                     return (<div key={data._id ? data._id : data.id} className="p-2 ">
                                                         <div class=" flex min-w-0 gap-x-4">
-                                                            <img class="h-12 w-12 flex-none rounded-full bg-gray-50" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                                                            <img class="h-12 w-12 flex-none rounded-full bg-gray-50"
+                                                                src="/images/default.png" alt="" />
                                                             <div class="min-w-0 flex-auto">
                                                                 <p class="text-sm font-semibold leading-6 text-gray-900">{nombre}</p>
                                                                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">

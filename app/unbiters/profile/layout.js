@@ -31,7 +31,7 @@ export default function ProfileLayout({ children }) {
                     </Image>
 
                 </button>
-                <UploadImage modal="upload"></UploadImage>
+                {/*<UploadImage modal="upload"></UploadImage>*/}
             </div>
             <Navbar profile={true}></Navbar>
             {children}

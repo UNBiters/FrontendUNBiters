@@ -11,7 +11,7 @@ import Image from 'next/image';
 import NewPost from '../NewPost';
 import Delete from '../Modal/Delete';
 
-export default function CardReview({ names, posts, setPosts, className, card, mode, idModal, idSearch, deletePostUp, editPostUp }) {
+export default function CardReview({ numComments, setNumComments, names, posts, setPosts, className, card, mode, idModal, idSearch, deletePostUp, editPostUp }) {
 
     const notifyDelete = () => toast("Publicación eliminada!");
     var start = [1, 1, 1, 1]
@@ -25,7 +25,7 @@ export default function CardReview({ names, posts, setPosts, className, card, mo
     const [fillText, setFillText] = useState("")
     const [token, setToken] = useState('');
     const [likes, setLikes] = useState(card.likes);
-    const [numComments, setNumComments] = useState(card.numComentarios);
+    //const [numComments, setNumComments] = useState(card.numComentarios);
     var src = "/images/1499696010180-025ef6e1a8f9.jpg"
     if (card.imagenUrl) {
         src = card.imagenUrl
@@ -86,7 +86,6 @@ export default function CardReview({ names, posts, setPosts, className, card, mo
                         setFill("fill-rose-800 ")
                         setFillText("text-rose-800 ")
                         setLikes(likes + 1)
-                        setNumComments(numComments + 1)
                     } else {
                         setFill("")
                         setFillText("")
@@ -101,7 +100,22 @@ export default function CardReview({ names, posts, setPosts, className, card, mo
     }
 
     useEffect(() => {
-        setToken(window.sessionStorage.getItem('token'))
+        setNumComments(card.numComentarios)
+        var tkn = (window.sessionStorage.getItem('token'))
+        setToken(tkn)
+        if (tkn) {
+            client.get('publications/' + card.id + "/likes/myLikeInPublication", {
+                headers: {
+                    "Authorization": `Bearer ${tkn}`
+                }
+            }).then((res) => {
+                //console.log(res)
+                if (res.data.data.status) {
+                    setFill("fill-rose-800 ")
+                    setFillText("text-rose-800 ")
+                }
+            })
+        }
     }, [])
 
     return (
@@ -182,9 +196,9 @@ export default function CardReview({ names, posts, setPosts, className, card, mo
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
-                                fill="currentColor"
+                                fill=""
                                 aria-hidden="true"
-                                class="w-6 h-6"
+                                class={fill + "w-6 h-6"}
                             >
                                 <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z"></path>
                             </svg>
@@ -194,7 +208,7 @@ export default function CardReview({ names, posts, setPosts, className, card, mo
                 <div class="px-5 py-2">
                     <div class="flex items-center justify-between mb-3">
                         <h5 class="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
-                            
+                            {console.log(card)}
                             {card.chaza ? names.filter(item => item.id == card.chaza)[0].nombre : card.nombreChaza}
                         </h5>
                         <p class="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">

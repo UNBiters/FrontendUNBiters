@@ -52,22 +52,27 @@ export default function Filter({ className, categorias, setCategorias, posts, se
     ]
     async function filterPost() {
         try {
+            if (categorias.length != 0) {
 
-            client.get(`publications`, { next: { revalidate: true | 0 | 60 } }).
-                then((res) => {
+                client.get(`publications`, { next: { revalidate: true | 0 | 60 } }).
+                    then((res) => {
 
-                    if (!res.status == "200") {
-                        throw new Error('Failed to fetch data')
-                    }
-                    console.log("filterrr", categorias)
-                    var filterPost = posts.filter(item => {
-                        if (item.categorias) {
-                            item.categorias.includes(categorias)
+                        if (!res.status == "200") {
+                            throw new Error('Failed to fetch data')
                         }
+                        console.log("filterrr", categorias)
+                        var filterPost = posts.filter(item => {
+                            if (item.tags.length != 0) {
+                                //console.log(item.tags)
+                                if (item.tags.includes(categorias[0], categorias[1], categorias[2])) {
+                                    return item
+                                }
+                            }
+                        })
+                        setPosts(filterPost)
+                        //if (!posts) return "An error has occurred.";
                     })
-                    setPosts(filterPost)
-                    //if (!posts) return "An error has occurred.";
-                })
+            }
         } catch (error) {
             console.log(error)
         }
@@ -92,15 +97,13 @@ export default function Filter({ className, categorias, setCategorias, posts, se
     async function searchButton() {
         console.log(search)
         try {
-            client.get(`publications`, { next: { revalidate: true | 0 | 60 } }).
+            client.post(`publications/searchPublication`, { filter: search }).
                 then((res) => {
 
                     if (!res.status == "200") {
                         throw new Error('Failed to fetch data')
                     }
-                    setPosts(res.data.data.data)
-                    setCategorias([])
-                    //if (!posts) return "An error has occurred.";
+                    setPosts(res.data.data.data.hits)
                 })
         } catch (error) {
             console.log(error)
@@ -204,7 +207,7 @@ export default function Filter({ className, categorias, setCategorias, posts, se
                                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                         </div>
-                        <input type="search" name="search" onChange={(e) => setSearch(e.target.value)} value={search} className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
+                        <input type="search" name="search" onChange={(e) => setSearch(e.target.value)} value={search} className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="La mejor chaza ..." required />
                         <button type="button" onClick={searchButton} className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
                     </div>
                 </form>
