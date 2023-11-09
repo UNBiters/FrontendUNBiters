@@ -31,11 +31,26 @@ export default function Home() {
   const idSearch = searchParams.get('id')
   const router = useRouter()
   const [chazas, setChazas] = useState([])
+  const [token, setToken] = useState('');
   const [names, setName] = useState([])
   const [posts, setPosts] = useState([])
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpen1, setIsOpen1] = useState(false)
+  
+  function openModalPost() {
+    if (!token) {
+        console.log(token)
+        //setIsOpen(false)
+        setIsOpen1(true)
+        console.log(isOpen1)
+    } else {
+        console.log(isOpen)
+        setIsOpen(true)
+    }
+}
   useEffect(() => {
 
+    setToken(window.sessionStorage.getItem('token'))
     client.get(`chazas`, { next: { revalidate: true | 0 | 60 } })
       .then((res) => {
         if (!res.status == "200") {
@@ -70,7 +85,7 @@ export default function Home() {
       })
   }, [])
   return (
-    <div id='home' className='grid grid-cols-2'>
+    <div id='home' className='pb-8 grid grid-cols-2'>
       {idSearch && (<ModalComments numComments={numComments} setNumComments={setNumComments} onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
 
       }
@@ -82,13 +97,13 @@ export default function Home() {
           </button>
           <button
             type="button"
-            onClick={() => setIsOpen(true)}
+            onClick={() => openModalPost()}
             className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-r-md hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
           >
             Crear publicacíon
           </button>
         </div>
-        <NewPost open={isOpen} onClose={() => { router.push("/"); setIsOpen(false) }}></NewPost>
+        <NewPost isOpen1={isOpen1} setIsOpen1={setIsOpen1} open={isOpen} onClose={() => { router.push("/"); setIsOpen(false) }}></NewPost>
       </div>
       {/* col-span-2 pt-3 CardProfile justify-items-center grid min-[1000px]:grid-cols-2 min-[1300px]:grid-cols-3 min-[1300px]:px-3 */}
       <div className="col-span-2  justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
