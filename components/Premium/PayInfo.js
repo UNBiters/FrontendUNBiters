@@ -3,6 +3,7 @@
 import { useState } from "react";
 import client from "@/config/client";
 import { Button } from "flowbite-react";
+import { useRouter } from "next/navigation";
 
 const PayInfo = () => {
   const [errors, setErrors] = useState([]);
@@ -12,9 +13,12 @@ const PayInfo = () => {
   const [cardExpYear, setCardExpYear] = useState("");
   const [cardExpMonth, setCardExpMonth] = useState("");
   const [cardCvc, setCardCvc] = useState("");
+  const [token, setToken] = useState("")
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       var body = {
         doc_type,
@@ -24,10 +28,19 @@ const PayInfo = () => {
         cardExpMonth,
         cardCvc,
       };
+      
       console.log(body);
-      const response = await client.post("", body);
-      console.log("request ", response);
-      if (response.data.status === "success") {
+      var tkn = (window.sessionStorage.getItem('token'))
+      setToken(tkn)
+  
+      const subscription = await client.post("payment/subscription/plan-especial", body, {
+          headers: {
+              "Authorization": `Bearer ${tkn}`
+          }
+      });
+
+      console.log("request ", subscription);
+      if (subscription.data.status === "success") {
         const {
           doc_type,
           doc_number,
@@ -35,19 +48,21 @@ const PayInfo = () => {
           cardExpYear,
           cardExpMonth,
           cardCvc,
-        } = response.data.data.user;
+        } = subscription.data.data.user;
         window.sessionStorage.setItem("doc_type", doc_type);
         window.sessionStorage.setItem("doc_number", doc_number);
         window.sessionStorage.setItem("cardNumber", cardNumber);
         window.sessionStorage.setItem("cardExpYear", cardExpYear);
         window.sessionStorage.setItem("cardExpMonth", cardExpMonth);
         window.sessionStorage.setItem("cardCvc", cardCvc);
-        push("/unbiters/profile");
+        router.push("/unbiters/profile");
+        // SiguienteForm();
       }
-    } catch (err) {
-      console.log("error", err);
-      var error = err.response.data.error;
-      console.error("Error en alguno de tus datos", err.response.data);
+
+    } catch (error) {
+      console.log("error", error);
+      var error = error.response.data.error;
+      console.error("Error en alguno de tus datos", error.response.data);
       setErrors([error]);
     }
   };
@@ -126,13 +141,18 @@ const PayInfo = () => {
                   <option value="" disabled selected hidden>
                     Selecciona una opción
                   </option>
-                  <option value="Cedula de Ciudadania">
-                    Cedula de Ciudadania
+                  <option value="CC">
+                  Cedula de Ciudadania
                   </option>
-                  <option value="Tarjeta Identidad">
-                    Tarjeta de Identidad
+                  <option value="NIT">
+                    NIT
                   </option>
-                  <option value="otro">Otro</option>
+                  <option value="CE">
+                    Cédula de extranjeria
+                  </option>
+                  <option value="PPN">
+                    Pasaporte
+                  </option>
                 </select>
               </div>
               <div className="col-span-1 flex flex-col items-start w-full">

@@ -1,5 +1,6 @@
 import PricingCard from "../../../components/PricingCard";
 
+
 export default function Pricing() {
   return (
     <>
@@ -29,7 +30,7 @@ export default function Pricing() {
         />  
         <PricingCard
           precio="10.000 COP/mensual"
-          name="Plan Premium"
+          name="Plan Especial"
           description="Ganaras acceso a herramientas como:"
           color="#F5F5F5"
           features={[
@@ -38,7 +39,7 @@ export default function Pricing() {
             "Desglose de Datos para que veas como le va a tu chaza",
             "Servicio 24/7"
           ]}
-          link="https://payco.link/2469899"
+          link="/unbiters/pricing/plan-especial"
           btnText="Acceder ahora"
           
         />

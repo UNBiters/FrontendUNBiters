@@ -17,6 +17,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
   const [cell_phone, setCell_phone] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
+  const [token, setToken] = useState("")
 
   const handleSiguiente = async (e) => {
     e.preventDefault();
@@ -32,46 +33,38 @@ const PersonalInfo = ({ SiguienteForm }) => {
         cardNumber,
         cardExpYear,
         cardExpMonth,
-        cardCvc,
+        cardCvc
       };
-      console.log(body);
-      const response = await client.post("", body);
-      console.log("request ", response);
-      if (response.data.status === "success") {
+      
+      // console.log(body);
+      var tkn = (window.sessionStorage.getItem('token'))
+      setToken(tkn)
+      console.log(tkn);
+      const customer = await client.post("/payment/customer", body, {
+          headers: {
+              "Authorization": `Bearer ${tkn}`
+          }
+      });
+      // console.log(customer.data.data.customer.data);
+      if (customer.data.status === "success") {
         const {
           name,
-          last_name,
           email,
-          phone,
-          cell_phone,
-          city,
-          address,
-          cardNumber,
-          cardExpYear,
-          cardExpMonth,
-          cardCvc,
-        } = response.data.data.user;
+          phone
+        } = customer.data.data.customer.data;
         window.sessionStorage.setItem("name", name);
-        window.sessionStorage.setItem("last_name", last_name);
         window.sessionStorage.setItem("email", email);
         window.sessionStorage.setItem("phone", phone);
-        window.sessionStorage.setItem("cell_phone", cell_phone);
-        window.sessionStorage.setItem("city", city);
-        window.sessionStorage.setItem("address", address);
-        window.sessionStorage.setItem("cardNumber", cardNumber);
-        window.sessionStorage.setItem("cardExpYear", cardExpYear);
-        window.sessionStorage.setItem("cardExpMonth", cardExpMonth );
-        window.sessionStorage.setItem("cardCvc", cardCvc);
-        /* push("/unbiters/profile"); */
         SiguienteForm();
       }
-    } catch (err) {
-      console.log("error", err);
-      var error = err.response.data.error;
-      console.error("Error en alguno de tus datos", err.response.data);
+
+    } catch (error) {
+      console.log("error", error);
+      var error = error.response.data.error;
+      console.error("Error en alguno de tus datos", error.response.data);
       setErrors([error]);
     }
-  };
+  }
 
   return (
     <>
@@ -305,6 +298,6 @@ const PersonalInfo = ({ SiguienteForm }) => {
       </div>
     </>
   );
-};
+}
 
 export default PersonalInfo;
