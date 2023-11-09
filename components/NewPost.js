@@ -173,7 +173,10 @@ export default function NewPost({ isOpen1, setIsOpen1, mode, open, onClose, post
                         setError('')
                         setSucces("La publicacíon se ha creado exitosamente!")
                         //refresh()
-                        
+                        console.log(response.data.data.data)
+                        //var newPost = posts
+                        //newPost.push(response.data.data.data)
+                        setPosts([...posts, response.data.data.data])
                         //setPosts(newPosts)
                         setTimeout(function () {
                             clean()
@@ -231,7 +234,7 @@ export default function NewPost({ isOpen1, setIsOpen1, mode, open, onClose, post
 
             }
         } catch (error) {
-            console.error('Error: ', error);
+            console.log('Error: ', error);
             onClose()
             notifyError()
         }

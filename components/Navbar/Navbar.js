@@ -27,13 +27,13 @@ function classNames(...classes) {
 
 export default function Navbar({ profile }) {
     const { isLogin, userData } = useUsers()
-    const { chaza,  nombre } = userData
+    const { chaza, nombre } = userData
     //console.log(chaza)
     //console.log("islogin", userData)
     //const [isLogin, setIsLogin] = useState("")
     const [navigation, setNavigation] = useState([])
     const [className, setClassName] = useState("")
-   // const [nombre, setNombre] = useState("")
+    // const [nombre, setNombre] = useState("")
     const [email, setEmail] = useState("")
     const router = useRouter();
     const [isOpen1, setIsOpen1] = useState(false)
@@ -110,11 +110,16 @@ export default function Navbar({ profile }) {
                             <div className="flex  items-center items-stretch  justify-center md:justify-start flex-1 md:flex-none ">
                                 {!profile ?
                                     <div className="flex flex-shrink-0 items-center">
-                                        <img
-                                            className="h-10 w-auto"
-                                            src="/images/logo.png"
-                                            alt="Your Company"
-                                        />
+
+                                        <Link
+                                            href="/"
+                                        >
+                                            <img
+                                                className="h-10 w-auto"
+                                                src="/images/logo.png"
+                                                alt="Your Company"
+                                            />
+                                        </Link>
                                     </div>
                                     : null
                                 }
