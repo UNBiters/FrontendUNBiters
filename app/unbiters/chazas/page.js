@@ -1,34 +1,41 @@
-import CardComent from '@/components/CardComment';
-import CardChaza from '@/components/CardChaza';
-import client from "@/config/client";
-import Comments from '@/components/Comments';
+'use client'
+import React, { useEffect, useState } from 'react';
 import Card from '@/components/Card';
 import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
-import { myClient } from "@/config/client";
 
+import client, { myClient } from "@/config/client";
+import ModalComments from '@/components/Modal/ModalComments';
+import { useSearchParams, useRouter } from 'next/navigation'
 
-async function loadPost() {
-    try {
-        var res = await client.get("chazas");
-        await new Promise((resolve) => setTimeout(resolve, 5000))
-        return res.data.data;
-    } catch (err) {
-        //console.log("err", err);
-    }
-}
+export default function Home() {
+    const searchParams = useSearchParams()
+    const idSearch = searchParams.get('id')
+    const router = useRouter()
+    const [chazas, setChazas] = useState([])
+    //const [posts, setPosts] = useState([])
+    useEffect(() => {
 
-export default async function Home() {
-    //const post = (await loadPost())
-    //console.log(post.data[0])
-    const res = await client.get(`${myClient.url}chazas`, { next: { revalidate: false | 0 | 300 } })
+        client.get(`chazas`, { next: { revalidate: true | 0 | 60 } })
+            .then((res) => {
+                if (!res.status == "200") {
+                    throw new Error('Failed to fetch data')
+                }
+                console.log(res.data.data.data)
+                setChazas(res.data.data.data)
+            })
 
-    if (!res.status == "201") {
-        throw new Error('Failed to fetch data')
-    }
-    var chazas = res.data.data.data
-    if (!chazas) return "An error has occurred.";
-    //if (isLoading) return "Loading...";
+        /*client.get(`publications`, { next: { revalidate: true | 0 | 60 } }).
+            then((res) => {
+
+                if (!res.status == "200") {
+                    throw new Error('Failed to fetch data')
+                }
+                setPosts(res.data.data.data)
+                //if (!posts) return "An error has occurred.";
+            })*/
+    }, [])
+    //const post = await loadPost()
     var comments = [
         {
             "id": 1,
@@ -83,31 +90,33 @@ export default async function Home() {
     ]
     return (
         <div id='home' className='grid grid-cols-2'>
-            <Filter className={"formSearch justify-items-center px-3 flex mx-auto text-center"} ></Filter>
-            <div className='formSearch justify-items-center px-3'>
-                <form>
-                    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                            </svg>
-                        </div>
-                        <input type="search" id="default-search" className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
-                        <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
-                    </div>
-                </form>
+            {idSearch && (<ModalComments onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
 
+            }
+            {/*<Filter />*/}
+            <div className='newpost col-span-2 flex justify-end px-3 min-[650px]:grid-cols-1'>
+
+                <div className="inline-flex rounded-md shadow-sm">
+                    <button onClick={() => router.refresh()} type="button" className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-md hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
+                        Actualizar Chazas
+                    </button>
+                </div>
             </div>
-            <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1300px]:grid-cols-2 min-[1300px]:px-3">
+            <div className="pb-12 col-span-2 justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                 {chazas ?
-                    chazas.map((card) => (
-                        <Card key={"chaza" + card._id} card={card} idModal={card._id} comments={comments} className={"ListComment pb-2"}></Card>
+                    chazas.map((chaz) => (
+                        <>
+                            <Card key={"cha" + chaz._id} card={chaz} idModal={chaz._id} comments={comments} className={"ListComment pb-2 mx-2"}></Card>
+                        </>
                     )
                     )
 
                     : null}
             </div>
+            <a href="/unbiters/pricing" className="invisible md:visible btn-flotante text-white  right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                Explora Premium
+            </a>
+
         </div>
     )
 }

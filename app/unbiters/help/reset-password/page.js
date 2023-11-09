@@ -1,33 +1,50 @@
 'use client';
 import React, { useState } from 'react';
 import { Button } from 'flowbite-react';
+import { useEffect } from 'react';
 
 export default function ResetPassword() {
 
+    const [token, setToken] = useState(null);
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [error, setError] = useState('');
 
+
+
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        const token = url.pathname.split('/').pop();
+        setToken(token);
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
+        if (password !== passwordConfirm) {
+            alert('Las contraseñas no coinciden');
+            return;
+        }
+    
         try {
-            const response = await client.post('users/resetPassword', { password, passwordConfirm });
+            const response = await client.post('users/resetPassword/${token}', { password, passwordConfirm });
             console.log(response)
-            if (password == passwordConfirm) {
-                console.log("hola");
-            }
+            alert('Contraseña cambiada con éxito');
         } catch (error) {
-            console.error('Error al cambiar contraseña', error);
+            console.log('Error al enviar la solicitud:', error);
+            setError("Error al enviar la solicitud")
         }
     };
 
     return (
+        <div style={{ backgroundImage: 'url(/images/backLogin.png)', backgroundSize: 'cover', backgroundPosition: 'center', minHeight: '100vh' }}>x
         <div className="mt-8">
             <div className=" pt-24 pb-24 flex justify-center items-center">
                 <div className=" max-w-bg mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden">
-                    <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md text-center">
-                        <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Cambiar contraseña</h2>
+                    <div className="md:flex md:flex-col md:items-center p-10">
+                        <img alt="Logo" className="h-20" src="/images/logo.png" />
+
+                        <a className="block mt-1 text-bg leading-tight font-bold text-black">Ingrese la nueva contraseña para su cuenta.</a>
 
                         <form onSubmit={handleSubmit}>
                             <input
@@ -51,14 +68,15 @@ export default function ResetPassword() {
 
 
 
-                            <Button type="submit" style={{ background: "#D63447" }}
-                                className="px-5 mx-1 shadow-xl">
-                                Confirmar
+                            <Button type='submit' className='px-5 mx-1 mb-4 font-bold text-balck shadow-xl' style={{ background: "#D63447" }}>
+                                Restablecer contraseña
                             </Button>
                         </form>
+                        <p>¿Necesitas ayuda?, contáctanos a través de <a href="/unbiters/contactus"className="text-md leading-tight font-bold text-black hover:underline">Este link</a>.</p>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     );
 }

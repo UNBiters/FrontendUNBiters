@@ -28,7 +28,7 @@ export default function NavbarProfile({ id, data }) {
             })
     }, [])
     return (
-        <div className=''>
+        <div className='md:0px' style={{height: "60px"}}>
 
             <Navbar
                 fluid

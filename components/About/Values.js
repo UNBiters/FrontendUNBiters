@@ -25,14 +25,14 @@ export default function Values() {
             "url": "/images/1697919953864.jpg"
         },
         {
-            "id": "1",
+            "id": "3",
             "nombre": "David Stiven Poveda Tabirda",
             "cargo": "Desarrollador Backend",
             "description": "Cuento con habildades en desarrollo de Backend con NodeJS, Django. Manejo bases de datos especializadas en NoSQL pero tambien trabjo en tecnologias como MySQL y PostgresSQL. Soy un programador en constante busqueda de nuevas herramientas!",
             "facebook": "https://www.facebook.com/davidstiven.povedat/",
             "linkedin": "https://www.linkedin.com/in/david-stiven-poveda-taborda-521ab7207/",
             "github": "https://github.com/Dapstab",
-            "url": ""
+            "url": "/images/12311421.jpg"
         },
         {
             "id": "4",
@@ -63,24 +63,26 @@ export default function Values() {
                 <li className="mb-10 ml-4">
                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                     <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Nuestros valores</span>
-                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">Get started with dozens of web components and interactive elements built on top of Tailwind CSS.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">Nuestro equipo se destaca por su flexibilidad, empatia, sinceridad y colaboración.</p>
                 </li>
                 <li className="ml-4">
                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                     <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Nuestro equipo</span>
-                    <p className="mb-10 text-base font-normal text-gray-500 dark:text-gray-400"> El equipo de UNBiters está formado por un grupo de profesionales apasionados que están comprometidos a [objetivos del proyecto].
+                    <p className="mb-10 text-base font-normal text-gray-500 dark:text-gray-400"> El equipo de UNBiters está formado por un grupo de apasionados por el desarrollo que están comprometidos a mejorar como grupo e individualmente en el desarrollo profesional.
                     </p>
-                    <div className="grid gap-8 mb-6 lg:mb-16 md:grid-cols-2">
+                    <div className="grid gap-8 mb-6 lg:mb-16 sm:grid-cols-2">
                         {team ? team.map((tea) => (
 
                             <div key={tea.id} className="mb-10 items-center bg-gray-50 rounded-lg shadow sm:flex dark:bg-gray-800 dark:border-gray-700">
-                                <div className="w-full rounded-lg sm:rounded-none sm:rounded-l-lg">
-                                    <Image
-                                        src={tea.url}
-                                        width={500}
-                                        height={500}
-                                        alt="Picture of the author"
-                                    />
+                                <div className="sm:min-w-250 relative flex w-full min-w-[12rem] max-w-[26rem] flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
+                                    {tea.url != "" ?
+                                        <Image
+                                            src={tea.url}
+                                            width={500}
+                                            height={500}
+                                            alt="Picture of the author"
+                                        />
+                                        : null}
                                 </div>
                                 <div className="p-5">
                                     <h3 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -115,6 +117,14 @@ export default function Values() {
                             </div>
                         )) : null}
                     </div>
+                </li>
+                <li className="mb-10 ml-4">
+                    <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                    <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Nuestros Colores</span>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#FFD31D] text-black">#FFD31D: </span>El amarillo brillante está asociado con la energía, la felicidad y la positividad. En el contexto de comida, el amarillo puede evocar sensaciones de sabor y frescura, siendo un color atractivo para resaltar platos y productos alimenticios.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#D63447] text-black">#D63447: </span> El rojo cereza es un tono de rojo profundo que sugiere pasión, apetito y energía. En la industria alimentaria, el rojo a menudo se asocia con la tentación y puede estimular el apetito, haciéndolo un color atractivo para resaltar platillos o productos de comida.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#F57B51] text-black">#F57B51: </span>El melocotón es un tono suave de naranja que transmite calidez, frescura y apertura. En la comida, el melocotón puede evocar sabores frutales y naturales, siendo un color acogedor para entornos relacionados con alimentos y bebidas.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#F6EEDF:] text-black">#F6EEDF:: </span>El blanco roto es un tono suave y cálido de blanco que transmite pureza, limpieza y simplicidad. En el contexto de la comida, el blanco roto puede utilizarse para resaltar la frescura y la calidad de los ingredientes, así como para crear una sensación de limpieza y profesionalismo en el entorno alimentario.</p>
                 </li>
             </ol>
 

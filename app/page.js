@@ -7,7 +7,7 @@ import Card from '@/components/Card';
 import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
-import client, { myClient } from "@/config/client";
+import client from "@/config/client";
 import ModalComments from '@/components/Modal/ModalComments';
 import { useSearchParams, useRouter } from 'next/navigation'
 import CardReview from '@/components/Cards/CardReview';
@@ -26,10 +26,14 @@ async function loadPost() {
 
 export default function Home() {
   const searchParams = useSearchParams()
+  const [categorias, setCategorias] = useState([]);
+  const [numComments, setNumComments] = useState("");
   const idSearch = searchParams.get('id')
   const router = useRouter()
   const [chazas, setChazas] = useState([])
+  const [names, setName] = useState([])
   const [posts, setPosts] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
   useEffect(() => {
 
     client.get(`chazas`, { next: { revalidate: true | 0 | 60 } })
@@ -49,106 +53,56 @@ export default function Home() {
         setPosts(res.data.data.data)
         //if (!posts) return "An error has occurred.";
       })
-  }, [])
 
-  //const post = await loadPost()
-  var comments = [
-    {
-      "id": 1,
-      "review": "¡Este es un comentario genial!",
-      "urlImagen": "https://www.example.com/imagen1.jpg"
-    },
-    {
-      "id": 2,
-      "review": "Este es otro comentario genial",
-      "urlImagen": "https://www.example.com/imagen2.jpg"
-    },
-    {
-      "id": 3,
-      "review": "¡Esta imagen es increíble!",
-      "urlImagen": "https://www.example.com/imagen3.jpg"
-    },
-    {
-      "id": 4,
-      "review": "¡Este es un comentario muy profundo!",
-      "urlImagen": "https://www.example.com/imagen4.jpg"
-    },
-    {
-      "id": 5,
-      "review": "¡Esta imagen me hace reír!",
-      "urlImagen": "https://www.example.com/imagen5.jpg"
-    },
-    {
-      "id": 6,
-      "review": "¡Esta imagen es muy triste!",
-      "urlImagen": "https://www.example.com/imagen6.jpg"
-    },
-    {
-      "id": 7,
-      "review": "¡Esta imagen es muy hermosa!",
-      "urlImagen": "https://www.example.com/imagen7.jpg"
-    },
-    {
-      "id": 8,
-      "review": "¡Esta imagen es muy graciosa!",
-      "urlImagen": "https://www.example.com/imagen8.jpg"
-    },
-    {
-      "id": 9,
-      "review": "¡Esta imagen es muy inspiradora!",
-      "urlImagen": "https://www.example.com/imagen9.jpg"
-    },
-    {
-      "id": 10,
-      "review": "¡Esta imagen es muy creativa!",
-      "urlImagen": "https://www.example.com/imagen10.jpg"
-    }
-  ]
+    client.get(`chazas/every`, { next: { revalidate: true | 0 | 60 } })
+      .then((res) => {
+        //console.log(res)
+        if (!res.status == "200") {
+          throw new Error('Failed to fetch data')
+        }
+        var data = res.data.data.data
+        if (data.length > 0) {
+          //console.log(data)
+          setName(data)
+        } else {
+          console.log("No hay data")
+        }
+      })
+  }, [])
   return (
     <div id='home' className='grid grid-cols-2'>
-      {idSearch && (<ModalComments onClose={() => { router.push("/") }} _id={idSearch} />)
+      {idSearch && (<ModalComments numComments={numComments} setNumComments={setNumComments} onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
 
       }
-      <Filter className={"formSearch justify-items-center px-3 flex mx-auto text-center"} ></Filter>
-      <div className='formSearch justify-items-center px-3'>
-        <form>
-          <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-              </svg>
-            </div>
-            <input type="search" id="default-search" className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos..." required />
-            <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
-          </div>
-        </form>
-
+      <Filter posts={posts} setPosts={setPosts} categorias={categorias} setCategorias={setCategorias} />
+      <div className='newpost col-span-2 flex justify-end px-3 min-[650px]:grid-cols-1'>
+        <div className="inline-flex rounded-md shadow-sm" role="group">
+          <button onClick={() => router.refresh()} type="button" className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700">
+            Actualizar Publicaciones
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsOpen(true)}
+            className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-r-md hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+          >
+            Crear publicacíon
+          </button>
+        </div>
+        <NewPost open={isOpen} onClose={() => { router.push("/"); setIsOpen(false) }}></NewPost>
       </div>
-      <div className='newpost col-span-2 flex justify-end px-3'>
-        <NewPost></NewPost>
-      </div>
-      <div className="col-span-2 pt-3 CardProfile justify-items-center grid min-[1000px]:grid-cols-2 min-[1300px]:grid-cols-3 min-[1300px]:px-3">
+      {/* col-span-2 pt-3 CardProfile justify-items-center grid min-[1000px]:grid-cols-2 min-[1300px]:grid-cols-3 min-[1300px]:px-3 */}
+      <div className="col-span-2  justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
         {posts ?
           posts.map((card) => (
             <>
-              <CardReview key={"pub" + card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2"} />
-            </>
-          )
-          )
-
-          : null}
-        {chazas ?
-          chazas.map((chaz) => (
-            <>
-              <Card key={"cha" + chaz._id} card={chaz} idModal={chaz._id} comments={comments} className={"ListComment pb-2"}></Card>
+              <CardReview numComments={numComments} setNumComments={setNumComments} names={names} key={card._id} card={card} idModal={card._id} comments={card.reviews} className={"ListComment pb-2 md:mx-2 "} />
             </>
           )
           )
 
           : null}
       </div>
-      <a href="/unbiters/pricing" className="btn-flotante text-white  right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      <a href="/unbiters/pricing" className="invisible md:visible btn-flotante text-white  right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         Explora Premium
       </a>
 

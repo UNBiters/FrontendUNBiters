@@ -1,5 +1,5 @@
 'use client'
-
+import { useUsers } from '@/context/UserContext';
 import { Button } from 'flowbite-react';
 import React, { useState } from 'react';
 import client from "@/config/client";
@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import Link from 'next/link'
 
 export default function Login() {
-
+    const { setLogin, setUser } = useUsers()
     const router = useRouter();
     const [correo, setEmail] = useState('');
     const [contraseña, setPassword] = useState('');
@@ -26,7 +26,13 @@ export default function Login() {
 
             console.log(response)
             if (response.data.status === 'success') {
+                setLogin(true)
                 const { token } = response.data;
+                const { user } = response.data.data;
+                console.log(user)
+                window.sessionStorage.setItem('user', user);
+                Cookies.set('user', JSON.stringify(user))
+                setUser(user)
                 const { nombre, _id, chaza } = response.data.data.user;
                 console.log(response)
                 Cookies.set('token', token)
@@ -48,7 +54,7 @@ export default function Login() {
             }
         } catch (error) {
             console.log('Error al enviar la solicitud:', error);
-            setError(error.response.data.message)
+            setError("Error al enviar la solicitud")
 
             setTimeout(function () {
                 setError("")

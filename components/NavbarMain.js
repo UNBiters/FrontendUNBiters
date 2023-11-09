@@ -1,20 +1,24 @@
 'use client';
 
 import { Button, Dropdown, Navbar, Avatar } from 'flowbite-react';
+import { useUsers } from '@/context/UserContext';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import Cookies from 'js-cookie';
+import Logout from './Modal/Logout';
 
 export default function NavbarMain() {
-    const [isLogin, setIsLogin] = useState("")
+    const { isLogin } = useUsers()
+    console.log("islogin", isLogin)
+    //const [isLogin, setIsLogin] = useState("")
     const [nombre, setNombre] = useState("")
     const [email, setEmail] = useState("")
     const router = useRouter();
     const [isOpen1, setIsOpen1] = useState(false)
 
-    const Logout = () => {
+    const isLogout = () => {
         Cookies.remove('token', { path: '/' })
         window.sessionStorage.clear()
         router.push('/unbiters/login')
@@ -22,11 +26,11 @@ export default function NavbarMain() {
     }
 
     useEffect(() => {
-        console.log(window.sessionStorage.getItem('token'))
+        //console.log(window.sessionStorage.getItem('token'))
         if (window.sessionStorage.getItem('token') !== null) {
-            setIsLogin(true)
+            //setIsLogin(true)
         } else {
-            setIsLogin(false)
+            //setIsLogin(false)
         }
         console.log(window.sessionStorage.getItem('email'))
         var correo = window.sessionStorage.getItem('email')
@@ -48,12 +52,12 @@ export default function NavbarMain() {
     return (
         <div className=''>
 
-            {isOpen1 && (<Logout onClose={() => { router.push("/?id=" + _id); setIsOpen1(false) }}
-                onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
+            {isOpen1 && (<Logout onClose={() => { setIsOpen1(false) }} onLogout={() => { router.push("/unbiters/login"); isLogout(); setIsOpen1(false); }}
+                onRedirect={() => { setIsOpen1(false) }} />)
             }
             <Navbar
                 fluid
-                className='NavbarMain justify-end fixed w-full z-20 top-0 left-0'
+                className='NavbarMain justify-end md:fixed w-full z-20 top-0 left-0'
             >
                 <Navbar.Brand href="/">
                     <img

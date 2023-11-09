@@ -3,54 +3,170 @@ import { Listbox, Transition, Switch } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useEffect, useState, Fragment } from "react";
 import client from "@/config/client"
 import { useRouter } from "next/navigation";
-import MyListbox from "@/components/Forms/Listbox";
-import MyMultiSelect from "@/components/Forms/MyMultiSelect";
 
 
 export default function Form({ modal, title, created, _id }) {
     const router = useRouter()
+
+    const notifyEdit = () => toast.success('Actualizado con exito!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
+    const notifyDelete = () => toast("Publicación eliminada!");
+    const notifyError = () => toast.error('Ups hubo un error!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     const [id, setId] = useState('');
+    const [edit, setEdit] = useState(false);
     const [nombre, setNombre] = useState('');
     const [eslogan, setEslogan] = useState('');
     const [fechaFundacion, setFechaFundacion] = useState('');
     const [categorias, setCategorias] = useState([]);
-    const [metodos, setMetodos] = useState([]);
+    const [mediosPagos, setMetodos] = useState([]);
     const [ubicacion, setUbicacion] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [horarioAtencion, setHorarioAtencion] = useState([]);
     const [facebook, setFace] = useState('')
     const [instagram, setInsta] = useState('')
-    const [web, setWeb] = useState('')
+    const [paginaWeb, setWeb] = useState('')
     const [domicilio, setDomicilio] = useState('')
+    const [token, setToken] = useState('');
+    const [imagen, setImagen] = useState(null);
 
 
     const onSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(edit)
         try {
-            var redesSociales = [facebook, instagram, web]
-            console.log(metodos)
-            var body = {
-                nombre,
-                eslogan,
-                fechaFundacion,
-                categorias,
-                ubicacion,
-                horarioAtencion,
-                redesSociales,
-                domicilio: domicilio == 'on' ? true : false,
-            }
-            console.log(body)
-            return
-            const response = await client.post('chazas', body);
-            console.error('adta: ', response);
-            if (response) {
+            if (!edit) {
+                var redesSociales = [facebook, instagram, paginaWeb]
+                var body = {
+                    nombre,
+                    eslogan,
+                    mediosPagos,
+                    fechaFundacion,
+                    categorias,
+                    ubicacion,
+                    horarioAtencion,
+                    redesSociales,
+                    domicilio: domicilio == 'on' ? true : false,
+                    paginaWeb,
+                    instagram,
+                    facebook, descripcion
+                }
+                console.log(body)
+
+                var data = new FormData();
+                data.append('nombre', imagen);
+                data.append('eslogan', eslogan);
+                data.append('fechaFundacion', fechaFundacion);
+                data.append('ubicacion', ubicacion);
+                data.append('horarioAtencion', horarioAtencion);
+                data.append('paginaWeb', paginaWeb);
+                data.append('instagram', instagram);
+                data.append('facebook', facebook);
+                data.append('descripcion', descripcion);
+                data.append('tags', JSON.stringify(categorias));
+                const response = await client.post('chazas', data, {
+                    headers: {
+                        "content-type": "multipart/form-data",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+                console.log('data: ', response);
+                if (response) {
+                }
+            } else {
+
+                var redesSociales = [facebook, instagram, paginaWeb]
+                var body = {
+                    nombre,
+                    eslogan,
+                    mediosPagos,
+                    fechaFundacion,
+                    categorias,
+                    ubicacion,
+                    horarioAtencion,
+                    redesSociales,
+                    domicilio: domicilio == 'on' ? true : false,
+                    paginaWeb,
+                    instagram,
+                    facebook, descripcion
+                }
+                console.log(body)
+                console.log(id)
+
+                var data = new FormData();
+                data.append('nombre', nombre);
+                data.append('imagen', imagen);
+                data.append('eslogan', eslogan);
+                data.append('ubicacion', ubicacion);
+                data.append('horarioAtencion', horarioAtencion);
+                data.append('paginaWeb', paginaWeb);
+                data.append('instagram', instagram);
+                data.append('facebook', facebook);
+                data.append('descripcion', descripcion);
+                data.append('tags', JSON.stringify(categorias));
+                const response = await client.patch(`chazas/updateMyChaza/${id}`, data, {
+                    headers: {
+                        "content-type": "multipart/form-data",
+                        "Authorization": `Bearer ${token}`
+                    }
+                });
+                console.log('data: ', response);
+                if (response.status == "200") {
+
+                    var chaza = response.data.data.updatedChaza
+                    notifyEdit()
+                    setId(chaza.id)
+                    setNombre(chaza.nombre)
+                    setInsta(chaza.instagram)
+                    setWeb(chaza.paginaWeb)
+                    setFace(chaza.facebook)
+                    setDescripcion(chaza.descripcion)
+                    setCategorias(chaza.categorias)
+                    setEslogan(chaza.slug)
+                    setMetodos(chaza.mediosPagos)
+                    setDomicilio(chaza.domicilios)
+                    if (chaza.fechaFundacion) {
+                        var fecha = new Date(chaza.fechaFundacion)
+                        var month = fecha.getMonth()
+                        if (month < 10) {
+                            month = "0" + month
+                        }
+                        var year = fecha.getFullYear()
+                        var day = fecha.getDate()
+                        setFechaFundacion(year + "-" + month + "-" + day)
+                    }
+                    setUbicacion(chaza.ubicacion)
+                    setHorarioAtencion(chaza.horarioAtencion)
+                } else {
+                    console.error('Error: ');
+                    // notifyError()
+                }
             }
         } catch (error) {
-            console.error('Error: ', error);
+            console.log('Error: ', error);
+            notifyError()
         }
     }
     const handleChange = (e) => {
@@ -69,7 +185,9 @@ export default function Form({ modal, title, created, _id }) {
     useEffect(() => {
         try {
             var token = window.sessionStorage.getItem('token');
-            console.log("data", token)
+            //console.log("data", token)
+            //console.log("act")
+            setToken(window.sessionStorage.getItem('token'))
             var chaza = null
             client.get("chazas/myChaza", {
                 headers: {
@@ -81,13 +199,33 @@ export default function Form({ modal, title, created, _id }) {
                 console.log("page", chaza)
                 if (chaza.length != 0) {
 
+                    setEdit(true)
+                    chaza = chaza[0]
                     console.log("page2", chaza)
+                    setId(chaza.id)
                     setNombre(chaza.nombre)
                     setDescripcion(chaza.descripcion)
                     setCategorias(chaza.categorias)
-                    setFechaFundacion(chaza.fechaFundacion)
+                    setEslogan(chaza.slug)
+                    setInsta(chaza.instagram)
+                    setWeb(chaza.paginaWeb)
+                    setFace(chaza.facebook)
+                    setMetodos(chaza.mediosPagos)
+                    setDomicilio(chaza.domicilios)
+                    if (chaza.fechaFundacion) {
+                        var fecha = new Date(chaza.fechaFundacion)
+                        var month = fecha.getMonth()
+                        if (month < 10) {
+                            month = "0" + month
+                        }
+                        var year = fecha.getFullYear()
+                        var day = fecha.getDate()
+                        setFechaFundacion(year + "-" + month + "-" + day)
+                    }
                     setUbicacion(chaza.ubicacion)
                     setHorarioAtencion(chaza.horarioAtencion)
+                } else {
+                    setEdit(false)
                 }
             })
         } catch (error) {
@@ -175,9 +313,10 @@ export default function Form({ modal, title, created, _id }) {
     ]
 
     function MyMultiSelectCategorias() {
-        console.log(categorias)
+        //console.log(categorias)
         return (
             <div className="w-72">
+                <ToastContainer />
                 <Listbox value={categorias} onChange={setCategorias} multiple>
                     <div className="relative mt-1">
                         <Listbox.Label>Categorias</Listbox.Label>
@@ -233,16 +372,16 @@ export default function Form({ modal, title, created, _id }) {
         )
     }
     function MyMultiSelectMedios() {
-        console.log(metodos)
+        //console.log(mediosPagos)
         return (
             <div className="w-72">
-                <Listbox value={metodos} onChange={setMetodos} multiple>
+                <Listbox value={mediosPagos} onChange={setMetodos} multiple>
                     <div className="relative mt-1">
                         <Listbox.Label>Medios de pago</Listbox.Label>
                         <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
                             <span className="block ">
                                 {"Selecciona varios:  "}
-                                {metodos.map((cate) => cate).join(', ')}</span>
+                                {mediosPagos.map((cate) => cate).join(', ')}</span>
                             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                                 <ChevronUpDownIcon
                                     className="h-5 w-5 text-gray-400"
@@ -266,15 +405,15 @@ export default function Form({ modal, title, created, _id }) {
                                             }`
                                         }
                                     >
-                                        {({ metodos }) => (
+                                        {({ mediosPagos }) => (
                                             <>
                                                 <span
-                                                    className={`block  ${metodos ? 'font-medium' : 'font-normal'
+                                                    className={`block  ${mediosPagos ? 'font-medium' : 'font-normal'
                                                         }`}
                                                 >
                                                     {cate.nombre}
                                                 </span>
-                                                {metodos ? (
+                                                {mediosPagos ? (
                                                     <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
                                                         <CheckIcon className="h-5 w-5" aria-hidden="true" />
                                                     </span>
@@ -291,7 +430,7 @@ export default function Form({ modal, title, created, _id }) {
         )
     }
     function MyMultiSelectHorario() {
-        console.log(horarioAtencion)
+        //console.log(horarioAtencion)
         return (
             <div className="w-72">
                 <Listbox value={horarioAtencion} onChange={setHorarioAtencion} multiple>
@@ -350,7 +489,6 @@ export default function Form({ modal, title, created, _id }) {
     }
     return (
         <div class="">
-
             <div className="bg-gray-100 dark:bg-gray-900">
                 <div className=" px-4 mx-auto max-w-2xl  lg:py-16">
                     <form onSubmit={onSubmit} className="pt-5 pb-16">
@@ -380,15 +518,15 @@ export default function Form({ modal, title, created, _id }) {
                             </div>
                             <div className="">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu sitio web:</label>
-                                <input type="text" name="name" id="nombre" onChange={(e) => setWeb(e.target.value)} value={web} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required />
+                                <input type="text" name="name" id="nombre" onChange={(e) => setWeb(e.target.value)} value={paginaWeb} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tu sitio web" />
                             </div>
                             <div className="">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu pagina de facebook:</label>
-                                <input type="text" name="name" id="nombre" onChange={(e) => setFace(e.target.value)} value={facebook} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required />
+                                <input type="text" name="name" id="nombre" onChange={(e) => setFace(e.target.value)} value={facebook} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tu pagina de facebook" />
                             </div>
                             <div className="">
                                 <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu usuario de instagram:</label>
-                                <input type="text" name="name" id="nombre" onChange={(e) => setInsta(e.target.value)} value={instagram} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required />
+                                <input type="text" name="name" id="nombre" onChange={(e) => setInsta(e.target.value)} value={instagram} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Tu instagram" />
                             </div>
 
                             <div className="text-start text-sm font-medium ">
@@ -405,6 +543,15 @@ export default function Form({ modal, title, created, _id }) {
                                 <textarea id="descripcion" onChange={(e) => setDescripcion(e.target.value)} value={descripcion} rows="8" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Agrega una descripción"></textarea>
                             </div>
 
+                            <label for="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">Actualiza tu imagen de perfil</label>
+
+                            <div className="flex items-center justify-center w-full">
+
+                                <label className="block">
+                                    <span className="sr-only">Choose profile photo</span>
+                                    <input id="imagen" type="file" multiple accept="image/*" onChange={(e) => setImagen(e.target.files[0])} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold  bg-violet-50 file:text-violet-700 hover:file:bg-violet-100" />
+                                </label>
+                            </div>
                         </div>
                         <button type="submit" className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 ">
                             Actualizar
