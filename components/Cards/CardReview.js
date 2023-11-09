@@ -208,8 +208,7 @@ export default function CardReview({ numComments, setNumComments, names, posts, 
                 <div class="px-5 py-2">
                     <div class="flex items-center justify-between mb-3">
                         <h5 class="block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900">
-                            {console.log(card)}
-                            {card.chaza ? names.filter(item => item.id == card.chaza)[0].nombre : card.nombreChaza}
+                            {card.chaza && card.user ? names.filter(item => item.id == card.chaza)[0].nombre : card.nombreChaza}
                         </h5>
                         <p class="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
                             <svg
@@ -287,7 +286,7 @@ export default function CardReview({ numComments, setNumComments, names, posts, 
                     </div>
                     <div className='col-span-2'>
                         <p class="text-end block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
-                            By: {card.user.nombre}
+                            By: {card.user ? card.user.nombre : null}
                         </p></div>
                 </div>
             </div ></div >
