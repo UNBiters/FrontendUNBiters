@@ -103,7 +103,7 @@ export default function Home() {
             Crear publicacíon
           </button>
         </div>
-        <NewPost isOpen1={isOpen1} setIsOpen1={setIsOpen1} open={isOpen} onClose={() => { router.push("/"); setIsOpen(false) }}></NewPost>
+        <NewPost posts={posts} setPosts={setPosts} isOpen1={isOpen1} setIsOpen1={setIsOpen1} open={isOpen} onClose={() => { router.push("/"); setIsOpen(false) }}></NewPost>
       </div>
       {/* col-span-2 pt-3 CardProfile justify-items-center grid min-[1000px]:grid-cols-2 min-[1300px]:grid-cols-3 min-[1300px]:px-3 */}
       <div className="col-span-2  justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
