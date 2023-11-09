@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import NotSesion from './Modal/NotSesion';
 import InputChazas from './Input.js/InputChazas';
 
-export default function NewPost({ mode, open, onClose, post, editPostUp, id, posts, setPosts }) {
+export default function NewPost({ isOpen1, setIsOpen1, mode, open, onClose, post, editPostUp, id, posts, setPosts }) {
     var categoriasLists = [
         {
             "id": 1,
@@ -80,7 +80,7 @@ export default function NewPost({ mode, open, onClose, post, editPostUp, id, pos
     const [selected, setSelected] = useState({})
     const [chazaId, setChazaId] = useState({})
     const [isOpen, setIsOpen] = useState(false)
-    const [isOpen1, setIsOpen1] = useState(false)
+    //const [isOpen1, setIsOpen1] = useState(false)
     const [notLogin, setNotLogin] = useState(false)
     const [error, setError] = useState('');
     const [succes, setSucces] = useState('');
@@ -173,6 +173,8 @@ export default function NewPost({ mode, open, onClose, post, editPostUp, id, pos
                         setError('')
                         setSucces("La publicacíon se ha creado exitosamente!")
                         //refresh()
+                        
+                        //setPosts(newPosts)
                         setTimeout(function () {
                             clean()
                         }, 4000);

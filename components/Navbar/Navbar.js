@@ -27,13 +27,13 @@ function classNames(...classes) {
 
 export default function Navbar({ profile }) {
     const { isLogin, userData } = useUsers()
-    const { chaza } = userData
+    const { chaza,  nombre } = userData
     //console.log(chaza)
     //console.log("islogin", userData)
     //const [isLogin, setIsLogin] = useState("")
     const [navigation, setNavigation] = useState([])
     const [className, setClassName] = useState("")
-    const [nombre, setNombre] = useState("")
+   // const [nombre, setNombre] = useState("")
     const [email, setEmail] = useState("")
     const router = useRouter();
     const [isOpen1, setIsOpen1] = useState(false)
@@ -79,11 +79,11 @@ export default function Navbar({ profile }) {
         }
         console.log(window.sessionStorage.getItem('nombre'))
         var name = window.sessionStorage.getItem('nombre')
-        if (name !== null) {
+        /*if (name !== null) {
             setNombre(name)
         } else {
             setNombre("false")
-        }
+        }*/
     }, [isLogin])
     return (<>
         {isOpen1 && (<Logout onClose={() => { setIsOpen1(false) }} onLogout={() => { router.push("/unbiters/login"); isLogout(); setIsOpen1(false); }}
