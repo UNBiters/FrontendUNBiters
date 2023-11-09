@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import client from "@/config/client";
 import { Button } from "flowbite-react";
 
@@ -18,6 +18,17 @@ const PersonalInfo = ({ SiguienteForm }) => {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [token, setToken] = useState("")
+  const [cliente, setCliente] = useState("");
+
+  useEffect(() => {
+    const customer = window.sessionStorage.getItem('cliente');
+    setCliente(customer);
+    if (customer) {
+      SiguienteForm();
+    }
+  }, []);
+
+ 
 
   const handleSiguiente = async (e) => {
     e.preventDefault();
