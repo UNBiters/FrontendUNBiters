@@ -33,12 +33,13 @@ export default function Login() {
                 window.sessionStorage.setItem('user', user);
                 Cookies.set('user', JSON.stringify(user))
                 setUser(user)
-                const { nombre, _id, chaza } = response.data.data.user;
+                const { nombre, _id, chaza, cliente } = response.data.data.user;
                 console.log(response)
                 Cookies.set('token', token)
                 window.sessionStorage.setItem('token', token);
                 window.sessionStorage.setItem('nombre', nombre);
                 window.sessionStorage.setItem('id', _id);
+                window.sessionStorage.setItem('cliente', cliente);
                 window.sessionStorage.setItem('sesion', 'true');
                 if (chaza) {
                     window.sessionStorage.setItem('chaza', 'true');
