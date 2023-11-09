@@ -93,7 +93,7 @@ export default function Home() {
             {idSearch && (<ModalComments onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
 
             }
-            <Filter />
+            {/*<Filter />*/}
             <div className='newpost col-span-2 flex justify-end px-3 min-[650px]:grid-cols-1'>
 
                 <div className="inline-flex rounded-md shadow-sm">

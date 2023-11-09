@@ -33,6 +33,7 @@ function Posts() {
     });
     const [posts, setPosts] = useState([])
     const [names, setName] = useState([])
+    const [numComments, setNumComments] = useState("");
     const searchParams = useSearchParams()
     const router = useRouter()
     const [token, setToken] = useState("")
@@ -135,14 +136,14 @@ function Posts() {
         <>
 
             <ToastContainer />
-            {idSearch && (<ModalComments onClose={() => { router.push(`/unbiters/profile/posts/#${idSearch}`) }} _id={idSearch} />)
+            {idSearch && (<ModalComments numComments={numComments} setNumComments={setNumComments} onClose={() => { router.push(`/unbiters/profile/posts/#${idSearch}`) }} _id={idSearch} />)
 
             }
             {posts ?
                 <div className="col-span-2 CardProfile justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                     {posts ?
                         posts.map((card) => {
-                            return <CardReview names={names} posts={posts} setPosts={setPosts} mode="edit" idSearch={idSearch} key={"pub" + card._id} card={card} idModal={card._id} comments={card.reviews} editPostUp={editPostUp} deletePostUp={deletePostUp} className={"ListComment pb-2 md:mx-2 "} />
+                            return <CardReview numComments={numComments} setNumComments={setNumComments} names={names} posts={posts} setPosts={setPosts} mode="edit" idSearch={idSearch} key={"pub" + card._id} card={card} idModal={card._id} comments={card.reviews} editPostUp={editPostUp} deletePostUp={deletePostUp} className={"ListComment pb-2 md:mx-2 "} />
 
                         })
 
