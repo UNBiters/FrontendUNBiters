@@ -63,12 +63,12 @@ export default function Values() {
                 <li className="mb-10 ml-4">
                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                     <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Nuestros valores</span>
-                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">Get started with dozens of web components and interactive elements built on top of Tailwind CSS.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400">Nuestro equipo se destaca por su flexibilidad, empatia, sinceridad y colaboración.</p>
                 </li>
                 <li className="ml-4">
                     <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
                     <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Nuestro equipo</span>
-                    <p className="mb-10 text-base font-normal text-gray-500 dark:text-gray-400"> El equipo de UNBiters está formado por un grupo de profesionales apasionados que están comprometidos a [objetivos del proyecto].
+                    <p className="mb-10 text-base font-normal text-gray-500 dark:text-gray-400"> El equipo de UNBiters está formado por un grupo de apasionados por el desarrollo que están comprometidos a mejorar como grupo e individualmente en el desarrollo profesional.
                     </p>
                     <div className="grid gap-8 mb-6 lg:mb-16 sm:grid-cols-2">
                         {team ? team.map((tea) => (
@@ -117,6 +117,14 @@ export default function Values() {
                             </div>
                         )) : null}
                     </div>
+                </li>
+                <li className="mb-10 ml-4">
+                    <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                    <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Nuestros Colores</span>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#FFD31D] text-black">#FFD31D: </span>El amarillo brillante está asociado con la energía, la felicidad y la positividad. En el contexto de comida, el amarillo puede evocar sensaciones de sabor y frescura, siendo un color atractivo para resaltar platos y productos alimenticios.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#D63447] text-black">#D63447: </span> El rojo cereza es un tono de rojo profundo que sugiere pasión, apetito y energía. En la industria alimentaria, el rojo a menudo se asocia con la tentación y puede estimular el apetito, haciéndolo un color atractivo para resaltar platillos o productos de comida.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#F57B51] text-black">#F57B51: </span>El melocotón es un tono suave de naranja que transmite calidez, frescura y apertura. En la comida, el melocotón puede evocar sabores frutales y naturales, siendo un color acogedor para entornos relacionados con alimentos y bebidas.</p>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#F6EEDF:] text-black">#F6EEDF:: </span>El blanco roto es un tono suave y cálido de blanco que transmite pureza, limpieza y simplicidad. En el contexto de la comida, el blanco roto puede utilizarse para resaltar la frescura y la calidad de los ingredientes, así como para crear una sensación de limpieza y profesionalismo en el entorno alimentario.</p>
                 </li>
             </ol>
 
