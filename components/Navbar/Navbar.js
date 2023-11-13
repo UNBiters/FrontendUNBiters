@@ -50,6 +50,7 @@ export default function Navbar({ profile }) {
 
     const isLogout = () => {
         Cookies.remove("token", { path: "/" });
+        Cookies.remove("user");
         window.sessionStorage.clear();
         router.push("/unbiters/login");
     };
@@ -58,6 +59,12 @@ export default function Navbar({ profile }) {
         { name: "Mi comunidad", href: "/unbiters/profile/community", current: false },
         { name: "Mis publicaciones", href: "/unbiters/profile/posts", current: false },
         { name: "Mis estadisticas", href: "/unbiters/profile", current: false },
+        { name: "Mis comentarios", href: "/unbiters/profile/comments", current: false },
+        { name: "Mi perfil", href: "/unbiters/profile", current: true },
+    ];
+
+    const navigationProfileUser = [
+        { name: "Mis publicaciones", href: "/unbiters/profile/posts", current: false },
         { name: "Mis comentarios", href: "/unbiters/profile/comments", current: false },
         { name: "Mi perfil", href: "/unbiters/profile", current: true },
     ];
@@ -76,8 +83,14 @@ export default function Navbar({ profile }) {
     };
 
     useEffect(() => {
+        //setUser(Json.parse(Cookies.get('name')))
         if (profile) {
-            setNavigation(navigationProfile);
+            if (chaza) {
+                setNavigation(navigationProfile);
+            }else{
+                
+                setNavigation(navigationProfileUser);
+            }
             setClassName("NavbarMain");
         } else {
             if (isLogin) {

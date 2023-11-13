@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import CardComent from "@/components/CardComment";
 import CardChaza from "@/components/CardChaza";
 import Comments from "@/components/Comments";
-import Card from "@/components/Card";
+import Card from "@/components/Cards/Card";
 import Filter from "@/components/Filter";
 import NewPost from "@/components/NewPost";
 

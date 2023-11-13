@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Delete from "./Modal/Delete";
+import Delete from "../Modal/Delete";
 import { useState } from "react";
 
 export default function Card({ className, card, comments, idModal, mode }) {
@@ -15,8 +15,30 @@ export default function Card({ className, card, comments, idModal, mode }) {
     if (card.imagenUrl) {
         src = card.imagenUrl
     }
-    function deleteChaza() {
+    async function deleteChaza(id) {
         console.log("borrado");
+        try {
+            const response = await client.delete(`chazas/deleteMyChaza/${card.id}`, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+            console.log(response)
+            if (response.status == "204") {
+                //notifyDelete()
+                notifyDelete()
+                /*setComments(comments => {
+                    return comments.filter(post => post.id !== id)
+                })*/
+                //router.refresh()
+            } else {
+                notifyError()
+            }
+            //console.log(response)
+        } catch (error) {
+            notifyError()
+            console.log(error)
+        }
     }
     return (
         <div className={className}>
@@ -270,7 +292,6 @@ export default function Card({ className, card, comments, idModal, mode }) {
                             </div>
                         </div>
                         <div className="pt-2  px-2">
-                            {console.log(card)}
                             {card.categorias
                                 ? card.categorias.map((categorias) => (
                                       <span
