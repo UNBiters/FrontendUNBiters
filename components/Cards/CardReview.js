@@ -235,7 +235,7 @@ export default function CardReview({ names, posts, setPosts, className, card, mo
 
                         {card.tags ? card.tags.map((categorias) => (
 
-                            <span key={"re" + categorias.indexOf(categorias)} class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#{categorias}</span>
+                            <span key={"re3" + categorias.indexOf(categorias)} class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#{categorias}</span>
 
                         )) : null}
 

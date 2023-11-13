@@ -1,45 +1,39 @@
-"use client";
-import { useEffect, useState } from "react";
 import client from "@/config/client";
-import NotFoundChaza from "@/components/NotFound/NotFoundChaza";
-import { useUsers } from "@/context/UserContext";
+import { cookies } from "next/headers";
 import CardProfile from "@/components/Cards/CardProfile";
-import Card from "@/components/Card";
 
-export default function ProfileView({ data }) {
-    const { userChazas } = useUsers();
+async function loadChazas(token) {
+    try {
+        var res = await client.get("chazas/myChaza", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        //console.log(res.data.data)
+        return res.data.data.myChaza;
+    } catch (err) {
+        console.log("err", err);
+    }
+}
 
-    const [chaza, setChaza] = useState([]);
-    const [id, setId] = useState("");
-    const [nombre, setNombre] = useState("");
-    const [fechaFundacion, setFechaFundacion] = useState("");
-    const [categorias, setCategorias] = useState("");
-    const [ubicacion, setUbicacion] = useState("");
-    const [descripcion, setDescripcion] = useState("");
-    const [horarioAtencion, setHorarioAtencion] = useState("");
-
-    useEffect(() => {
-        console.log(userChazas)
-        setChaza(userChazas);
-        setNombre(userChazas.nombre);
-        setDescripcion(userChazas.descripcion);
-        setCategorias(userChazas.categorias);
-        setFechaFundacion(userChazas.fechaFundacion);
-        setUbicacion(userChazas.ubicacion);
-        setHorarioAtencion(userChazas.horarioAtencion);
-    }, [userChazas]);
-    return (
-        <div className="bg-[#ffffff] ">
-            {chaza.length == 0 ? (
-                <NotFoundChaza tittle={"Chaza "}></NotFoundChaza>
-            ) : (
-                chazas.map((chaz) => (
-                        <>
-                            <Card key={"cha" + chaz._id} card={chaz} idModal={chaz._id} comments={comments} className={"ListComment pb-2 mx-2"}></Card>
-                        </>
-                    )
-                    )
-            )}
-        </div>
-    );
+async function loadNames() {
+    var res = await client.get(`chazas/every`, { next: { revalidate: true | 0 | 60 } });
+    if (!res.status == "200") {
+        throw new Error("Failed to fetch data");
+    }
+    var data = res.data.data.data;
+    if (data.length > 0) {
+        //console.log(data)
+        return data;
+    } else {
+        console.log("No hay data");
+    }
+}
+export default async function ProfileView() {
+    const cookieStore = cookies();
+    const token = cookieStore.get("token").value;
+    const chazas = await loadChazas(token);
+    //const names = await loadNames();
+    //console.log(names)
+    return (<CardProfile chazasFetch={chazas} />)
 }

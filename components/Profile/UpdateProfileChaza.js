@@ -6,15 +6,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState, Fragment } from "react";
 import client from "@/config/client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function Form({ modal, title, created, _id }) {
+export default function UpdateProfileChaza({ modal, title, created, _id }) {
     const router = useRouter();
 
-    const searchParams = useSearchParams();
-
-    const searchId = searchParams.get("id");
     const notifyEdit = () =>
         toast.success("Actualizado con exito!", {
             position: "top-right",
@@ -27,8 +24,8 @@ export default function Form({ modal, title, created, _id }) {
             theme: "light",
         });
     const notifyDelete = () => toast("Publicación eliminada!");
-    const notifyError = (error) =>
-        toast.error("Ups hubo un error! " + (error ? error : ""), {
+    const notifyError = () =>
+        toast.error("Ups hubo un error!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -55,148 +52,136 @@ export default function Form({ modal, title, created, _id }) {
     const [token, setToken] = useState("");
     const [imagen, setImagen] = useState(null);
 
-    const validation = (data) => {
-        var flag = false;
-        if (!data.descripcion) {
-            notifyError("Por favor introduce un comentario");
-            flag = true;
-        } else if (data.descripcion.length < 10) {
-            notifyError(
-                "Por favor introduce un comentario mas largo, mínimo 50 caracteres."
-            );
-            flag = true;
-        }
-        if (data.categorias.length > 3) {
-            notifyError("Por favor selecciona maximo 3 categorias");
-            flag = true;
-        }
-        return flag;
-    };
     const onSubmit = async (e) => {
         e.preventDefault();
 
         //console.log(edit)
         try {
-            if (!validation({ descripcion, categorias })) {
-                if (!edit) {
-                    var redesSociales = [facebook, instagram, paginaWeb];
-                    var body = {
-                        nombre,
-                        eslogan,
-                        mediosPagos,
-                        fechaFundacion,
-                        categorias,
-                        ubicacion,
-                        horarioAtencion,
-                        redesSociales,
-                        domicilio: domicilio == "on" ? true : false,
-                        paginaWeb,
-                        instagram,
-                        facebook,
-                        descripcion,
-                    };
-                    console.log(body);
+            if (!edit) {
+                var redesSociales = [facebook, instagram, paginaWeb];
+                var body = {
+                    nombre,
+                    eslogan,
+                    mediosPagos,
+                    fechaFundacion,
+                    categorias,
+                    ubicacion,
+                    horarioAtencion,
+                    redesSociales,
+                    domicilio: domicilio == "on" ? true : false,
+                    paginaWeb,
+                    instagram,
+                    facebook,
+                    descripcion,
+                };
+                console.log(body);
 
-                    var data = new FormData();
-                    data.append("nombre", imagen);
-                    data.append("eslogan", eslogan);
-                    data.append("domicilios", domicilio == "on" ? true : false);
-                    data.append("fechaFundacion", fechaFundacion);
-                    data.append("ubicacion", ubicacion);
-                    data.append("horarioAtencion", JSON.stringify(horarioAtencion));
-                    data.append("paginaWeb", paginaWeb);
-                    data.append("instagram", instagram);
-                    data.append("facebook", facebook);
-                    data.append("descripcion", descripcion);
-                    data.append("tags", JSON.stringify(categorias));
-                    const response = await client.post("chazas", data, {
-                        headers: {
-                            "content-type": "multipart/form-data",
-                            Authorization: `Bearer ${token}`,
-                        },
-                    });
-                    console.log("data: ", response);
-                    if (response) {
+                var data = new FormData();
+                data.append("nombre", imagen);
+                data.append("eslogan", eslogan);
+                data.append("fechaFundacion", fechaFundacion);
+                data.append("ubicacion", ubicacion);
+                data.append("horarioAtencion", horarioAtencion);
+                data.append("paginaWeb", paginaWeb);
+                data.append("instagram", instagram);
+                data.append("facebook", facebook);
+                data.append("descripcion", descripcion);
+                data.append("tags", JSON.stringify(categorias));
+                const response = await client.post("chazas", data, {
+                    headers: {
+                        "content-type": "multipart/form-data",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log("data: ", response);
+                if (response) {
+                }
+            } else {
+                var redesSociales = [facebook, instagram, paginaWeb];
+                var body = {
+                    nombre,
+                    eslogan,
+                    mediosPagos,
+                    fechaFundacion,
+                    categorias,
+                    ubicacion,
+                    horarioAtencion,
+                    redesSociales,
+                    domicilio: domicilio == "on" ? true : false,
+                    paginaWeb,
+                    instagram,
+                    facebook,
+                    descripcion,
+                };
+                console.log(body);
+                console.log(id);
+
+                var data = new FormData();
+                data.append("nombre", nombre);
+                data.append("imagen", imagen);
+                data.append("eslogan", eslogan);
+                data.append("ubicacion", ubicacion);
+                data.append("horarioAtencion", horarioAtencion);
+                data.append("paginaWeb", paginaWeb);
+                data.append("instagram", instagram);
+                data.append("facebook", facebook);
+                data.append("descripcion", descripcion);
+                data.append("tags", JSON.stringify(categorias));
+                const response = await client.patch(`chazas/updateMyChaza/${id}`, data, {
+                    headers: {
+                        "content-type": "multipart/form-data",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                console.log("data: ", response);
+                if (response.status == "200") {
+                    var chaza = response.data.data.updatedChaza;
+                    notifyEdit();
+                    setId(chaza.id);
+                    setNombre(chaza.nombre);
+                    setInsta(chaza.instagram);
+                    setWeb(chaza.paginaWeb);
+                    setFace(chaza.facebook);
+                    setDescripcion(chaza.descripcion);
+                    setCategorias(chaza.categorias);
+                    setEslogan(chaza.slug);
+                    setMetodos(chaza.mediosPagos);
+                    setDomicilio(chaza.domicilios);
+                    if (chaza.fechaFundacion) {
+                        var fecha = new Date(chaza.fechaFundacion);
+                        var month = fecha.getMonth();
+                        if (month < 10) {
+                            month = "0" + month;
+                        }
+                        var year = fecha.getFullYear();
+                        var day = fecha.getDate();
+                        setFechaFundacion(year + "-" + month + "-" + day);
                     }
+                    setUbicacion(chaza.ubicacion);
+                    setHorarioAtencion(chaza.horarioAtencion);
                 } else {
-                    var redesSociales = [facebook, instagram, paginaWeb];
-                    var body = {
-                        nombre,
-                        eslogan,
-                        mediosPagos,
-                        fechaFundacion,
-                        categorias,
-                        ubicacion,
-                        horarioAtencion,
-                        redesSociales,
-                        domicilio: domicilio == "on" ? true : false,
-                        paginaWeb,
-                        instagram,
-                        facebook,
-                        descripcion,
-                    };
-                    console.log(body);
-                    //console.log(id);
-
-                    var data = new FormData();
-                    data.append("nombre", nombre);
-                    data.append("imagen", imagen);
-                    data.append("domicilios", domicilio == "on" ? true : false);
-                    data.append("eslogan", eslogan);
-                    data.append("mediosPagos", JSON.stringify(mediosPagos));
-                    data.append("ubicacion", ubicacion);
-                    data.append("horarioAtencion", JSON.stringify(horarioAtencion));
-                    data.append("paginaWeb", paginaWeb);
-                    data.append("instagram", instagram);
-                    data.append("facebook", facebook);
-                    data.append("descripcion", descripcion);
-                    data.append("tags", JSON.stringify(categorias));
-                    const response = await client.patch(
-                        `chazas/updateMyChaza/${id}`,
-                        data,
-                        {
-                            headers: {
-                                "content-type": "multipart/form-data",
-                                Authorization: `Bearer ${token}`,
-                            },
-                        }
-                    );
-                    console.log("data: ", response);
-                    if (response.status == "200") {
-                        var chaza = response.data.data.updatedChaza;
-                        notifyEdit();
-                        setId(chaza.id);
-                        setNombre(chaza.nombre);
-                        setInsta(chaza.instagram);
-                        setWeb(chaza.paginaWeb);
-                        setFace(chaza.facebook);
-                        setDescripcion(chaza.descripcion);
-                        setCategorias(chaza.tags);
-                        setEslogan(chaza.slug);
-                        setMetodos(chaza.mediosPagos);
-                        setDomicilio(chaza.domicilios);
-                        if (chaza.fechaFundacion) {
-                            var fecha = new Date(chaza.fechaFundacion);
-                            var month = fecha.getMonth();
-                            if (month < 10) {
-                                month = "0" + month;
-                            }
-                            var year = fecha.getFullYear();
-                            var day = fecha.getDate();
-                            setFechaFundacion(year + "-" + month + "-" + day);
-                        }
-                        setUbicacion(chaza.ubicacion);
-                        setHorarioAtencion(chaza.horarioAtencion);
-                    } else {
-                        console.error("Error: ");
-                        // notifyError()
-                    }
+                    console.error("Error: ");
+                    // notifyError()
                 }
             }
         } catch (error) {
             console.log("Error: ", error);
             notifyError();
         }
+    };
+    const handleChange = (e) => {
+        e.preventDefault();
+        const checked = e.target.checked;
+        const checkedValue = e.target.value;
+        const checkedName = e.target.name;
+        if (checked) {
+            setCategorias((categorias) => [...categorias, checkedValue]);
+        } else {
+            setCategorias((categorias) => [
+                categorias.filter((data) => data == checkedValue),
+            ]);
+        }
+        console.log("categorias", categorias);
     };
 
     useEffect(() => {
@@ -207,22 +192,23 @@ export default function Form({ modal, title, created, _id }) {
             setToken(window.sessionStorage.getItem("token"));
             var chaza = null;
             client
-                .get("chazas/" + searchId, {
+                .get("chazas/myChaza", {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
                 .then((res) => {
-                    chaza = res.data.data.data;
+                    console.log("page", res);
+                    chaza = res.data.data.myChaza;
                     console.log("page", chaza);
                     if (chaza.length != 0) {
                         setEdit(true);
-                        //chaza = chaza[0];
-                        //console.log("page2", chaza);
+                        chaza = chaza[0];
+                        console.log("page2", chaza);
                         setId(chaza.id);
                         setNombre(chaza.nombre);
                         setDescripcion(chaza.descripcion);
-                        setCategorias(chaza.tags);
+                        setCategorias(chaza.categorias);
                         setEslogan(chaza.slug);
                         setInsta(chaza.instagram);
                         setWeb(chaza.paginaWeb);
@@ -355,7 +341,7 @@ export default function Form({ modal, title, created, _id }) {
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Listbox.Options className=" mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                            <Listbox.Options className="mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                                 {categoriasLists.map((cate) => (
                                     <Listbox.Option
                                         key={cate.id}
@@ -539,21 +525,6 @@ export default function Form({ modal, title, created, _id }) {
             <div className="bg-gray-100 dark:bg-gray-900 pb-2">
                 <div className=" px-4 mx-auto max-w-2xl  lg:py-16">
                     <form onSubmit={onSubmit} className="pt-5 ">
-                        <div className="flex justify-end">
-                            <Link
-                                href="/unbiters/profile"
-                                type="button"
-                                className="mb-2 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white  mx-3 bg-gray-500 hover:bg-gray-300  inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium text-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                            >
-                                Cancelar
-                            </Link>
-                            <button
-                                type="submit"
-                                className="bg-[#9d5b5b] inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white  focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
-                            >
-                                {edit ? "Actualizar" : "Crear Chaza"}
-                            </button>
-                        </div>
                         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                             <div className="sm:col-span-2">
                                 <label
@@ -696,22 +667,12 @@ export default function Form({ modal, title, created, _id }) {
                                 >
                                     Marca esta casilla si haces domicilios{" "}
                                 </label>
-                                {domicilio ? (
-                                    <input
-                                        id="checked-checkbox"
-                                        type="checkbox"
-                                        checked
-                                        onClick={(e) => setDomicilio(e.target.checked)}
-                                        className="text-end w-4 h-4 text-blue-600 bg-gray-100 border-gray-400 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                ) : (
-                                    <input
-                                        id="checked-checkbox"
-                                        type="checkbox"
-                                        onClick={(e) => setDomicilio(e.target.checked)}
-                                        className="text-end w-4 h-4 text-blue-600 bg-gray-100 border-gray-400 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    />
-                                )}
+                                <input
+                                    id="checked-checkbox"
+                                    type="checkbox"
+                                    onChange={(e) => setDomicilio(e.target.value)}
+                                    className="text-end w-4 h-4 text-blue-600 bg-gray-100 border-gray-400 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                />
                             </div>
                             <div className="sm:col-span-2">
                                 <label
@@ -734,7 +695,7 @@ export default function Form({ modal, title, created, _id }) {
                                 for="cover-photo"
                                 className="block text-sm font-medium leading-6 text-gray-900"
                             >
-                                Actualiza la imagen de tu chaza
+                                Actualiza tu imagen de perfil
                             </label>
 
                             <div className="flex items-center justify-center w-full">
@@ -750,6 +711,22 @@ export default function Form({ modal, title, created, _id }) {
                                     />
                                 </label>
                             </div>
+                        </div>
+                        <div className="flex justify-end">
+                            <Link
+                                href="/unbiters/profile"
+                                type="button"
+                                className="mb-2 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white  mx-3 bg-gray-500 hover:bg-gray-300  inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium text-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                
+                            >
+                                Cancelar
+                            </Link>
+                            <button
+                                type="submit"
+                                className="bg-[#9d5b5b] inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white  focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
+                            >
+                                {edit ? "Actualizar" : "Crear Chaza"}
+                            </button>
                         </div>
                     </form>
                 </div>
