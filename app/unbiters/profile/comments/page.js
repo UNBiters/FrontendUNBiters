@@ -88,7 +88,7 @@ function Comments() {
             } else {
                 notifyError()
             }
-            console.log(response)
+            //console.log(response)
         } catch (error) {
             notifyError()
             console.log(error)

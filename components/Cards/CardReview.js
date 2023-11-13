@@ -11,7 +11,7 @@ import Image from 'next/image';
 import NewPost from '../NewPost';
 import Delete from '../Modal/Delete';
 
-export default function CardReview({ numComments, setNumComments, names, posts, setPosts, className, card, mode, idModal, idSearch, deletePostUp, editPostUp }) {
+export default function CardReview({ names, posts, setPosts, className, card, mode, idModal, idSearch, deletePostUp, editPostUp }) {
 
     const notifyDelete = () => toast("Publicación eliminada!");
     var start = [1, 1, 1, 1]
@@ -25,7 +25,7 @@ export default function CardReview({ numComments, setNumComments, names, posts, 
     const [fillText, setFillText] = useState("")
     const [token, setToken] = useState('');
     const [likes, setLikes] = useState(card.likes);
-    //const [numComments, setNumComments] = useState(card.numComentarios);
+    const [numComments, setNumComments] = useState(0);
     var src = "/images/1499696010180-025ef6e1a8f9.jpg"
     if (card.imagenUrl) {
         src = card.imagenUrl
@@ -95,11 +95,12 @@ export default function CardReview({ numComments, setNumComments, names, posts, 
                 }
             }
         } catch (error) {
-            console.error(error)
+            console.log(error)
         }
     }
 
     useEffect(() => {
+        //console.log(card.numComentarios)
         setNumComments(card.numComentarios)
         var tkn = (window.sessionStorage.getItem('token'))
         setToken(tkn)
@@ -124,7 +125,7 @@ export default function CardReview({ numComments, setNumComments, names, posts, 
             <div className='newpost col-span-2 flex justify-end px-3 min-[650px]:grid-cols-1'>
                 <NewPost mode="edit" posts={posts} setPosts={setPosts} id={id} post={card} open={isOpen} editPostUp={editPostUp} onClose={() => { router.push("/unbiters/profile/posts", { scroll: false }); setIsOpen(false) }} ></NewPost>
             </div>
-            {isOpen1 && (<NotSesion onClose={() => { router.push("/"); setIsOpen1(false) }}
+            {isOpen1 && (<NotSesion onClose={() => { router.push("/", { scroll: false }); setIsOpen1(false) }}
                 onRedirect={() => { router.push("/unbiters/login"); setIsOpen1(false) }} />)
             }
             {isOpenDelete && (<Delete message={"Borrar publicación"} onClose={() => { router.push("/unbiters/profile/posts", { scroll: false }); setIsOpenDelete(false) }}
@@ -145,7 +146,7 @@ export default function CardReview({ numComments, setNumComments, names, posts, 
                         <div class="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
 
                     </div>
-                    : <Link href={`?id=` + card._id} type="button" className="">
+                    : <Link href={`?id=` + card._id} scroll={false} type="button" className="">
                         <div class="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
 
                             <Image
@@ -260,33 +261,33 @@ export default function CardReview({ numComments, setNumComments, names, posts, 
                     <div>
                         {mode == "edit" ?
 
-                            <Link href={"/unbiters/profile/posts/?id=" + card._id} type="button" className="block w-full select-none rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            <Link href={"/unbiters/profile/posts/?id=" + card._id}  scroll={false} type="button" className="block w-full select-none rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             >
                                 <div class="flex px-8 items-center justify-between">
                                     <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                         <path d="M18 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.546l3.2 3.659a1 1 0 0 0 1.506 0L13.454 14H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-8 10H5a1 1 0 0 1 0-2h5a1 1 0 1 1 0 2Zm5-4H5a1 1 0 0 1 0-2h10a1 1 0 1 1 0 2Z" />
                                     </svg>
                                     <span className='font-bold text-lg'>
-                                        {numComments}
+                                        {card.numComentarios}
                                     </span>
                                 </div>
                             </Link> :
 
-                            <Link href={"/?id=" + card._id} type="button" className="block w-full select-none rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            <Link href={"/?id=" + card._id} scroll={false} type="button" className="block w-full select-none rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             >
                                 <div class="flex px-8 items-center justify-between">
                                     <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                         <path d="M18 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.546l3.2 3.659a1 1 0 0 0 1.506 0L13.454 14H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-8 10H5a1 1 0 0 1 0-2h5a1 1 0 1 1 0 2Zm5-4H5a1 1 0 0 1 0-2h10a1 1 0 1 1 0 2Z" />
                                     </svg>
                                     <span className='font-bold text-lg'>
-                                        {numComments}
+                                        {card.numComentarios}
                                     </span>
                                 </div>
                             </Link>}
                     </div>
                     <div className='col-span-2'>
                         <p class="text-end block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
-                            By: {card.user ? card.user.nombre : null}
+                            Opinante: {card.user ? card.user.nombre : null}
                         </p></div>
                 </div>
             </div ></div >

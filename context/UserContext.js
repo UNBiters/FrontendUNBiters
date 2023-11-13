@@ -15,7 +15,7 @@ export const useUsers = () => {
 
 export const UserProvider = ({ children }) => {
     const [isLogin, setIsLogin] = useState(false)
-    const [userChazas, setUserChaza] = useState({})
+    const [userChazas, setUserChaza] = useState([])
     const [userData, setUserData] = useState({
         chaza: false
     })
