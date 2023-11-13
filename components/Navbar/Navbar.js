@@ -1,4 +1,5 @@
 "use client"
+import React from 'react'
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
@@ -9,13 +10,16 @@ import { useRouter } from 'next/navigation';
 
 import Cookies from 'js-cookie';
 import Logout from '../Modal/Logout';
+import Image from 'next/image'
 
 const navigationLogin = [
     { name: 'Comunidad', href: '/', current: true },
     { name: 'Chazas', href: '/unbiters/chazas', current: false },
     { name: 'Nosotros', href: '/unbiters/about', current: false },
+    { name: 'Mi perfil', href: '/unbiters/profile', current: false },
 ]
 const navigationNotLogin = [
+    { name: 'Comunidad', href: '/', current: true },
     { name: '¿Tienes una chaza?', href: '/unbiters/register', current: false },
     { name: 'Inicia Sesion', href: '/unbiters/login', current: false },
     { name: 'Registrate', href: '/unbiters/register', current: false },
@@ -24,7 +28,14 @@ const navigationNotLogin = [
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
-
+// eslint-disable-next-line react/display-name
+const MyButton = React.forwardRef(({ onClick, href, name }, ref) => {
+    return (
+        <a href={href} onClick={onClick} ref={ref}>
+            {name}
+        </a>
+    )
+})
 export default function Navbar({ profile }) {
     const { isLogin, userData } = useUsers()
     const { chaza, nombre } = userData
@@ -52,6 +63,20 @@ export default function Navbar({ profile }) {
         { name: 'Mis comentarios', href: '/unbiters/profile/comments', current: false },
         { name: chaza ? 'Editar mi chaza' : "Mi perfil", href: '/unbiters/profile/me', current: true },
     ]
+    const onClick = (name) => {
+        //console.log("name", name)
+        const newNav = [...navigation]
+        newNav.map((item) => {
+            if (item.name == name) {
+                item.current = true
+            } else {
+                item.current = false
+            }
+        })
+        //console.log(newNav)
+        setNavigation(newNav)
+    }
+
     useEffect(() => {
         if (profile) {
             setNavigation(navigationProfile)
@@ -85,6 +110,7 @@ export default function Navbar({ profile }) {
             setNombre("false")
         }*/
     }, [isLogin])
+
     return (<>
         {isOpen1 && (<Logout onClose={() => { setIsOpen1(false) }} onLogout={() => { router.push("/unbiters/login"); isLogout(); setIsOpen1(false); }}
             onRedirect={() => { setIsOpen1(false) }} />)
@@ -113,8 +139,11 @@ export default function Navbar({ profile }) {
 
                                         <Link
                                             href="/"
+                                            onClick={() => onClick("Comunidad")}
                                         >
-                                            <img
+                                            <Image
+                                                height={500}
+                                                width={500}
                                                 className="h-10 w-auto"
                                                 src="/images/logo.png"
                                                 alt="Your Company"
@@ -125,8 +154,10 @@ export default function Navbar({ profile }) {
                                 }
                                 <div className="hidden sm:ml-6 md:block md:visible" >
                                     <div className="flex space-x-4">
+                                        {console.log(navigation)}
                                         {navigation.map((item) => (
                                             <Link
+                                                onClick={() => onClick(item.name)}
                                                 key={item.name}
                                                 href={item.href}
                                                 className={classNames(
@@ -186,6 +217,7 @@ export default function Navbar({ profile }) {
                                                     <Menu.Item>
                                                         {({ active }) => (
                                                             <Link
+                                                                onClick={() => onClick("Mi Perfil")}
                                                                 href="/unbiters/profile"
                                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                             >
@@ -196,6 +228,7 @@ export default function Navbar({ profile }) {
                                                     <Menu.Item>
                                                         {({ active }) => (
                                                             <Link
+                                                                onClick={() => onClick("Mis publicaciones")}
                                                                 href="/unbiters/profile/posts"
                                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                             >
@@ -206,6 +239,7 @@ export default function Navbar({ profile }) {
                                                     <Menu.Item>
                                                         {({ active }) => (
                                                             <Link
+                                                                onClick={() => onClick("Mis comentarios")}
                                                                 href="/unbiters/profile/comments"
                                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                             >

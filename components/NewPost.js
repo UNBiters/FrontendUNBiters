@@ -176,7 +176,7 @@ export default function NewPost({ isOpen1, setIsOpen1, mode, open, onClose, post
                         console.log(response.data.data.data)
                         //var newPost = posts
                         //newPost.push(response.data.data.data)
-                        setPosts([...posts, response.data.data.data])
+                        setPosts([response.data.data.data, ...posts])
                         //setPosts(newPosts)
                         setTimeout(function () {
                             clean()

@@ -9,7 +9,7 @@ import Cookies from 'js-cookie';
 import Link from 'next/link'
 
 export default function Login() {
-    const { setLogin, setUser } = useUsers()
+    const { setLogin, setUser, setChazas } = useUsers()
     const router = useRouter();
     const [correo, setEmail] = useState('');
     const [contraseña, setPassword] = useState('');
@@ -28,23 +28,17 @@ export default function Login() {
             if (response.data.status === 'success') {
                 setLogin(true)
                 const { token } = response.data;
-                const { user } = response.data.data;
-                console.log(user)
-                window.sessionStorage.setItem('user', user);
-                Cookies.set('user', JSON.stringify(user))
+                const { user, chaza } = response.data.data;
+                const { nombre, _id } = response.data.data.user;
                 setUser(user)
-                const { nombre, _id, chaza } = response.data.data.user;
-                console.log(response)
+                setChazas(chaza)
                 Cookies.set('token', token)
+                Cookies.set('user', JSON.stringify(user))
+                window.sessionStorage.setItem('user', user);
                 window.sessionStorage.setItem('token', token);
                 window.sessionStorage.setItem('nombre', nombre);
                 window.sessionStorage.setItem('id', _id);
                 window.sessionStorage.setItem('sesion', 'true');
-                if (chaza) {
-                    window.sessionStorage.setItem('chaza', 'true');
-                } else {
-                    window.sessionStorage.setItem('chaza', 'false');
-                }
                 router.push('/')
             } else {
                 setError("Hubo un error inesperado")

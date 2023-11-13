@@ -5,7 +5,7 @@ import NotFoundChaza from "@/components/NotFound/NotFoundChaza";
 import { useUsers } from '@/context/UserContext';
 
 export default function ProfileView({ data }) {
-    const { setChazas } = useUsers()
+    const { userChazas } = useUsers()
 
     const [chaza, setChaza] = useState([])
     const [id, setId] = useState('');
@@ -17,29 +17,15 @@ export default function ProfileView({ data }) {
     const [horarioAtencion, setHorarioAtencion] = useState('');
 
     useEffect(() => {
-        var token = window.sessionStorage.getItem('token');
-        client.get("chazas/myChaza", {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        })
-            .then((res) => {
-                var chaza = res.data.data.myChaza[0]
-                console.log(chaza)
-                if (chaza) {
-                    setChazas(chaza)
-                    setChaza(chaza)
-                    setNombre(chaza.nombre)
-                    setDescripcion(chaza.descripcion)
-                    setCategorias(chaza.categorias)
-                    setFechaFundacion(chaza.fechaFundacion)
-                    setUbicacion(chaza.ubicacion)
-                    setHorarioAtencion(chaza.horarioAtencion)
-                }
-            })
-
-        //console.log(chaza);*/
-    }, [])
+        //console.log(userChazas)
+        setChaza(userChazas)
+        setNombre(userChazas.nombre)
+        setDescripcion(userChazas.descripcion)
+        setCategorias(userChazas.categorias)
+        setFechaFundacion(userChazas.fechaFundacion)
+        setUbicacion(userChazas.ubicacion)
+        setHorarioAtencion(userChazas.horarioAtencion)
+    }, [userChazas])
     return (
         <div className='pb-12 bg-[#ffffff] '>
             {chaza.length == 0 ? <NotFoundChaza tittle={"Chaza "}></NotFoundChaza>
