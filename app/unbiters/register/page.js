@@ -160,7 +160,9 @@ export default function Register() {
                   onChange={(e) => setSexo(e.target.value)}
                   disabled={esChaza}
                 >
-                  <option value="" disabled selected hidden>Selecciona una opción</option>
+                  <option value="" disabled selected hidden>
+                    Selecciona una opción
+                  </option>
                   <option value="masculino">Masculino</option>
                   <option value="femenino">Femenino</option>
                   <option value="otro">Otro</option>
@@ -210,10 +212,10 @@ export default function Register() {
 
                 <div className="pb-2 flex items-center w-full">
                   <label
-                    for="checked-checkbox"
-                    className="mr-2 text-md font-semibold text-gray-900 dark:text-gray-300"
+                    htmlFor="checked-checkbox"
+                    className="mr-2 text-md text-semibold text-gray-900 dark:text-gray-300"
                   >
-                    Marca esta casilla si eres una chaza
+                    Soy representante legal de una chaza
                   </label>
                   <input
                     id="checked-checkbox"
@@ -222,6 +224,19 @@ export default function Register() {
                       setChaza(e.target.value);
                       setEsChaza(e.target.checked);
                     }}
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                </div>
+                <div className="pb-2 flex items-center w-full">
+                  <label
+                    htmlFor="terms-checkbox"
+                    className="mr-2 text-md text-semibold text-gray-900 dark:text-gray-300"
+                  >
+                    Acepto los terminos y condiciones
+                  </label>
+                  <input
+                    id="terms-checkbox"
+                    type="checkbox"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                 </div>
