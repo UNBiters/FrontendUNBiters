@@ -40,7 +40,7 @@ export default function TC() {
         <div >
             <div className="pt-24 pb-24 flex justify-center items-center">
                 <div className="max-w mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ancho-personalizado">
-                    <div className="md:flex md:flex-col md:items-center p-5">
+                    <div className="flex flex-col items-center p-5">
                         <Image
                             alt="Logo"
                             height={110}
