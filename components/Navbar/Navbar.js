@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from 'next/navigation'
 import React from "react";
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
@@ -36,6 +37,7 @@ const MyButton = React.forwardRef(({ onClick, href, name }, ref) => {
     );
 });
 export default function Navbar({ profile }) {
+    const pathname = usePathname()
     const { isLogin, userData,setLogin } = useUsers();
     const { chaza, nombre } = userData;
     //console.log(chaza)
@@ -62,16 +64,16 @@ export default function Navbar({ profile }) {
         { name: "Mis publicaciones", href: "/unbiters/profile/posts", current: false },
         { name: "Mis estadisticas", href: "/unbiters/profile", current: false },
         { name: "Mis comentarios", href: "/unbiters/profile/comments", current: false },
-        { name: "Mi perfil", href: "/unbiters/profile", current: true },
+        { name: "Mi perfil", href: "/unbiters/profile", current: false },
     ];
 
     const navigationProfileUser = [
         { name: "Mis publicaciones", href: "/unbiters/profile/posts", current: false },
         { name: "Mis comentarios", href: "/unbiters/profile/comments", current: false },
-        { name: "Mi perfil", href: "/unbiters/profile", current: true },
+        { name: "Mi perfil", href: "/unbiters/profile", current: false },
     ];
     const onClick = (name) => {
-        //console.log("name", name)
+        console.log("name", name)
         const newNav = [...navigation];
         newNav.map((item) => {
             if (item.name == name) {
@@ -186,11 +188,11 @@ export default function Navbar({ profile }) {
                                             {/*console.log(navigation)*/}
                                             {navigation.map((item) => (
                                                 <Link
-                                                    onClick={() => onClick(item.name)}
+                                                    //onClick={() => onClick(item.name)}
                                                     key={item.name}
                                                     href={item.href}
                                                     className={classNames(
-                                                        item.current
+                                                            pathname === item.href
                                                             ? "bg-[#e24557] text-white"
                                                             : "text-gray-300 hover:bg-[#e24557] hover:text-white",
                                                         "rounded-md px-3 py-2 text-sm font-medium"
