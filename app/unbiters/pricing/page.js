@@ -3,7 +3,7 @@ import PricingCard from "../../../components/PricingCard";
 export default function Pricing() {
   return (
     <>
-      <div style={{backgroundImage: "url(/images/portadaPrecios.jpg)", backgroundSize: "cover"}} className="flex flex-col items-center bg-[#F5F5F5] p-4">
+      <div style={{ paddingBottom: '150px' }}style={{backgroundImage: "url(/images/portadaPrecios.jpg)", backgroundSize: "cover"}} className="flex flex-col items-center bg-[#F5F5F5] p-4">
         <div className="mb-16 mt-8 text-center">
           <h1 className="mb-4 mt-28 text-7xl font-black text-[#F5F5F5]">
             Precios y planes
@@ -13,7 +13,7 @@ export default function Pricing() {
           </h3>
         </div>
       </div>
-      <div className="flex flex-col justify-center bg-red-500 gap-8 p-4 md:flex-col lg:flex-row">
+      <div className="flex flex-col justify-center bg-red-500 gap-8 p-4 md:flex-col lg:flex-row"style={{ paddingBottom: '150px' }}>
         <PricingCard
           precio="Gratis"
           name="Plan Basico"
