@@ -194,14 +194,14 @@ export default function ModalComments({ posts, setPosts, onClose, _id }) {
                                                                   }
                                                                   className="p-2 "
                                                               >
-                                                                  <div class=" flex min-w-0 gap-x-4">
+                                                                  <div className=" flex min-w-0 gap-x-4">
                                                                       <img
-                                                                          class="h-12 w-12 flex-none rounded-full bg-gray-50"
+                                                                          className="h-12 w-12 flex-none rounded-full bg-gray-50"
                                                                           src="/images/default.png"
                                                                           alt=""
                                                                       />
-                                                                      <div class="min-w-0 flex-auto">
-                                                                          <p class="text-sm font-semibold leading-6 text-gray-900">
+                                                                      <div className="min-w-0 flex-auto">
+                                                                          <p className="text-sm font-semibold leading-6 text-gray-900">
                                                                               {nombre}
                                                                           </p>
                                                                           <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">

@@ -100,9 +100,9 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                     className="w-5 h-5"
                                 >
                                     <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M8.75 1A2.75 2.75 0 006 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 10.23 1.482l.149-.022.841 10.518A2.75 2.75 0 007.596 19h4.807a2.75 2.75 0 002.742-2.53l.841-10.52.149.023a.75.75 0 00.23-1.482A41.03 41.03 0 0014 4.193V3.75A2.75 2.75 0 0011.25 1h-2.5zM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4zM8.58 7.72a.75.75 0 00-1.5.06l.3 7.5a.75.75 0 101.5-.06l-.3-7.5zm4.34.06a.75.75 0 10-1.5-.06l-.3 7.5a.75.75 0 101.5.06l.3-7.5z"
-                                        clip-rule="evenodd"
+                                        clipRule="evenodd"
                                     />
                                 </svg>
                             </button>
@@ -179,9 +179,9 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                         className="fill-[#efb810] -mt-0.5 h-5 w-5 text-yellow-700"
                                     >
                                         <path
-                                            fill-rule="evenodd"
+                                            fillRule="evenodd"
                                             d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"
-                                            clip-rule="evenodd"
+                                            clipRule="evenodd"
                                         ></path>
                                     </svg>
                                     {Number(card.ratingsAverage).toFixed(1)}
@@ -231,7 +231,8 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                         ? card.redesSociales.map((redesSociales) => (
                                               <li
                                                   key={
-                                                      "re" +
+                                                      card.id +
+                                                      "0" +
                                                       card.redesSociales.indexOf(
                                                           redesSociales
                                                       )
@@ -260,9 +261,9 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                             className="w-5 h-5"
                                         >
                                             <path
-                                                fill-rule="evenodd"
+                                                fillRule="evenodd"
                                                 d="M2.5 4A1.5 1.5 0 001 5.5V6h18v-.5A1.5 1.5 0 0017.5 4h-15zM19 8.5H1v6A1.5 1.5 0 002.5 16h15a1.5 1.5 0 001.5-1.5v-6zM3 13.25a.75.75 0 01.75-.75h1.5a.75.75 0 010 1.5h-1.5a.75.75 0 01-.75-.75zm4.75-.75a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z"
-                                                clip-rule="evenodd"
+                                                clipRule="evenodd"
                                             />
                                         </svg>
 
@@ -274,7 +275,8 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                         ? card.mediosPagos.map((mediosPagos) => (
                                               <li
                                                   key={
-                                                      "me" +
+                                                      card.id +
+                                                      "1" +
                                                       card.mediosPagos.indexOf(
                                                           mediosPagos
                                                       )
@@ -294,7 +296,11 @@ export default function Card({ className, card, comments, idModal, mode }) {
                             {card.categorias
                                 ? card.categorias.map((categorias) => (
                                       <span
-                                          key={"ca1" + categorias.indexOf(categorias)}
+                                          key={
+                                              card.id +
+                                              "2" +
+                                              categorias.indexOf(categorias)
+                                          }
                                           className="inline-block bg-[#9d5b5b] rounded-full px-3 py-1 text-sm font-semibold text-gray-900 mr-2 mb-2"
                                       >
                                           #{categorias}

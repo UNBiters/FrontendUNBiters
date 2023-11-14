@@ -562,7 +562,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
         );
     }
     return (
-        <div class="h-full">
+        <div className="h-full">
             <div className="h-full bg-gray-100 dark:bg-gray-900 pb-16 sm:pb-14 md:py-16">
                 <div className=" px-4 mx-auto max-w-2xl  lg:py-16">
                     {user.chaza ? (

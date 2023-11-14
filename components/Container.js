@@ -24,8 +24,8 @@ export default function Container({ setPosts, setCategorias, title, message, mod
           This example requires updating your template:
   
           ```
-          <html class="h-full">
-          <body class="h-full">
+          <html className="h-full">
+          <body className="h-full">
           ```
         */}
             <main className="pt-10 mx-auto my-auto grid min-h-full place-items-center ">

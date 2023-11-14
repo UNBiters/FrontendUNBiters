@@ -143,7 +143,7 @@ function Comments() {
         }
     }
     return (
-        <>
+        <div id='home' className=" ">
             <ToastContainer />
 
             {idSearch && (
@@ -174,7 +174,7 @@ function Comments() {
                     mode={"profile"}
                 />
             )}
-        </>
+        </div>
     );
 }
 
