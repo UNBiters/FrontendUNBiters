@@ -159,11 +159,8 @@ export default function NewPost({
                     data.append("texto", texto);
                     data.append("rating", rating);
                     data.append("tags", JSON.stringify(tags));
-                    if (selected.id) {
-                        data.append("chaza", selected.id);
-                    } else {
-                        data.append("nombreChaza", selected.nombre);
-                    }
+                    
+                    data.append("nombreChaza", selected.nombre);
                     var body = {
                         texto,
                         imagen: imagen,
@@ -216,6 +213,8 @@ export default function NewPost({
                     data.append("imagen", imagen);
                     data.append("texto", texto);
                     data.append("rating", rating);
+                    
+                    data.append("nombreChaza", selected.nombre);
                     if (selected.id) {
                         data.append("chaza", selected.id);
                     } else {

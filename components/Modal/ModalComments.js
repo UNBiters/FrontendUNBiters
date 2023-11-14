@@ -74,12 +74,23 @@ export default function ModalComments({ posts, setPosts, onClose, _id }) {
                         if (response.status == "200") {
                             setComments(response.data.data.data);
 
-                            var res = await client.get("publications");
-                            var posts = res.data.data.data
-                            console.log("coment update", posts)
-                            setPosts(posts)
-                            //setNumComments(numComments + 1)
-                            //refreshData();
+                            try {
+                                var res = await client.get(
+                                    "publications/myPublications",
+                                    {
+                                        headers: {
+                                            Authorization: `Bearer ${token}`,
+                                        },
+                                    }
+                                );
+                                //console.log(res.data.data)
+                                setPosts(res.data.data.publications);
+                                //setPosts(posts);
+                                //setNumComments(numComments + 1)
+                                //refreshData();
+                            } catch (error) {
+                                console.log(error);
+                            }
                         }
                         setTimeout(function () {
                             setSucces("");
@@ -98,7 +109,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id }) {
             }
         } catch (error) {
             console.error("Error: ", error);
-            setError(error.response.data.message);
+            setError("Ups hubo un error!");
 
             setTimeout(function () {
                 setError("");

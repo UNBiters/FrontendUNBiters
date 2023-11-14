@@ -147,6 +147,7 @@ function PostComponent({ postsFetch, namesFetch, token }) {
             <ToastContainer />
             {idSearch && (
                 <ModalComments
+                setPosts={setPosts}
                     numComments={numComments}
                     setNumComments={setNumComments}
                     onClose={() => {

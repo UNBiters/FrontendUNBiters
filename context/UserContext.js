@@ -19,8 +19,8 @@ export const UserProvider = ({ children }) => {
     const [userData, setUserData] = useState({
         chaza: false
     })
-    const setLogin = () => {
-        setIsLogin(true)
+    const setLogin = (bolean) => {
+        setIsLogin(bolean)
     }
     const setUser = (user) => {
         setUserData(user)

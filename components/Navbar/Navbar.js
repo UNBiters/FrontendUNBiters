@@ -36,7 +36,7 @@ const MyButton = React.forwardRef(({ onClick, href, name }, ref) => {
     );
 });
 export default function Navbar({ profile }) {
-    const { isLogin, userData } = useUsers();
+    const { isLogin, userData,setLogin } = useUsers();
     const { chaza, nombre } = userData;
     //console.log(chaza)
     //console.log("islogin", userData)
@@ -52,7 +52,7 @@ export default function Navbar({ profile }) {
         Cookies.remove("token", { path: "/" });
         Cookies.remove("user");
         window.sessionStorage.clear();
-        
+        setLogin(false)
         setNavigation(navigationNotLogin);
         router.push("/unbiters/login");
     };
