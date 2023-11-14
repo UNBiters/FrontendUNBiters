@@ -4,7 +4,7 @@ export default function Footer() {
     return (
         <div className="mt-0">
 
-            <footer className="containerFooter bottom-0 left-0 z-20 w-full bg-white border-t border-gray-200 shadow md:flex md:items-center md:justify-between dark:bg-gray-800 dark:border-gray-600">
+            <footer className="containerFooter fixed bottom-0 left-0 z-20 w-full bg-white border-t border-gray-200 shadow md:flex md:items-center md:justify-between dark:bg-gray-800 dark:border-gray-600">
                 <div className="mx-auto w-full ">
                     <div className="px-4 py-6 bg-gray-100 dark:bg-gray-700 md:flex md:items-center md:justify-between">
                         <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">© 2023 <a href="https://flowbite.com/">UNBiters Inc</a>. All Rights Reserved.

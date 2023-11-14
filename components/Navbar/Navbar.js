@@ -52,6 +52,8 @@ export default function Navbar({ profile }) {
         Cookies.remove("token", { path: "/" });
         Cookies.remove("user");
         window.sessionStorage.clear();
+        
+        setNavigation(navigationNotLogin);
         router.push("/unbiters/login");
     };
 

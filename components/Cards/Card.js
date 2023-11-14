@@ -11,33 +11,33 @@ export default function Card({ className, card, comments, idModal, mode }) {
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const router = useRouter();
 
-    var src = "/images/test.jpg"
+    var src = "/images/test.jpg";
     if (card.imagenUrl) {
-        src = card.imagenUrl
+        src = card.imagenUrl;
     }
     async function deleteChaza(id) {
         console.log("borrado");
         try {
             const response = await client.delete(`chazas/deleteMyChaza/${card.id}`, {
                 headers: {
-                    "Authorization": `Bearer ${token}`
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             });
-            console.log(response)
+            console.log(response);
             if (response.status == "204") {
                 //notifyDelete()
-                notifyDelete()
+                notifyDelete();
                 /*setComments(comments => {
                     return comments.filter(post => post.id !== id)
                 })*/
                 //router.refresh()
             } else {
-                notifyError()
+                notifyError();
             }
             //console.log(response)
         } catch (error) {
-            notifyError()
-            console.log(error)
+            notifyError();
+            console.log(error);
         }
     }
     return (
@@ -74,7 +74,6 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                 href={`profile/me?id=` + card._id}
                                 className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 type="button"
-                                
                                 data-ripple-dark="true"
                             >
                                 <svg
@@ -109,12 +108,12 @@ export default function Card({ className, card, comments, idModal, mode }) {
                             </button>
                         </>
                     ) : (
-                        <Link
-                            href={"/unbiters/profile?" + card._id}
-                            target="_blanck"
-                            className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            type="button"
-                            data-ripple-dark="true"
+                        <span
+                            //href={"/unbiters/profile?" + card._id}
+                            //target="_blanck"
+                            className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            //type="button"
+                            //data-ripple-dark="true"
                         >
                             <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                                 <svg
@@ -126,7 +125,7 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                     <path d="M2.879 7.121A3 3 0 007.5 6.66a2.997 2.997 0 002.5 1.34 2.997 2.997 0 002.5-1.34 3 3 0 104.622-3.78l-.293-.293A2 2 0 0015.415 2H4.585a2 2 0 00-1.414.586l-.292.292a3 3 0 000 4.243zM3 9.032a4.507 4.507 0 004.5-.29A4.48 4.48 0 0010 9.5a4.48 4.48 0 002.5-.758 4.507 4.507 0 004.5.29V16.5h.25a.75.75 0 010 1.5h-4.5a.75.75 0 01-.75-.75v-3.5a.75.75 0 00-.75-.75h-2.5a.75.75 0 00-.75.75v3.5a.75.75 0 01-.75.75h-4.5a.75.75 0 010-1.5H3V9.032z" />
                                 </svg>
                             </span>
-                        </Link>
+                        </span>
                     )}
                 </div>
                 {/*</Link>*/}
@@ -139,7 +138,7 @@ export default function Card({ className, card, comments, idModal, mode }) {
                             </span>
                         </div>
                         <div className="col-span-2 items-center grid grid-cols-3 ">
-                            <Link href="/">
+                            <span>
                                 <div className="flex mx-auto ">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -153,8 +152,8 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                         {card.likes}
                                     </span>
                                 </div>
-                            </Link>
-                            <Link href="/">
+                            </span>
+                            <span>
                                 <div className="flex mx-auto">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -169,7 +168,7 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                         50
                                     </span>
                                 </div>
-                            </Link>
+                            </span>
                             <div className="flex mx-auto">
                                 <p className="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-blue-gray-900 antialiased">
                                     <svg
@@ -192,7 +191,7 @@ export default function Card({ className, card, comments, idModal, mode }) {
                     </div>
                     <div className="text-center font-normal text-gray-700 dark:text-gray-400">
                         <div>
-                            <p className="text-lg font-sans hover:font-serif mx-auto">
+                            <p className="text-lg font-sans  mx-auto">
                                 {card.descripcion}
                             </p>
                         </div>
