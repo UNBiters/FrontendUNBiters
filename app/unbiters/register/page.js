@@ -6,6 +6,8 @@ import { Button } from "flowbite-react";
 import client from "@/config/client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import DatePicker from "react-datepicker"; 
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Register() {
   const { push } = useRouter();
@@ -13,15 +15,20 @@ export default function Register() {
   const [nombre, setNombre] = useState("");
   const [sexo, setSexo] = useState("");
   const [chaza, setChaza] = useState("");
+  const [terms, setTerms] = useState(false);
   const [esChaza, setEsChaza] = useState(false);
   const [correo, setEmail] = useState("");
   const [contraseña, setPassword] = useState("");
   const [confirmarContraseña, setconfirmarContraseña] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState(null);
   //const [confirmarContraseña, setconfirmarContraseña] = useState("");
   //const [confirmarContraseña, setconfirmarContraseña] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!terms) {
+      setErrors(["Debes aceptar los términos y condiciones para registrarte."]);
+    }
     try {
       var body = {
         nombre,
@@ -30,6 +37,7 @@ export default function Register() {
         contraseña,
         confirmarContraseña,
         chaza: chaza == "on" ? true : false,
+        fechaNacimiento
       };
       console.log(body);
       const response = await client.post("users/signup", body);
@@ -37,12 +45,13 @@ export default function Register() {
       console.log("request ", response);
       if (response.data.status === "success") {
         const { token } = response.data;
-        const { nombre, sexo, _id, chaza } = response.data.data.user;
+        const { nombre, sexo, _id, chaza, fechaNacimiento } = response.data.data.user;
         window.sessionStorage.setItem("token", token);
         window.sessionStorage.setItem("nombre", nombre);
         window.sessionStorage.setItem("sexo", sexo);
         window.sessionStorage.setItem("id", _id);
         window.sessionStorage.setItem("sesion", "true");
+        window.sessionStorage.setItem("fechaNacimiento", fechaNacimiento);
         if (chaza) {
           window.sessionStorage.setItem("chaza", "true");
         } else {
@@ -156,15 +165,33 @@ export default function Register() {
                   id="sexo"
                   className="w-80 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   required
-                  value={sexo}
+                  defaultValue={sexo}
                   onChange={(e) => setSexo(e.target.value)}
                   disabled={esChaza}
                 >
-                  <option value="" disabled selected hidden>Selecciona una opción</option>
+                  <option value="" disabled hidden>
+                    Selecciona una opción
+                  </option>
                   <option value="masculino">Masculino</option>
                   <option value="femenino">Femenino</option>
                   <option value="otro">Otro</option>
                 </select>
+                <div className="flex flex-col items-start w-full">
+                  <label className="mt-1 text-s leading-tight font-medium text-black">
+                    Fecha de Nacimiento:
+                  </label>
+                </div>
+                <DatePicker
+                  id="fechaNacimiento"
+                  selected={fechaNacimiento}
+                  onChange={(date) => setFechaNacimiento(date)}
+                  className="w-80 mt-2 mb-4 p-2.5 rounded-lg border border-gray-300"
+                  placeholderText="Fecha de Nacimiento"
+                  dateFormat="yyyy/MM/dd"
+                  isClearable
+                  showYearDropdown
+                  scrollableYearDropdown
+                />
                 <div className="flex flex-col items-start w-full">
                   <label className="mt-1 text-s leading-tight font-medium text-black">
                     Correo:
@@ -208,12 +235,12 @@ export default function Register() {
                   onChange={(e) => setconfirmarContraseña(e.target.value)}
                 />
 
-                <div className="pb-2 flex items-center w-full">
+                <div className="pb-2 flex justify-end items-center w-full">
                   <label
-                    for="checked-checkbox"
-                    className="mr-2 text-md font-semibold text-gray-900 dark:text-gray-300"
+                    htmlFor="checked-checkbox"
+                    className="mr-5 text-md text-semibold text-gray-900 dark:text-gray-300"
                   >
-                    Marca esta casilla si eres una chaza
+                    Soy representante legal de una chaza
                   </label>
                   <input
                     id="checked-checkbox"
@@ -223,6 +250,21 @@ export default function Register() {
                       setEsChaza(e.target.checked);
                     }}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  />
+                </div>
+                <div className="pb-2 flex justify-end items-center w-full">
+                  <label
+                    htmlFor="terms-checkbox"
+                    className="mr-11 text-md text-semibold text-gray-900 dark:text-gray-300"
+                  >
+                    Acepto los terminos y condiciones
+                  </label>
+                  <input
+                    id="terms-checkbox"
+                    type="checkbox"
+                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    checked={terms}
+                    onChange={(e) => setTerms(e.target.checked)}
                   />
                 </div>
                 <Button

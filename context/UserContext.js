@@ -15,14 +15,12 @@ export const useUsers = () => {
 
 export const UserProvider = ({ children }) => {
     const [isLogin, setIsLogin] = useState(false)
-    const [userChazas, setUserChaza] = useState({
-        chaza: false
-    })
+    const [userChazas, setUserChaza] = useState([])
     const [userData, setUserData] = useState({
         chaza: false
     })
-    const setLogin = () => {
-        setIsLogin(true)
+    const setLogin = (bolean) => {
+        setIsLogin(bolean)
     }
     const setUser = (user) => {
         setUserData(user)
@@ -41,7 +39,7 @@ export const UserProvider = ({ children }) => {
         }
     }, [isLogin])
     return (
-        <UserContext.Provider value={{ isLogin, userData,userChazas, setLogin, setUser,setChazas }}>
+        <UserContext.Provider value={{ isLogin, userData, userChazas, setLogin, setUser, setChazas }}>
             {children}
         </UserContext.Provider>
     )

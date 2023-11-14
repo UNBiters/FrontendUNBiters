@@ -100,7 +100,7 @@ export default function CardComent({ className, card, comments, idModal }) {
 
                     {card.categorias ? card.categorias.map((categorias) => (
 
-                      <li key={"re" + categorias.indexOf(categorias)} className="mr-2">{categorias}</li>)
+                      <li key={"re2" + categorias.indexOf(categorias)} className="mr-2">{categorias}</li>)
                     ) : null}
                   </ul>
                 </div>

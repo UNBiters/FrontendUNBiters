@@ -5,7 +5,7 @@ async function loadPost() {
     try {
         var res = await client.get("publications");
         //console.log(res.data.data)
-        return res.data.data;
+        return res.data.data.data;
     } catch (err) {
         console.log("err", err);
     }
