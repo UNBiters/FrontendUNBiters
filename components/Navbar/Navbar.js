@@ -17,6 +17,7 @@ const navigationLogin = [
     { name: "Comunidad", href: "/", current: true },
     { name: "Chazas", href: "/unbiters/chazas", current: false },
     { name: "Nosotros", href: "/unbiters/about", current: false },
+    { name: "Blog", href: "/unbiters/about/blog", current: false },
 ];
 const navigationNotLogin = [
     { name: "Comunidad", href: "/", current: true },
