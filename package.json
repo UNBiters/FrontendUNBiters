@@ -21,6 +21,7 @@
     "moment": "^2.29.4",
     "next": "13.4.19",
     "react": "18.2.0",
+    "react-datepicker": "^4.21.0",
     "react-dom": "18.2.0",
     "react-stars": "^2.2.5",
     "react-toastify": "^9.1.3",

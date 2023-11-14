@@ -6,6 +6,8 @@ import { Button } from "flowbite-react";
 import client from "@/config/client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import DatePicker from "react-datepicker"; 
+import "react-datepicker/dist/react-datepicker.css";
 
 export default function Register() {
   const { push } = useRouter();
@@ -18,6 +20,7 @@ export default function Register() {
   const [correo, setEmail] = useState("");
   const [contraseña, setPassword] = useState("");
   const [confirmarContraseña, setconfirmarContraseña] = useState("");
+  const [fechaNacimiento, setFechaNacimiento] = useState(null);
   //const [confirmarContraseña, setconfirmarContraseña] = useState("");
   //const [confirmarContraseña, setconfirmarContraseña] = useState("");
 
@@ -34,6 +37,7 @@ export default function Register() {
         contraseña,
         confirmarContraseña,
         chaza: chaza == "on" ? true : false,
+        fechaNacimiento
       };
       console.log(body);
       const response = await client.post("users/signup", body);
@@ -41,12 +45,13 @@ export default function Register() {
       console.log("request ", response);
       if (response.data.status === "success") {
         const { token } = response.data;
-        const { nombre, sexo, _id, chaza } = response.data.data.user;
+        const { nombre, sexo, _id, chaza, fechaNacimiento } = response.data.data.user;
         window.sessionStorage.setItem("token", token);
         window.sessionStorage.setItem("nombre", nombre);
         window.sessionStorage.setItem("sexo", sexo);
         window.sessionStorage.setItem("id", _id);
         window.sessionStorage.setItem("sesion", "true");
+        window.sessionStorage.setItem("fechaNacimiento", fechaNacimiento);
         if (chaza) {
           window.sessionStorage.setItem("chaza", "true");
         } else {
@@ -171,6 +176,22 @@ export default function Register() {
                   <option value="femenino">Femenino</option>
                   <option value="otro">Otro</option>
                 </select>
+                <div className="flex flex-col items-start w-full">
+                  <label className="mt-1 text-s leading-tight font-medium text-black">
+                    Fecha de Nacimiento:
+                  </label>
+                </div>
+                <DatePicker
+                  id="fechaNacimiento"
+                  selected={fechaNacimiento}
+                  onChange={(date) => setFechaNacimiento(date)}
+                  className="w-80 mt-2 mb-4 p-2.5 rounded-lg border border-gray-300"
+                  placeholderText="Fecha de Nacimiento"
+                  dateFormat="yyyy/MM/dd"
+                  isClearable
+                  showYearDropdown
+                  scrollableYearDropdown
+                />
                 <div className="flex flex-col items-start w-full">
                   <label className="mt-1 text-s leading-tight font-medium text-black">
                     Correo:
