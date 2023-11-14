@@ -14,7 +14,7 @@ export default function Pricing() {
           </h3>
         </div>
       </div>
-      <div className="flex flex-col justify-center bg-red-500 gap-8 p-4 md:flex-col lg:flex-row"style={{ paddingBottom: '150px' }}>
+      <div className="flex justify-center bg-red-500 gap-8 p-4 md:flex-col lg:flex-row"style={{ paddingBottom: '150px' }}>
         <PricingCard
           precio="Gratis"
           name="Plan Basico"
