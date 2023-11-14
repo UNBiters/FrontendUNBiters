@@ -27,6 +27,7 @@ export default function Login() {
             if (response.data.status === "success") {
                 setLogin(true);
                 const { token } = response.data;
+
                 const { user, chaza } = response.data.data;
                 const { nombre, _id } = response.data.data.user;
                 setUser(user);
@@ -38,6 +39,7 @@ export default function Login() {
                 window.sessionStorage.setItem("nombre", nombre);
                 window.sessionStorage.setItem("id", _id);
                 window.sessionStorage.setItem("sesion", "true");
+                window.sessionStorage.setItem('cliente', cliente);
                 router.push("/");
             } else {
                 setError("Hubo un error inesperado");
