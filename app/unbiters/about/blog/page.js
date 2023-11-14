@@ -15,14 +15,14 @@ export default function BlogView() {
     return colors[randomIndex];
   };
   return (
-    <div className="bg-gray-100 min-h-screen py-12">
+    <div className="py-12">
       <div className="container mx-auto">
-        <div className="text-center">
-          <Image alt="Logo" height={110} width={110} src="/images/logo.png" />
+        <div className="text-center bg-white p-6 rounded-md mb-8 max-w-xl mx-auto">
           <h1 className="mt-6 text-3xl font-extrabold text-gray-900">
             ¡Ponte al Corriente con UNBiters!
           </h1>
         </div>
+      
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
           {/* Top Comidas Favoritas de la Semana */}
