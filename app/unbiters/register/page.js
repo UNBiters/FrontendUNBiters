@@ -39,7 +39,7 @@ export default function Register() {
         chaza: chaza == "on" ? true : false,
         fechaNacimiento
       };
-      console.log(body);
+      console.log(body, "HOLAAA");
       const response = await client.post("users/signup", body);
 
       console.log("request ", response);

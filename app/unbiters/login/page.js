@@ -29,7 +29,7 @@ export default function Login() {
                 const { token } = response.data;
 
                 const { user, chaza } = response.data.data;
-                const { nombre, _id } = response.data.data.user;
+                const { nombre, _id, cliente, nivelSuscripcion } = response.data.data.user;
                 setUser(user);
                 setChazas(chaza);
                 Cookies.set("token", token);
@@ -40,6 +40,7 @@ export default function Login() {
                 window.sessionStorage.setItem("id", _id);
                 window.sessionStorage.setItem("sesion", "true");
                 window.sessionStorage.setItem('cliente', cliente);
+                window.sessionStorage.setItem('nivelSuscripcion', nivelSuscripcion);
                 router.push("/");
             } else {
                 setError("Hubo un error inesperado");
