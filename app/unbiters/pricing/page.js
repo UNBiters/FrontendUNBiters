@@ -35,8 +35,6 @@ export default function Pricing() {
           color="#F5F5F5"
           features={[
             "Estadisticas y graficas para ver como le va a tus comidas ",
-            "Informes detallados de tus ventas, calificaciones y reseñas",
-            "Desglose de Datos para que veas como le va a tu chaza",
             "Servicio 24/7"
           ]}
           link="/unbiters/pricing/plan-especial"
