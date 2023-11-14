@@ -5,7 +5,7 @@ import client from "@/config/client";
 import { useRouter } from "next/navigation";
 import NotSesion from "./NotSesion";
 
-export default function ModalComments({ posts, setPosts, onClose, _id }) {
+export default function ModalComments({ posts, setPosts, onClose, _id, mode }) {
     let [isOpen, setIsOpen] = useState(true);
     const [isOpen1, setIsOpen1] = useState(false);
     const router = useRouter();
@@ -75,16 +75,24 @@ export default function ModalComments({ posts, setPosts, onClose, _id }) {
                             setComments(response.data.data.data);
 
                             try {
-                                var res = await client.get(
-                                    "publications/myPublications",
-                                    {
-                                        headers: {
-                                            Authorization: `Bearer ${token}`,
-                                        },
-                                    }
-                                );
-                                //console.log(res.data.data)
-                                setPosts(res.data.data.publications);
+                                if(mode == "edit"){
+                                    var res = await client.get(
+                                        "publications/myPublications",
+                                        {
+                                            headers: {
+                                                Authorization: `Bearer ${token}`,
+                                            },
+                                        }
+                                    );
+                                    //console.log(res.data.data)
+                                    setPosts(res.data.data.publications);
+                                }else{
+                                    var res = await client.get(
+                                        "publications"
+                                    );
+                                    //console.log(res.data.data)
+                                    setPosts(res.data.data.data);
+                                }
                                 //setPosts(posts);
                                 //setNumComments(numComments + 1)
                                 //refreshData();
