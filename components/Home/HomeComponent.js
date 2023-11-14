@@ -77,7 +77,7 @@ export default function HomeComponent({ postsFetch, namesFetch }) {
     }, []);
     return (
         <>
-            <div id="home" className="pb-8 grid grid-cols-2">
+            <div id="home" className=" grid grid-cols-2">
                 {idSearch && (
                     <ModalComments
                         setPosts={setPosts}
