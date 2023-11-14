@@ -62,7 +62,7 @@ export default function Navbar({ profile }) {
     const navigationProfile = [
         { name: "Mi comunidad", href: "/unbiters/profile/community", current: false },
         { name: "Mis publicaciones", href: "/unbiters/profile/posts", current: false },
-        { name: "Mis estadisticas", href: "/unbiters/profile", current: false },
+        //{ name: "Mis estadisticas", href: "/unbiters/profile", current: false },
         { name: "Mis comentarios", href: "/unbiters/profile/comments", current: false },
         { name: "Mi perfil", href: "/unbiters/profile", current: false },
     ];
