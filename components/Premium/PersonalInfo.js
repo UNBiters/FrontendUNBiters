@@ -23,10 +23,11 @@ const PersonalInfo = ({ SiguienteForm }) => {
   useEffect(() => {
     const customer = window.sessionStorage.getItem('cliente');
     setCliente(customer);
-    if (customer) {
+    
+    if (JSON.parse(customer)) {
       SiguienteForm();
     }
-  }, []);
+  }, [SiguienteForm]);
 
  
 
@@ -66,12 +67,13 @@ const PersonalInfo = ({ SiguienteForm }) => {
         window.sessionStorage.setItem("name", name);
         window.sessionStorage.setItem("email", email);
         window.sessionStorage.setItem("phone", phone);
+        // Esto no se debe hacer por motivos de seguridad
+        window.sessionStorage.setItem("cliente", true);
         SiguienteForm();
       }
 
     } catch (error) {
       console.log("error", error);
-      var error = error.response.data.error;
       console.error("Error en alguno de tus datos", error.response.data);
       setErrors([error]);
     }

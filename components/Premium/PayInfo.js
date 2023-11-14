@@ -41,27 +41,13 @@ const PayInfo = () => {
 
       console.log("request ", subscription);
       if (subscription.data.status === "success") {
-        const {
-          doc_type,
-          doc_number,
-          cardNumber,
-          cardExpYear,
-          cardExpMonth,
-          cardCvc,
-        } = subscription.data.data.user;
-        window.sessionStorage.setItem("doc_type", doc_type);
-        window.sessionStorage.setItem("doc_number", doc_number);
-        window.sessionStorage.setItem("cardNumber", cardNumber);
-        window.sessionStorage.setItem("cardExpYear", cardExpYear);
-        window.sessionStorage.setItem("cardExpMonth", cardExpMonth);
-        window.sessionStorage.setItem("cardCvc", cardCvc);
-        router.push("/unbiters/profile");
-        // SiguienteForm();
+        window.sessionStorage.setItem("nivelSuscripcion", 1);
+        router.push("/");
       }
 
     } catch (error) {
       console.log("error", error);
-      var error = error.response.data.error;
+      // var error = error.response.data.error;
       console.error("Error en alguno de tus datos", error.response.data);
       setErrors([error]);
     }

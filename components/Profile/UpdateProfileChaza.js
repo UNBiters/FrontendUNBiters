@@ -563,10 +563,10 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     }
     return (
         <div className="h-full">
-            <div className="h-full bg-gray-100 dark:bg-gray-900 pb-16 sm:pb-14 md:py-16">
-                <div className=" px-4 mx-auto max-w-2xl  lg:py-16">
+            <div className=" bg-gray-100 dark:bg-gray-900 pb-16 sm:pb-14 md:py-18">
+                <div className="  px-4 mx-auto max-w-2xl  lg:py-16">
                     {user.chaza ? (
-                        <form onSubmit={onSubmit} className="pt-5 ">
+                        <form onSubmit={onSubmit} className="">
                             <div className="flex justify-end">
                                 <Link
                                     href="/unbiters/profile"
@@ -789,7 +789,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                             </div>
                         </form>
                     ) : (
-                        <form onSubmit={onSubmit} className="py-3">
+                        <form onSubmit={onSubmit} className="py-3 md:py-5">
                             <div className="flex justify-end px-4 py-8">
                                 <Link
                                     href="/unbiters/profile"

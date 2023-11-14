@@ -157,6 +157,7 @@ function PostComponent({ postsFetch, namesFetch, token }) {
             <ToastContainer />
             {idSearch && (
                 <ModalComments
+                    mode={"edit"}
                     setPosts={setPosts}
                     numComments={numComments}
                     setNumComments={setNumComments}

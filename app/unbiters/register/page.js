@@ -39,7 +39,7 @@ export default function Register() {
         chaza: chaza == "on" ? true : false,
         fechaNacimiento
       };
-      console.log(body);
+      console.log(body, "HOLAAA");
       const response = await client.post("users/signup", body);
 
       console.log("request ", response);
@@ -172,9 +172,9 @@ export default function Register() {
                   <option value="" disabled hidden>
                     Selecciona una opción
                   </option>
-                  <option value="masculino">Masculino</option>
-                  <option value="femenino">Femenino</option>
-                  <option value="otro">Otro</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
+                  <option value="Otro">Otro</option>
                 </select>
                 <div className="flex flex-col items-start w-full">
                   <label className="mt-1 text-s leading-tight font-medium text-black">
