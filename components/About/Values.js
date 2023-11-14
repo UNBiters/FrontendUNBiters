@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link";
 
 
 export default function Values() {
@@ -125,6 +126,12 @@ export default function Values() {
                     <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#D63447] text-black">#D63447: </span> El rojo cereza es un tono de rojo profundo que sugiere pasión, apetito y energía. En la industria alimentaria, el rojo a menudo se asocia con la tentación y puede estimular el apetito, haciéndolo un color atractivo para resaltar platillos o productos de comida.</p>
                     <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#F57B51] text-black">#F57B51: </span>El melocotón es un tono suave de naranja que transmite calidez, frescura y apertura. En la comida, el melocotón puede evocar sabores frutales y naturales, siendo un color acogedor para entornos relacionados con alimentos y bebidas.</p>
                     <p className="text-base font-normal text-gray-500 dark:text-gray-400"> <span className="bg-[#F6EEDF:] text-black">#F6EEDF:: </span>El blanco roto es un tono suave y cálido de blanco que transmite pureza, limpieza y simplicidad. En el contexto de la comida, el blanco roto puede utilizarse para resaltar la frescura y la calidad de los ingredientes, así como para crear una sensación de limpieza y profesionalismo en el entorno alimentario.</p>
+                </li>
+                <li className="mb-10 ml-4">
+                    <div className="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
+                    <span className="mb-1 text-lg font-bold leading-none text-gray-900 dark:text-white">Nuestras politicas</span>
+                    <p className="text-base font-normal text-gray-500 dark:text-gray-400"> Para UNBiters es muy importante que sepas cómo funcionamos. A continuación, te proporcionamos toda la <Link href="/unbiters/help/legal"className="text-md leading-tight font-bold text-black hover:underline">información legal</Link> y <Link href="/unbiters/help/t&c"className="text-md leading-tight font-bold text-black hover:underline">nuestros términos y condiciones</Link>.</p>
+                    
                 </li>
             </ol>
 
