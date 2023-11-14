@@ -1,13 +1,37 @@
 "use client";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import client from "@/config/client";
 import Delete from "../Modal/Delete";
 import { useState } from "react";
 
-export default function Card({ className, card, comments, idModal, mode }) {
+export default function Card({ setChaza, token, className, card, comments, idModal, mode }) {
     //console.log(card.redesSociales[0])
-
+    const notifyDelete = () =>
+        toast.success("Publicación eliminada!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    const notifyError = () =>
+        toast.error("Ups hubo un error!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const router = useRouter();
 
@@ -16,7 +40,7 @@ export default function Card({ className, card, comments, idModal, mode }) {
         src = card.imagenUrl;
     }
     async function deleteChaza(id) {
-        console.log("borrado");
+        console.log("borrado", token);
         try {
             const response = await client.delete(`chazas/deleteMyChaza/${card.id}`, {
                 headers: {
@@ -31,6 +55,13 @@ export default function Card({ className, card, comments, idModal, mode }) {
                     return comments.filter(post => post.id !== id)
                 })*/
                 //router.refresh()
+                var res = await client.get("chazas/myChaza", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                //console.log(res.data.data)
+                setChaza(res.data.data.myChaza)
             } else {
                 notifyError();
             }
@@ -41,7 +72,8 @@ export default function Card({ className, card, comments, idModal, mode }) {
         }
     }
     return (
-        <div className={className}>
+        <div className={className} style={{"padding-bottom": "120px"}}>
+            <ToastContainer />
             {isOpenDelete && (
                 <Delete
                     message={"Borrar chaza:  " + card.nombre}

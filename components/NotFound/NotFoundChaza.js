@@ -6,7 +6,7 @@ export default function NotFoundChaza({tittle}) {
 
 
     return (
-        <div className="bg-white px-6 py-24 sm:py-32 lg:px-8">
+        <div className="heightTotal bg-white px-6 py-24 sm:py-32 lg:px-8">
             <div className="text-center">
                 <p className="text-base font-semibold text-indigo-600">404</p>
                 <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">{tittle} not found</h1>
