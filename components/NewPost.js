@@ -100,6 +100,7 @@ export default function NewPost({
     const [succes, setSucces] = useState("");
     const [token, setToken] = useState("");
     const [texto, setComment] = useState("");
+
     //const [imagen, setImages] = useState('');
     const [rating, setRating] = useState("");
     const [classe, setClasse] = useState("");
@@ -206,7 +207,6 @@ export default function NewPost({
                         setError("");
                         setSucces("La publicacíon se ha creado exitosamente!");
                         //refresh()
-
                         var res = await client.get("publications");
                         //console.log(res.data.data)
                         res.data.data.data;
