@@ -13,7 +13,16 @@ import Delete from '../Modal/Delete';
 
 export default function CardReview({ names, posts, setPosts, className, card, mode, idModal, idSearch, deletePostUp, editPostUp }) {
 
-    const notifyDelete = () => toast("Publicación eliminada!");
+    const notifyDelete = () => toast("Publicación eliminada!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     var start = [1, 1, 1, 1]
     const router = useRouter();
     //const [names, setName] = useState([])

@@ -112,6 +112,7 @@ export default function HomeComponent({ postsFetch, namesFetch }) {
                     </div>
                     <NewPost
                         posts={posts}
+                        setIsOpenH={setIsOpen}
                         setPosts={setPosts}
                         isOpen1={isOpen1}
                         setIsOpen1={setIsOpen1}

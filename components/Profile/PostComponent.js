@@ -20,7 +20,17 @@ async function loadPost() {
     }
 }
 function PostComponent({ postsFetch, namesFetch, token }) {
-    const notifyDelete = () => toast("Publicación eliminada!");
+    const notifyDelete = () =>
+        toast.success("Publicación eliminada!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     const notifyError = () =>
         toast.error("Ups hubo un error!", {
             position: "top-right",
@@ -147,7 +157,7 @@ function PostComponent({ postsFetch, namesFetch, token }) {
             <ToastContainer />
             {idSearch && (
                 <ModalComments
-                setPosts={setPosts}
+                    setPosts={setPosts}
                     numComments={numComments}
                     setNumComments={setNumComments}
                     onClose={() => {

@@ -26,7 +26,16 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
             progress: undefined,
             theme: "light",
         });
-    const notifyDelete = () => toast("Publicación eliminada!");
+    const notifyDelete = () => toast.success("Publicación eliminada!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+    });
     const notifyError = (error) =>
         toast.error("Ups hay un problema! " + (error ? error : ""), {
             position: "top-right",

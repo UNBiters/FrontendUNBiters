@@ -17,6 +17,7 @@ export default function NewPost({
     open,
     onClose,
     post,
+    setIsOpenH,
     editPostUp,
     id,
     posts,
@@ -121,14 +122,23 @@ export default function NewPost({
         }
     }
     function closeModal() {
+        setIsOpenH(false);
         setIsOpen(false);
     }
     function clean() {
-        setError();
-        setSucces();
-        setComment();
+        setError("");
+        setSucces("");
+        setComment("");
         //setImages()
-        setRating();
+        setRating("");
+        setClasse("");
+        setClasse1("");
+        setClasse2("");
+        setClasse3("");
+        setClasse4("");
+        setNombreChaza("");
+        setSelected({});
+        setImagen(null);
         closeModal();
     }
     const validation = (data) => {
@@ -146,6 +156,18 @@ export default function NewPost({
             setError("Por favor introduce un calificacíon");
             flag = true;
         }
+        if (!data.imagen) {
+            setError("Por favor sube una imagen");
+            flag = true;
+        }
+        if (data.tags.length < 1) {
+            setError("Por favor agrega al menos una etiqueta");
+            flag = true;
+        }
+        if (data.tags.length > 3) {
+            setError("Por favor selecciona menos de 3 etiquetas");
+            flag = true;
+        }
         return flag;
     };
     const onSubmit = async (e) => {
@@ -153,13 +175,13 @@ export default function NewPost({
         console.log(tags);
         try {
             if (mode != "edit") {
-                if (!validation({ texto, rating })) {
+                if (!validation({ texto, rating, imagen, tags })) {
                     var data = new FormData();
                     data.append("imagen", imagen);
                     data.append("texto", texto);
                     data.append("rating", rating);
                     data.append("tags", JSON.stringify(tags));
-                    
+
                     data.append("nombreChaza", selected.nombre);
                     var body = {
                         texto,
@@ -192,6 +214,8 @@ export default function NewPost({
                         //var newPost = posts
                         //newPost.push(response.data.data.data)
                         setPosts(res.data.data.data);
+                        closeModal();
+                        clean();
                         //setPosts(newPosts)
                         setTimeout(function () {
                             clean();
@@ -213,7 +237,7 @@ export default function NewPost({
                     data.append("imagen", imagen);
                     data.append("texto", texto);
                     data.append("rating", rating);
-                    
+
                     data.append("nombreChaza", selected.nombre);
                     if (selected.id) {
                         data.append("chaza", selected.id);
