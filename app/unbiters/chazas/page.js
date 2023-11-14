@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import Card from '@/components/Card';
+import Card from '@/components/Cards/Card';
 import Filter from '@/components/Filter';
 import NewPost from '@/components/NewPost';
 
