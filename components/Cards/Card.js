@@ -81,7 +81,7 @@ export default function Card({
         }
     }
     return (
-        <div className={className} style={{ "paddingBottom": "120px" }}>
+        <div className={className} style={{ paddingBottom: "120px" }}>
             <ToastContainer />
             {isOpenDelete && (
                 <Delete
@@ -101,6 +101,7 @@ export default function Card({
                 {/*<Link href={`?id=` + card._id} type="button" className="">*/}
                 <div className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
                     <Image
+                        priority={true}
                         width={500}
                         height={500}
                         src={src}

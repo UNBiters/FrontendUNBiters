@@ -151,7 +151,7 @@ function CommentsContainer() {
     }
 
     return (
-        <div id="home" className=" ">
+        <div className=" ">
             {isLoading ? (
                 <LoadingPost />
             ) : (

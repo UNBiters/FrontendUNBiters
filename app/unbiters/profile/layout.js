@@ -21,6 +21,7 @@ export default function ProfileLayout({ children }) {
                     data-modal-toggle="upload"
                 >
                     <Image
+                        priority={true}
                         sizes="100vw"
                         style={{
                             height: "auto",
