@@ -38,5 +38,5 @@ export default async function ProfileView() {
     //const chazas = await loadChazas(token);
     //const names = await loadNames();
     //console.log(names)
-    return (<UpdateProfile  user={user} />)
+    return (<UpdateProfile  user={user} token={token} />)
 }

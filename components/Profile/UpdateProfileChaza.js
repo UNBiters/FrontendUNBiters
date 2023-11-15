@@ -9,7 +9,7 @@ import client from "@/config/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function UpdateProfile({ user, modal, title, created, _id }) {
+export default function UpdateProfile({ user, modal, title, created, _id, token }) {
     const router = useRouter();
 
     const searchParams = useSearchParams();
@@ -61,7 +61,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     const [instagram, setInsta] = useState("");
     const [paginaWeb, setWeb] = useState("");
     const [domicilio, setDomicilio] = useState("");
-    const [token, setToken] = useState("");
+    //const [token, setToken] = useState("");
     const [imagen, setImagen] = useState(null);
 
     const validation = (data) => {
@@ -224,10 +224,10 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     };
     useEffect(() => {
         try {
-            var token = window.sessionStorage.getItem("token");
+            //var token = window.sessionStorage.getItem("token");
             //console.log("data", token)
             //console.log("act")
-            setToken(window.sessionStorage.getItem("token"));
+            //setToken(window.sessionStorage.getItem("token"));
             var chaza = null;
             if (searchId) {
                 client
@@ -238,7 +238,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                     })
                     .then((res) => {
                         chaza = res.data.data.data;
-                        console.log("page", chaza);
+                        //console.log("page", chaza);
                         if (chaza.length != 0) {
                             setEdit(true);
                             //chaza = chaza[0];
@@ -332,27 +332,27 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     var horario = [
         {
             id: 1,
-            nombre: "7-9",
+            nombre: "7am a 9am",
         },
         {
             id: 2,
-            nombre: "9-11",
+            nombre: "9am a 11am",
         },
         {
             id: 3,
-            nombre: "11-1",
+            nombre: "11am a 1pm",
         },
         {
             id: 4,
-            nombre: "1-3",
+            nombre: "1pm a 3pm",
         },
         {
             id: 5,
-            nombre: "3-5",
+            nombre: "3pm a 5pm",
         },
         {
             id: 6,
-            nombre: "5-7",
+            nombre: "5pm a 7pm",
         },
     ];
 
@@ -721,7 +721,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                                 </div>
                                 <div className="">
                                     <label
-                                        for="checked-checkbox"
+                                        htmlFor="checked-checkbox"
                                         className="text-sm font-semibold text-gray-900 dark:text-gray-300"
                                     >
                                         Marca esta casilla si haces domicilios{" "}
@@ -765,7 +765,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                                 </div>
 
                                 <label
-                                    for="cover-photo"
+                                    htmlFor="cover-photo"
                                     className="block text-sm font-medium leading-6 text-gray-900"
                                 >
                                     Actualiza la imagen de tu chaza
