@@ -89,7 +89,7 @@ function PostComponent({ postsFetch, namesFetch, token }) {
             console.log(error);
         }
     }, []);
-
+    
     async function deletePostUp(id) {
         console.log("borrarrrr", id);
         try {

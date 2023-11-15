@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import CardComent from "@/components/CardComment";
@@ -7,12 +6,14 @@ import Comments from "@/components/Comments";
 import Card from "@/components/Cards/Card";
 import Filter from "@/components/Filter";
 import NewPost from "@/components/NewPost";
+import { Suspense } from "react";
 
 import client from "@/config/client";
 import ModalComments from "@/components/Modal/ModalComments";
 import { useSearchParams, useRouter } from "next/navigation";
 import CardReview from "@/components/Cards/CardReview";
 import Container from "../Container";
+import LoadingPost from "../Loading/LoadingPost";
 
 export default function HomeComponent({ postsFetch, namesFetch }) {
     const searchParams = useSearchParams();
@@ -124,28 +125,34 @@ export default function HomeComponent({ postsFetch, namesFetch }) {
                         }}
                     ></NewPost>
                 </div>
+                {console.log(posts)}
+                {console.log(categorias)}
                 {posts.length != 0 ? (
                     /* col-span-2 pt-3 CardProfile justify-items-center grid min-[1000px]:grid-cols-2 min-[1300px]:grid-cols-3 min-[1300px]:px-3 */
                     <div className="col-span-2  justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                         {posts.map((card) => (
-                            <>
-                                <CardReview
-                                    names={names}
-                                    key={card._id}
-                                    card={card}
-                                    idModal={card._id}
-                                    comments={card.reviews}
-                                    className={"ListComment pb-2 md:mx-2 "}
-                                />
-                            </>
+                            <CardReview
+                                names={names}
+                                key={card._id}
+                                card={card}
+                                idModal={card._id}
+                                comments={card.reviews}
+                                className={"ListComment pb-2 md:mx-2 "}
+                            />
                         ))}
                     </div>
                 ) : (
-                    <Container
-                        setPosts={setPosts}
-                        categorias={categorias}
-                        setCategorias={setCategorias}
-                    />
+                    <>
+                        {categorias.length != 0 ? (
+                            <Container
+                                setPosts={setPosts}
+                                categorias={categorias}
+                                setCategorias={setCategorias}
+                            />
+                        ) : (
+                            <LoadingPost />
+                        )}
+                    </>
                 )}
                 <a
                     href="/unbiters/pricing"
