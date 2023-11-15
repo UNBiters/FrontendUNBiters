@@ -34,8 +34,7 @@ export default function ProfileLayout({ children }) {
                 {/*<UploadImage modal="upload"></UploadImage>*/}
             </div>
             <Navbar profile={true}></Navbar>
-
-            <Suspense fallback={<LoadingHome />}>{children}</Suspense>
+            {children}
         </>
     );
 }

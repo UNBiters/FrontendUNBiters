@@ -4,9 +4,7 @@ import CommentsContainer from "./CommentContainer";
 function Comments() {
     return (
         <>
-            <Suspense fallback={<p>Loading feed...</p>}>
-                <CommentsContainer />
-            </Suspense>
+            <CommentsContainer />
         </>
     );
 }

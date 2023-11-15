@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import { Suspense } from "react";
 import Container from "@/components/Container";
 import LoadingHome from "@/components/Loading/LoadingHome";
+import LoadingPost from "@/components/Loading/LoadingPost";
 
 async function loadPost() {
     try {
@@ -57,13 +58,14 @@ function CommentsContainer() {
             progress: undefined,
             theme: "light",
         });
+    const [isLoading, setIsLoading] = useState(true);
     const [comments, setComments] = useState([]);
     const [token, setToken] = useState("");
     const searchParams = useSearchParams();
     const router = useRouter();
     const idSearch = searchParams.get("id");
     const [id, setId] = useState("");
-    
+
     useEffect(() => {
         try {
             var tkn = Cookies.get("token");
@@ -81,6 +83,7 @@ function CommentsContainer() {
                     if (post.length != 0) {
                         setComments(post);
                     }
+                    setIsLoading(false);
                 });
         } catch (error) {
             console.log(error);
@@ -149,38 +152,42 @@ function CommentsContainer() {
 
     return (
         <div id="home" className=" ">
-            <ToastContainer />
+            {isLoading ? (
+                <LoadingPost />
+            ) : (
+                <>
+                    <ToastContainer />
 
-            {idSearch && (
-                <ModalComments
-                    onClose={() => {
-                        router.push(`/unbiters/profile/posts/#${idSearch}`);
-                    }}
-                    _id={idSearch}
-                />
+                    {idSearch && (
+                        <ModalComments
+                            onClose={() => {
+                                router.push(`/unbiters/profile/posts/#${idSearch}`);
+                            }}
+                            _id={idSearch}
+                        />
+                    )}
+                    {comments.length != 0 ? (
+                        <div className="CardProfile pt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+                            {comments.map((comment) => (
+                                <MyComments
+                                    key={comment._id}
+                                    comment={comment}
+                                    editCommentUp={editCommentUp}
+                                    deleteCommentUp={deleteCommentUp}
+                                ></MyComments>
+                            ))}
+                        </div>
+                    ) : (
+                        <Container
+                            title={"Comentarios no econtrados "}
+                            message={
+                                "Lo sentimos no encontramos ningún comentario de tu autoria, te invitamos a ver publicaciones y siempre dar tu opinión."
+                            }
+                            mode={"profile"}
+                        />
+                    )}
+                </>
             )}
-            <Suspense fallback={<LoadingHome />}>
-                {comments.length != 0 ? (
-                    <div className="CardProfile pt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                        {comments.map((comment) => (
-                            <MyComments
-                                key={comment._id}
-                                comment={comment}
-                                editCommentUp={editCommentUp}
-                                deleteCommentUp={deleteCommentUp}
-                            ></MyComments>
-                        ))}
-                    </div>
-                ) : (
-                    <Container
-                        title={"Comentarios no econtrados "}
-                        message={
-                            "Lo sentimos no encontramos ningún comentario de tu autoria, te invitamos a ver publicaciones y siempre dar tu opinión."
-                        }
-                        mode={"profile"}
-                    />
-                )}
-            </Suspense>
         </div>
     );
 }
