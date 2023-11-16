@@ -14,14 +14,17 @@ import { useSearchParams, useRouter } from "next/navigation";
 import CardReview from "@/components/Cards/CardReview";
 import Container from "../Container";
 import LoadingPost from "../Loading/LoadingPost";
+import { useUsers } from "@/context/UserContext";
 
 export default function HomeComponent({ postsFetch, namesFetch }) {
     const searchParams = useSearchParams();
     const [categorias, setCategorias] = useState([]);
     const idSearch = searchParams.get("id");
     const router = useRouter();
+    const { token } = useUsers();
+    //console.log(token)
     const [chazas, setChazas] = useState([]);
-    const [token, setToken] = useState("");
+    //const [token, setToken] = useState("");
     const [names, setName] = useState([]);
     const [posts, setPosts] = useState([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -43,7 +46,7 @@ export default function HomeComponent({ postsFetch, namesFetch }) {
         setPosts(postsFetch);
         setName(namesFetch);
         //console.log(posts)
-        setToken(window.sessionStorage.getItem("token"));
+        //setToken(window.sessionStorage.getItem("token"));
         /*client.get(`chazas`, { next: { revalidate: true | 0 | 60 } })
       .then((res) => {
         if (!res.status == "200") {

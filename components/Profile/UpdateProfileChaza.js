@@ -9,10 +9,11 @@ import client from "@/config/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Banner from "./Banner";
+import { Router } from "next/router";
 
 export default function UpdateProfile({ user, modal, title, created, _id, token }) {
     const router = useRouter();
-
+    //console.log(user)
     const searchParams = useSearchParams();
 
     const searchId = searchParams.get("id");
@@ -138,7 +139,10 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                         },
                     });
                     console.log("data: ", response);
-                    if (response) {
+                    if (response.status == "201") {
+                        router.push("/unbiters/profile");
+                    } else {
+                        notifyError("Ups, hubo un error, intenta de nuevo mas tarde.");
                     }
                 } else {
                     var redesSociales = [facebook, instagram, paginaWeb];
@@ -219,6 +223,13 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
             if (error.response.status == "403") {
                 //console.log("Error: ", error);
                 notifyError(error.response.data.message);
+            } else if (error.response.status == "400") {
+                if (
+                    error.response.data.message ==
+                    "El campo: nombre ya existe. Por favor usa otro valor!"
+                ) {
+                    notifyError("Ya existe una chaza con este nombre, revisa este dato, si crees que hay un error no dudes en contactarnos");
+                }
             } else {
                 console.log("Error: ", error);
             }
@@ -565,7 +576,7 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
     }
     return (
         <div className="h-full">
-            {user.chaza && !searchId ? <Banner /> : null}
+            {user.chaza && !searchId && user.nivelSuscripcion == 0 ? <Banner /> : null}
             <div className=" bg-gray-100 dark:bg-gray-900 pb-16 sm:pb-14 md:py-18">
                 <div className="  px-4 mx-auto max-w-2xl  lg:py-16">
                     {user.chaza ? (

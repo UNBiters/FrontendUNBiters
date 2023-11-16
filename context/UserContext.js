@@ -13,6 +13,7 @@ export const useUsers = () => {
 
 export const UserProvider = ({ children }) => {
     const [isLogin, setIsLogin] = useState(Cookies.get("token") ? true : false);
+    const [token, setToken] = useState(Cookies.get("token") ? Cookies.get("token") : null);
     const [userChazas, setUserChaza] = useState([]);
     const [userData, setUserData] = useState(
         Cookies.get("user") ? JSON.parse(Cookies.get("user")) : {}
@@ -31,6 +32,7 @@ export const UserProvider = ({ children }) => {
         if (Cookies.get("token")) {
             //console.log("set login true");
             setIsLogin(true);
+            setToken(Cookies.get("token"))
             if (Cookies.get("user")) {
                 setUserData(JSON.parse(Cookies.get("user")));
             }
@@ -38,7 +40,7 @@ export const UserProvider = ({ children }) => {
     }, [isLogin]);
     return (
         <UserContext.Provider
-            value={{ isLogin, userData, userChazas, setLogin, setUser, setChazas }}
+            value={{ isLogin, userData, userChazas,token, setLogin, setUser, setChazas }}
         >
             {children}
         </UserContext.Provider>

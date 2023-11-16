@@ -89,7 +89,6 @@ export default function Navbar({ profile = false }) {
 
     useEffect(() => {
         if (profile) {
-            console.log(profile)
             if (chaza) {
                 setNavigation(navigationProfile);
             } else {
@@ -97,7 +96,6 @@ export default function Navbar({ profile = false }) {
             }
             setClassName("NavbarMain");
         } else {
-            console.log(isLogin)
             if (isLogin) {
                 setNavigation(navigationLogin);
             } else {
@@ -106,7 +104,7 @@ export default function Navbar({ profile = false }) {
             setClassName("NavbarMain md:fixed w-full z-20 top-0 left-0");
         }
         setIsLoading(false);
-    }, []);
+    }, [isLogin]);
 
     return (
         <>
@@ -114,7 +112,6 @@ export default function Navbar({ profile = false }) {
                 <LoadingNav />
             ) : (
                 <>
-                    {console.log(isLogin)}
                     {isOpen1 && (
                         <Logout
                             onClose={() => {

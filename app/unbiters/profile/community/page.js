@@ -19,30 +19,16 @@ export default function Community() {
     const { _id } = userChazas;
     const [reciente, setReciente] = useState([]);
     let [categories] = useState({
-        Reciente: [{}],
-        Popular: [
-            {
-                id: 1,
-                title: "Is tech making coffee better or worse?",
-                date: "Jan 7",
-                commentCount: 29,
-                shareCount: 16,
-            },
-            {
-                id: 2,
-                title: "The most innovative things happening in coffee",
-                date: "Mar 19",
-                commentCount: 24,
-                shareCount: 12,
-            },
-        ],
-        //Comentarios: [{}],
+        Reciente: [],
+        Popular: [],
+        Comentarios: [],
     });
     useEffect(() => {
         var token = Cookies.get("token");
         var user = JSON.parse(Cookies.get("user"));
-        console.log(user.id);
+        //console.log(user.id);
         var chaza = null;
+        var chazaA = null;
         client
             .get("chazas/myChaza", {
                 headers: {
@@ -51,64 +37,71 @@ export default function Community() {
             })
             .then((res) => {
                 chaza = res.data.data.myChaza[0];
-                console.log(chaza);
-                client
-                    .get(
-                        `publications/me/${chaza._id}`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${token}`,
+                chazaA = res.data.data.myChaza;
+                console.log(chazaA);
+                for (var i = 0; i < chazaA.length; i++) {
+                    console.log(chazaA[i]);
+                    client
+                        .get(
+                            `publications/me/${chazaA[i].id}`,
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${token}`,
+                                },
                             },
-                        },
-                        { next: { revalidate: true | 0 | 60 } }
-                    )
-                    .then((res) => {
-                        console.log(res);
-                        if (!res.status == "200") {
-                            throw new Error("Failed to fetch data");
-                        }
-                        var commets = [];
-                        var data = res.data.data.data;
-                        if (data.length > 0) {
-                            console.log("daata ", data);
-                            for (var i = 0; i < data.length; i++) {
-                                client
-                                    .get(
-                                        `reviews/${data[0].id}`,
-                                        {
-                                            headers: {
-                                                Authorization: `Bearer ${token}`,
-                                            },
-                                        },
-                                        { next: { revalidate: true | 0 | 60 } }
-                                    )
-                                    .then((res) => {
-                                        console.log(res);
-                                        if (!res.status == "200") {
-                                            throw new Error("Failed to fetch data");
-                                        }
-                                        var commets = res.data.data.data;
-                                        if (data.length > 0) {
-                                            categories.Comentarios = commets;
-                                        } else {
-                                            console.log("No hay data");
-                                        }
-                                    });
+                            { next: { revalidate: true | 0 | 60 } }
+                        )
+                        .then((res) => {
+                            console.log("publi", res);
+                            if (!res.status == "200") {
+                                throw new Error("Failed to fetch data");
                             }
-                            categories.Reciente = data;
-                            var popular = data.filter((item) => {
-                                if (item.likes > 0) {
-                                    return item;
+                            var data = res.data.data.data;
+                            if (data.length > 0) {
+                                for (var i = 0; i < data.length; i++) {
+                                    client
+                                        .get(
+                                            `reviews/${data[0].id}`,
+                                            {
+                                                headers: {
+                                                    Authorization: `Bearer ${token}`,
+                                                },
+                                            },
+                                            { next: { revalidate: true | 0 | 60 } }
+                                        )
+                                        .then((res) => {
+                                            //console.log("comme", res);
+                                            if (!res.status == "200") {
+                                                throw new Error("Failed to fetch data");
+                                            }
+                                            var commets = res.data.data.data;
+                                            if (data.length > 0) {
+                                                categories.Comentarios = [
+                                                    ...categories.Comentarios,
+                                                    ...commets,
+                                                ];
+                                            } else {
+                                                console.log("No hay data");
+                                            }
+                                        });
                                 }
-                            });
-                            categories.Popular = popular;
-                            setReciente(data);
-                            setIsLoading(false);
-                        } else {
-                            console.log("No hay data");
-                            setIsLoading(false);
-                        }
-                    });
+                                console.log("states", categories.Reciente);
+                                console.log("data", data);
+                                categories.Reciente = [...categories.Reciente, ...data];
+                                var popular = data.filter((item) => {
+                                    if (item.likes > 0) {
+                                        return item;
+                                    }
+                                });
+                                categories.Popular = popular;
+                                setReciente(data);
+                                setIsLoading(false);
+                            } else {
+                                //console.log("No hay data");
+                                setIsLoading(false);
+                            }
+                        });
+                }
             });
     }, []);
     return (
@@ -118,7 +111,7 @@ export default function Community() {
             ) : (
                 <>
                     {reciente.length != 0 ? (
-                        <div className="container w-full px-4 py-4 min-h-full ">
+                        <div className="w-full px-4 py-4 min-h-full pb-2 md:pb-16" style={{"paddingBottom": "60px"}}>
                             <Tab.Group>
                                 <Tab.List className="flex space-x-1 rounded-xl bg-white p-1">
                                     {Object.keys(categories).map((category) => (
@@ -148,9 +141,9 @@ export default function Community() {
                                                 "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
                                             )}
                                         >
+                                            {console.log(posts)}
                                             {posts.length != 0 ? (
                                                 <ul>
-                                                    {console.log(idx)}
                                                     {posts.map((post) => (
                                                         <li
                                                             key={post.id}
