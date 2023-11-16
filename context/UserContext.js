@@ -27,9 +27,9 @@ export const UserProvider = ({ children }) => {
         setUserChaza(chaza);
     };
     useEffect(() => {
-        console.log("set login true");
+        //console.log("set login true");
         if (Cookies.get("token")) {
-            console.log("set login true");
+            //console.log("set login true");
             setIsLogin(true);
             if (Cookies.get("user")) {
                 setUserData(JSON.parse(Cookies.get("user")));

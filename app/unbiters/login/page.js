@@ -30,8 +30,8 @@ export default function Login() {
 
                 const { user, chaza } = response.data.data;
                 const { nombre, _id, cliente, nivelSuscripcion } = response.data.data.user;
-                setUser(user);
-                setChazas(chaza);
+                //setUser(user);
+                //setChazas(chaza);
                 Cookies.set("token", token);
                 Cookies.set("user", JSON.stringify(user));
                 window.sessionStorage.setItem("user", user);
@@ -41,7 +41,7 @@ export default function Login() {
                 window.sessionStorage.setItem("sesion", "true");
                 window.sessionStorage.setItem('cliente', cliente);
                 window.sessionStorage.setItem('nivelSuscripcion', nivelSuscripcion);
-                router.push("/");
+                router.push("/", null, { shallow: true });
             } else {
                 setError("Hubo un error inesperado");
                 setTimeout(function () {
