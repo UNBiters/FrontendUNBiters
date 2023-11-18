@@ -8,10 +8,12 @@ import { useEffect, useState, Fragment } from "react";
 import client from "@/config/client";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Banner from "./Banner";
+import { Router } from "next/router";
 
-export default function UpdateProfile({ user, modal, title, created, _id }) {
+export default function UpdateProfile({ user, modal, title, created, _id, token }) {
     const router = useRouter();
-
+    //console.log(user)
     const searchParams = useSearchParams();
 
     const searchId = searchParams.get("id");
@@ -26,16 +28,17 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
             progress: undefined,
             theme: "light",
         });
-    const notifyDelete = () => toast.success("Publicación eliminada!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-    });
+    const notifyDelete = () =>
+        toast.success("Publicación eliminada!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     const notifyError = (error) =>
         toast.error("Ups hay un problema! " + (error ? error : ""), {
             position: "top-right",
@@ -61,7 +64,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     const [instagram, setInsta] = useState("");
     const [paginaWeb, setWeb] = useState("");
     const [domicilio, setDomicilio] = useState("");
-    const [token, setToken] = useState("");
+    //const [token, setToken] = useState("");
     const [imagen, setImagen] = useState(null);
 
     const validation = (data) => {
@@ -136,7 +139,10 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                         },
                     });
                     console.log("data: ", response);
-                    if (response) {
+                    if (response.status == "201") {
+                        router.push("/unbiters/profile");
+                    } else {
+                        notifyError("Ups, hubo un error, intenta de nuevo mas tarde.");
                     }
                 } else {
                     var redesSociales = [facebook, instagram, paginaWeb];
@@ -217,6 +223,13 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
             if (error.response.status == "403") {
                 //console.log("Error: ", error);
                 notifyError(error.response.data.message);
+            } else if (error.response.status == "400") {
+                if (
+                    error.response.data.message ==
+                    "El campo: nombre ya existe. Por favor usa otro valor!"
+                ) {
+                    notifyError("Ya existe una chaza con este nombre, revisa este dato, si crees que hay un error no dudes en contactarnos");
+                }
             } else {
                 console.log("Error: ", error);
             }
@@ -224,10 +237,10 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     };
     useEffect(() => {
         try {
-            var token = window.sessionStorage.getItem("token");
+            //var token = window.sessionStorage.getItem("token");
             //console.log("data", token)
             //console.log("act")
-            setToken(window.sessionStorage.getItem("token"));
+            //setToken(window.sessionStorage.getItem("token"));
             var chaza = null;
             if (searchId) {
                 client
@@ -238,7 +251,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                     })
                     .then((res) => {
                         chaza = res.data.data.data;
-                        console.log("page", chaza);
+                        //console.log("page", chaza);
                         if (chaza.length != 0) {
                             setEdit(true);
                             //chaza = chaza[0];
@@ -332,27 +345,27 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     var horario = [
         {
             id: 1,
-            nombre: "7-9",
+            nombre: "7am a 9am",
         },
         {
             id: 2,
-            nombre: "9-11",
+            nombre: "9am a 11am",
         },
         {
             id: 3,
-            nombre: "11-1",
+            nombre: "11am a 1pm",
         },
         {
             id: 4,
-            nombre: "1-3",
+            nombre: "1pm a 3pm",
         },
         {
             id: 5,
-            nombre: "3-5",
+            nombre: "3pm a 5pm",
         },
         {
             id: 6,
-            nombre: "5-7",
+            nombre: "5pm a 7pm",
         },
     ];
 
@@ -563,231 +576,238 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     }
     return (
         <div className="h-full">
+            {user.chaza && !searchId && user.nivelSuscripcion == 0 ? <Banner /> : null}
             <div className=" bg-gray-100 dark:bg-gray-900 pb-16 sm:pb-14 md:py-18">
                 <div className="  px-4 mx-auto max-w-2xl  lg:py-16">
                     {user.chaza ? (
-                        <form onSubmit={onSubmit} className="">
-                            <div className="flex justify-end">
-                                <Link
-                                    href="/unbiters/profile"
-                                    type="button"
-                                    className="mb-2 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white  mx-3 bg-gray-500 hover:bg-gray-300  inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium text-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                >
-                                    Cancelar
-                                </Link>
-                                <button
-                                    type="submit"
-                                    className="bg-[#9d5b5b] inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white  focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
-                                >
-                                    {edit ? "Actualizar" : "Crear Chaza"}
-                                </button>
-                            </div>
-                            <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                                <div className="sm:col-span-2">
-                                    <label
-                                        htmlFor="name"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                        <>
+                            <form onSubmit={onSubmit} className="">
+                                <div className="flex justify-end">
+                                    <Link
+                                        href="/unbiters/profile"
+                                        type="button"
+                                        className="mb-2 inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white  mx-3 bg-gray-500 hover:bg-gray-300  inline-flex justify-center rounded-md border border-transparent  px-4 py-2 text-sm font-medium text-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                     >
-                                        Nombre de tu chaza:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        id="nombre"
-                                        onChange={(e) => setNombre(e.target.value)}
-                                        value={nombre}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Type product name"
-                                        required
-                                    />
-                                </div>
-                                <div className="sm:col-span-2">
-                                    <label
-                                        htmlFor="slug"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        Cancelar
+                                    </Link>
+                                    <button
+                                        type="submit"
+                                        className="bg-[#9d5b5b] inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white rounded-lg  text-white  focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 "
                                     >
-                                        Eslogan de tu chaza:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="slug"
-                                        id="slug"
-                                        onChange={(e) => setEslogan(e.target.value)}
-                                        value={eslogan}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Type product name"
-                                        required
-                                    />
+                                        {edit ? "Actualizar" : "Crear Chaza"}
+                                    </button>
                                 </div>
-                                <div className="text-start text-sm font-medium ">
-                                    {MyMultiSelectCategorias()}
-                                </div>
-                                <div className="text-start text-sm font-medium ">
-                                    {MyMultiSelectMedios()}
-                                </div>
-
-                                <div className="w-full">
-                                    <label
-                                        htmlFor="date"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Fecha de Fundacíon
-                                    </label>
-                                    <input
-                                        type="date"
-                                        name="date"
-                                        id="fechaFundacion"
-                                        onChange={(e) =>
-                                            setFechaFundacion(e.target.value)
-                                        }
-                                        value={fechaFundacion}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="$2999"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="ubicacion"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Sector en la Universidad
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="ubicacion"
-                                        id="ubicacion"
-                                        onChange={(e) => setUbicacion(e.target.value)}
-                                        value={ubicacion}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Tu ubicación"
-                                        required
-                                    />
-                                </div>
-                                <div className="">
-                                    <label
-                                        htmlFor="name"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Tu sitio web:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        id="nombre"
-                                        onChange={(e) => setWeb(e.target.value)}
-                                        value={paginaWeb}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Tu sitio web"
-                                    />
-                                </div>
-                                <div className="">
-                                    <label
-                                        htmlFor="name"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Tu pagina de facebook:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        id="nombre"
-                                        onChange={(e) => setFace(e.target.value)}
-                                        value={facebook}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Tu pagina de facebook"
-                                    />
-                                </div>
-                                <div className="">
-                                    <label
-                                        htmlFor="name"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                    >
-                                        Tu usuario de instagram:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        id="nombre"
-                                        onChange={(e) => setInsta(e.target.value)}
-                                        value={instagram}
-                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Tu instagram"
-                                    />
-                                </div>
-
-                                <div className="text-start text-sm font-medium ">
-                                    {MyMultiSelectHorario()}
-                                </div>
-                                <div className="">
-                                    <label
-                                        for="checked-checkbox"
-                                        className="text-sm font-semibold text-gray-900 dark:text-gray-300"
-                                    >
-                                        Marca esta casilla si haces domicilios{" "}
-                                    </label>
-                                    {domicilio ? (
+                                <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                                    <div className="sm:col-span-2">
+                                        <label
+                                            htmlFor="name"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Nombre de tu chaza:
+                                        </label>
                                         <input
-                                            id="checked-checkbox"
-                                            type="checkbox"
-                                            checked
-                                            onClick={(e) =>
-                                                setDomicilio(e.target.checked)
+                                            type="text"
+                                            name="name"
+                                            id="nombre"
+                                            onChange={(e) => setNombre(e.target.value)}
+                                            value={nombre}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Type product name"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="sm:col-span-2">
+                                        <label
+                                            htmlFor="slug"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Eslogan de tu chaza:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="slug"
+                                            id="slug"
+                                            onChange={(e) => setEslogan(e.target.value)}
+                                            value={eslogan}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Type product name"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="text-start text-sm font-medium ">
+                                        {MyMultiSelectCategorias()}
+                                    </div>
+                                    <div className="text-start text-sm font-medium ">
+                                        {MyMultiSelectMedios()}
+                                    </div>
+
+                                    <div className="w-full">
+                                        <label
+                                            htmlFor="date"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Fecha de Fundacíon
+                                        </label>
+                                        <input
+                                            type="date"
+                                            name="date"
+                                            id="fechaFundacion"
+                                            onChange={(e) =>
+                                                setFechaFundacion(e.target.value)
                                             }
-                                            className="text-end w-4 h-4 text-blue-600 bg-gray-100 border-gray-400 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            value={fechaFundacion}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="$2999"
+                                            required
                                         />
-                                    ) : (
+                                    </div>
+                                    <div>
+                                        <label
+                                            htmlFor="ubicacion"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Sector en la Universidad
+                                        </label>
                                         <input
-                                            id="checked-checkbox"
-                                            type="checkbox"
-                                            onClick={(e) =>
-                                                setDomicilio(e.target.checked)
+                                            type="text"
+                                            name="ubicacion"
+                                            id="ubicacion"
+                                            onChange={(e) => setUbicacion(e.target.value)}
+                                            value={ubicacion}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Tu ubicación"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="">
+                                        <label
+                                            htmlFor="name"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Tu sitio web:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="nombre"
+                                            onChange={(e) => setWeb(e.target.value)}
+                                            value={paginaWeb}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Tu sitio web"
+                                        />
+                                    </div>
+                                    <div className="">
+                                        <label
+                                            htmlFor="name"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Tu pagina de facebook:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="nombre"
+                                            onChange={(e) => setFace(e.target.value)}
+                                            value={facebook}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Tu pagina de facebook"
+                                        />
+                                    </div>
+                                    <div className="">
+                                        <label
+                                            htmlFor="name"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Tu usuario de instagram:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            id="nombre"
+                                            onChange={(e) => setInsta(e.target.value)}
+                                            value={instagram}
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Tu instagram"
+                                        />
+                                    </div>
+
+                                    <div className="text-start text-sm font-medium ">
+                                        {MyMultiSelectHorario()}
+                                    </div>
+                                    <div className="">
+                                        <label
+                                            htmlFor="checked-checkbox"
+                                            className="text-sm font-semibold text-gray-900 dark:text-gray-300"
+                                        >
+                                            Marca esta casilla si haces domicilios{" "}
+                                        </label>
+                                        {domicilio ? (
+                                            <input
+                                                id="checked-checkbox"
+                                                type="checkbox"
+                                                checked
+                                                onClick={(e) =>
+                                                    setDomicilio(e.target.checked)
+                                                }
+                                                className="text-end w-4 h-4 text-blue-600 bg-gray-100 border-gray-400 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            />
+                                        ) : (
+                                            <input
+                                                id="checked-checkbox"
+                                                type="checkbox"
+                                                onClick={(e) =>
+                                                    setDomicilio(e.target.checked)
+                                                }
+                                                className="text-end w-4 h-4 text-blue-600 bg-gray-100 border-gray-400 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            />
+                                        )}
+                                    </div>
+                                    <div className="sm:col-span-2">
+                                        <label
+                                            htmlFor="descripcion"
+                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Descripción
+                                        </label>
+                                        <textarea
+                                            id="descripcion"
+                                            onChange={(e) =>
+                                                setDescripcion(e.target.value)
                                             }
-                                            className="text-end w-4 h-4 text-blue-600 bg-gray-100 border-gray-400 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                        />
-                                    )}
-                                </div>
-                                <div className="sm:col-span-2">
+                                            value={descripcion}
+                                            rows="8"
+                                            className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="Agrega una descripción"
+                                        ></textarea>
+                                    </div>
+
                                     <label
-                                        htmlFor="descripcion"
-                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                        htmlFor="cover-photo"
+                                        className="block text-sm font-medium leading-6 text-gray-900"
                                     >
-                                        Descripción
+                                        Actualiza la imagen de tu chaza
                                     </label>
-                                    <textarea
-                                        id="descripcion"
-                                        onChange={(e) => setDescripcion(e.target.value)}
-                                        value={descripcion}
-                                        rows="8"
-                                        className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Agrega una descripción"
-                                    ></textarea>
-                                </div>
 
-                                <label
-                                    for="cover-photo"
-                                    className="block text-sm font-medium leading-6 text-gray-900"
-                                >
-                                    Actualiza la imagen de tu chaza
-                                </label>
-
-                                <div className="flex items-center justify-center w-full">
-                                    <label className="block">
-                                        <span className="sr-only">
-                                            Choose profile photo
-                                        </span>
-                                        <input
-                                            id="imagen"
-                                            type="file"
-                                            multiple
-                                            accept="image/*"
-                                            onChange={(e) => setImagen(e.target.files[0])}
-                                            className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold  bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
-                                        />
-                                    </label>
+                                    <div className="md:pb-16 flex items-center justify-center w-full">
+                                        <label className="block">
+                                            <span className="sr-only">
+                                                Choose profile photo
+                                            </span>
+                                            <input
+                                                id="imagen"
+                                                type="file"
+                                                multiple
+                                                accept="image/*"
+                                                onChange={(e) =>
+                                                    setImagen(e.target.files[0])
+                                                }
+                                                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold  bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+                                            />
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </>
                     ) : (
                         <form onSubmit={onSubmit} className="py-3 md:py-5">
                             <div className="flex justify-end px-4 py-8">

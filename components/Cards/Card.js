@@ -1,4 +1,5 @@
 "use client";
+import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,7 +9,15 @@ import client from "@/config/client";
 import Delete from "../Modal/Delete";
 import { useState } from "react";
 
-export default function Card({ setChaza, token, className, card, comments, idModal, mode }) {
+export default function Card({
+    setChaza,
+    token,
+    className,
+    card,
+    comments,
+    idModal,
+    mode,
+}) {
     //console.log(card.redesSociales[0])
     const notifyDelete = () =>
         toast.success("Publicación eliminada!", {
@@ -61,7 +70,7 @@ export default function Card({ setChaza, token, className, card, comments, idMod
                     },
                 });
                 //console.log(res.data.data)
-                setChaza(res.data.data.myChaza)
+                setChaza(res.data.data.myChaza);
             } else {
                 notifyError();
             }
@@ -72,7 +81,7 @@ export default function Card({ setChaza, token, className, card, comments, idMod
         }
     }
     return (
-        <div className={className} style={{"padding-bottom": "120px"}}>
+        <div className={className} style={{ paddingBottom: "120px" }}>
             <ToastContainer />
             {isOpenDelete && (
                 <Delete
@@ -92,6 +101,7 @@ export default function Card({ setChaza, token, className, card, comments, idMod
                 {/*<Link href={`?id=` + card._id} type="button" className="">*/}
                 <div className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
                     <Image
+                        priority={true}
                         width={500}
                         height={500}
                         src={src}
@@ -262,13 +272,7 @@ export default function Card({ setChaza, token, className, card, comments, idMod
                                     {card.redesSociales
                                         ? card.redesSociales.map((redesSociales) => (
                                               <li
-                                                  key={
-                                                      card.id +
-                                                      "0" +
-                                                      card.redesSociales.indexOf(
-                                                          redesSociales
-                                                      )
-                                                  }
+                                                  key={uuidv4()}
                                                   className="flex justify-center"
                                               >
                                                   <Link
@@ -306,13 +310,7 @@ export default function Card({ setChaza, token, className, card, comments, idMod
                                     {card.mediosPagos
                                         ? card.mediosPagos.map((mediosPagos) => (
                                               <li
-                                                  key={
-                                                      card.id +
-                                                      "1" +
-                                                      card.mediosPagos.indexOf(
-                                                          mediosPagos
-                                                      )
-                                                  }
+                                                  key={uuidv4()}
                                                   className="flex justify-center"
                                               >
                                                   <span className="text-sm font-normal text-gray-700">
@@ -328,11 +326,7 @@ export default function Card({ setChaza, token, className, card, comments, idMod
                             {card.categorias
                                 ? card.categorias.map((categorias) => (
                                       <span
-                                          key={
-                                              card.id +
-                                              "2" +
-                                              categorias.indexOf(categorias)
-                                          }
+                                          key={uuidv4()}
                                           className="inline-block bg-[#9d5b5b] rounded-full px-3 py-1 text-sm font-semibold text-gray-900 mr-2 mb-2"
                                       >
                                           #{categorias}

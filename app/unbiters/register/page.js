@@ -77,7 +77,7 @@ export default function Register() {
           minHeight: "100vh",
         }}
       >
-        <div className="pt-32 flex justify-center items-center">
+        <div className="pt-32 flex justify-center items-center"style={{ paddingBottom: '150px' }}>
           <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
             {!errors
               ? errors.map((err) => (

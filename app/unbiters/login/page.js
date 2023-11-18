@@ -24,24 +24,29 @@ export default function Login() {
             const response = await client.post("users/login", { correo, contraseña });
 
             console.log(response);
-            if (response.data.status === "success") {
-                setLogin(true);
-                const { token } = response.data;
+            if (response.status == "200") {
+                try {
+                    setLogin(true);
+                    const { token } = response.data;
 
-                const { user, chaza } = response.data.data;
-                const { nombre, _id, cliente, nivelSuscripcion } = response.data.data.user;
-                setUser(user);
-                setChazas(chaza);
-                Cookies.set("token", token);
-                Cookies.set("user", JSON.stringify(user));
-                window.sessionStorage.setItem("user", user);
-                window.sessionStorage.setItem("token", token);
-                window.sessionStorage.setItem("nombre", nombre);
-                window.sessionStorage.setItem("id", _id);
-                window.sessionStorage.setItem("sesion", "true");
-                window.sessionStorage.setItem('cliente', cliente);
-                window.sessionStorage.setItem('nivelSuscripcion', nivelSuscripcion);
-                router.push("/");
+                    const { user, chaza } = response.data.data;
+                    const { nombre, _id, cliente, nivelSuscripcion } =
+                        response.data.data.user;
+                    //setUser(user);
+                    //setChazas(chaza);
+                    Cookies.set("token", token);
+                    Cookies.set("user", JSON.stringify(user));
+                    window.sessionStorage.setItem("user", user);
+                    window.sessionStorage.setItem("token", token);
+                    window.sessionStorage.setItem("nombre", nombre);
+                    window.sessionStorage.setItem("id", _id);
+                    window.sessionStorage.setItem("sesion", "true");
+                    window.sessionStorage.setItem("cliente", cliente);
+                    window.sessionStorage.setItem("nivelSuscripcion", nivelSuscripcion);
+                    router.push("/unbiters/profile", undefined, { shallow: false });
+                } catch (error) {
+                    console.log(error);
+                }
             } else {
                 setError("Hubo un error inesperado");
                 setTimeout(function () {
@@ -55,7 +60,9 @@ export default function Login() {
                 setError(error.response.data.message);
             } else {
                 console.log("Error al enviar la solicitud:", error);
-                setError("Error al enviar la solicitud, por favor intenta en unos minutos.");
+                setError(
+                    "Error al enviar la solicitud, por favor intenta en unos minutos."
+                );
             }
 
             setTimeout(function () {

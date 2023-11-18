@@ -10,6 +10,7 @@ import ModalComments from "@/components/Modal/ModalComments";
 import { useSearchParams, useRouter } from "next/navigation";
 import NewPost from "@/components/NewPost";
 import Container from "../Container";
+import LoadingPost from "../Loading/LoadingPost";
 
 async function loadPost() {
     try {
@@ -42,6 +43,7 @@ function PostComponent({ postsFetch, namesFetch, token }) {
             progress: undefined,
             theme: "light",
         });
+    const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [names, setName] = useState([]);
     const [numComments, setNumComments] = useState("");
@@ -55,6 +57,7 @@ function PostComponent({ postsFetch, namesFetch, token }) {
             //console.log(postsFetch)
             setPosts(postsFetch);
             setName(namesFetch);
+            setIsLoading(false);
             /*var tkn = (window.sessionStorage.getItem('token'))
             setToken(tkn)
             client.get("publications/myPublications", {
@@ -154,52 +157,58 @@ function PostComponent({ postsFetch, namesFetch, token }) {
     }
     return (
         <>
-            <ToastContainer />
-            {idSearch && (
-                <ModalComments
-                    mode={"edit"}
-                    setPosts={setPosts}
-                    numComments={numComments}
-                    setNumComments={setNumComments}
-                    onClose={() => {
-                        router.push(`/unbiters/profile/posts/#${idSearch}`);
-                    }}
-                    _id={idSearch}
-                />
-            )}
-            {posts.length != 0 ? (
-                <div className="col-span-2 CardProfile justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
-                    {posts
-                        ? posts.map((card) => {
-                              return (
-                                  <CardReview
-                                      numComments={numComments}
-                                      setNumComments={setNumComments}
-                                      names={names}
-                                      posts={posts}
-                                      setPosts={setPosts}
-                                      mode="edit"
-                                      idSearch={idSearch}
-                                      key={"pub" + card._id}
-                                      card={card}
-                                      idModal={card._id}
-                                      comments={card.reviews}
-                                      editPostUp={editPostUp}
-                                      deletePostUp={deletePostUp}
-                                      className={"ListComment pb-2 md:mx-2 "}
-                                  />
-                              );
-                          })
-                        : null}
-                </div>
+            {isLoading ? (
+                <LoadingPost />
             ) : (
-                <Container
-                    title={"Publicaciones no econtradas "}
-                    message={
-                        "Lo sentimos no encontramos ninguna publicación de tu autoria, te invitamos a opinar."
-                    }
-                    mode={"profile"}
-                />
+                <>
+                    <ToastContainer />
+                    {idSearch && (
+                        <ModalComments
+                            mode={"edit"}
+                            setPosts={setPosts}
+                            numComments={numComments}
+                            setNumComments={setNumComments}
+                            onClose={() => {
+                                router.push(`/unbiters/profile/posts/#${idSearch}`);
+                            }}
+                            _id={idSearch}
+                        />
+                    )}
+                    {posts.length != 0 ? (
+                        <div className="col-span-2 CardProfile justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+                            {posts
+                                ? posts.map((card) => {
+                                      return (
+                                          <CardReview
+                                              numComments={numComments}
+                                              setNumComments={setNumComments}
+                                              names={names}
+                                              posts={posts}
+                                              setPosts={setPosts}
+                                              mode="edit"
+                                              idSearch={idSearch}
+                                              key={"pub" + card._id}
+                                              card={card}
+                                              idModal={card._id}
+                                              comments={card.reviews}
+                                              editPostUp={editPostUp}
+                                              deletePostUp={deletePostUp}
+                                              className={"ListComment pb-2 md:mx-2 "}
+                                          />
+                                      );
+                                  })
+                                : null}
+                        </div>
+                    ) : (
+                        <Container
+                            title={"Publicaciones no econtradas "}
+                            message={
+                                "Lo sentimos no encontramos ninguna publicación de tu autoria, te invitamos a opinar."
+                            }
+                            mode={"profile"}
+                        />
+                    )}
+                </>
             )}
         </>
     );

@@ -9,6 +9,7 @@ import client from "@/config/client";
 import { useRouter } from "next/navigation";
 import NotSesion from "./Modal/NotSesion";
 import InputChazas from "./Input.js/InputChazas";
+import Cookies from "js-cookie";
 
 export default function NewPost({
     isOpen1,
@@ -18,7 +19,7 @@ export default function NewPost({
     onClose,
     post,
     setIsOpenH,
-    editPostUp,
+    token,
     id,
     posts,
     setPosts,
@@ -98,7 +99,7 @@ export default function NewPost({
     const [notLogin, setNotLogin] = useState(false);
     const [error, setError] = useState("");
     const [succes, setSucces] = useState("");
-    const [token, setToken] = useState("");
+    //const [token, setToken] = useState("");
     const [texto, setComment] = useState("");
 
     //const [imagen, setImages] = useState('');
@@ -293,7 +294,9 @@ export default function NewPost({
         setRating(number);
     };
     useEffect(() => {
-        setToken(window.sessionStorage.getItem("token"));
+        //var tkn = Cookies.get("token");
+        //setToken(Cookies.get("token") ? Cookies.get("token") : "");
+        //setToken(window.sessionStorage.getItem("token"));
         setIsOpen(open);
         if (post) {
             //console.log(post)
