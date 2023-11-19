@@ -26,6 +26,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(terms, "terms");
     if (!terms) {
       setErrors(["Debes aceptar los términos y condiciones para registrarte."]);
     }
@@ -39,7 +40,7 @@ export default function Register() {
         chaza: chaza == "on" ? true : false,
         fechaNacimiento
       };
-      console.log(body, "HOLAAA");
+      //console.log(body, "HOLAAA");
       const response = await client.post("users/signup", body);
 
       console.log("request ", response);

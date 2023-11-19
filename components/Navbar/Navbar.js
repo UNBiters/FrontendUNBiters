@@ -22,7 +22,7 @@ const navigationLogin = [
 ];
 const navigationNotLogin = [
     { name: "Comunidad", href: "/", current: true },
-    { name: "¿Tienes una chaza?", href: "/unbiters/register", current: false },
+    { name: "Chazas", href: "/unbiters/chazas", current: false },
     { name: "Inicia Sesion", href: "/unbiters/login", current: false },
     { name: "Registrate", href: "/unbiters/register", current: false },
 ];
