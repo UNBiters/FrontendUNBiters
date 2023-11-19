@@ -44,9 +44,19 @@ export default function Card({
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const router = useRouter();
 
+    console.log(card)
     var src = "/images/test.jpg";
-    if (card.imagenUrl) {
-        src = card.imagenUrl;
+    if (card.imagenId) {
+        console.log(card.imagenUrl)
+        console.log("src", card.imagenUrl.includes("upload/"))
+        if (!card.imagenUrl.includes("upload/")) {
+            src = card.imagenUrl + "upload/c_scale,h_300,w_500/" + card.imagenId;
+            console.log("src1", src)
+        }
+        if (card.imagenUrl.includes("upload/")) {
+            src = card.imagenUrl;
+            console.log("src2", src)
+        }
     }
     async function deleteChaza(id) {
         console.log("borrado", token);
@@ -154,8 +164,8 @@ export default function Card({
                             //href={"/unbiters/profile?" + card._id}
                             //target="_blanck"
                             className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            //type="button"
-                            //data-ripple-dark="true"
+                        //type="button"
+                        //data-ripple-dark="true"
                         >
                             <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                                 <svg
@@ -271,19 +281,19 @@ export default function Card({
                                     </li>
                                     {card.redesSociales
                                         ? card.redesSociales.map((redesSociales) => (
-                                              <li
-                                                  key={uuidv4()}
-                                                  className="flex justify-center"
-                                              >
-                                                  <Link
-                                                      href={redesSociales}
-                                                      target="_blanck"
-                                                      className="text-sm font-normal text-gray-700"
-                                                  >
-                                                      {redesSociales}
-                                                  </Link>
-                                              </li>
-                                          ))
+                                            <li
+                                                key={uuidv4()}
+                                                className="flex justify-center"
+                                            >
+                                                <Link
+                                                    href={redesSociales}
+                                                    target="_blanck"
+                                                    className="text-sm font-normal text-gray-700"
+                                                >
+                                                    {redesSociales}
+                                                </Link>
+                                            </li>
+                                        ))
                                         : null}
                                 </ul>
                             </div>
@@ -309,15 +319,15 @@ export default function Card({
                                     </li>
                                     {card.mediosPagos
                                         ? card.mediosPagos.map((mediosPagos) => (
-                                              <li
-                                                  key={uuidv4()}
-                                                  className="flex justify-center"
-                                              >
-                                                  <span className="text-sm font-normal text-gray-700">
-                                                      {mediosPagos}
-                                                  </span>
-                                              </li>
-                                          ))
+                                            <li
+                                                key={uuidv4()}
+                                                className="flex justify-center"
+                                            >
+                                                <span className="text-sm font-normal text-gray-700">
+                                                    {mediosPagos}
+                                                </span>
+                                            </li>
+                                        ))
                                         : null}
                                 </ul>
                             </div>
@@ -325,13 +335,13 @@ export default function Card({
                         <div className="pt-2  px-2">
                             {card.categorias
                                 ? card.categorias.map((categorias) => (
-                                      <span
-                                          key={uuidv4()}
-                                          className="inline-block bg-[#9d5b5b] rounded-full px-3 py-1 text-sm font-semibold text-gray-900 mr-2 mb-2"
-                                      >
-                                          #{categorias}
-                                      </span>
-                                  ))
+                                    <span
+                                        key={uuidv4()}
+                                        className="inline-block bg-[#9d5b5b] rounded-full px-3 py-1 text-sm font-semibold text-gray-900 mr-2 mb-2"
+                                    >
+                                        #{categorias}
+                                    </span>
+                                ))
                                 : null}
                         </div>
                     </div>

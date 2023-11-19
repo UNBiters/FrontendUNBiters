@@ -53,6 +53,7 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
     const [id, setId] = useState("");
     const [edit, setEdit] = useState(false);
     const [nombre, setNombre] = useState("");
+    const [correo, setCorreo] = useState("");
     const [eslogan, setEslogan] = useState("");
     const [fechaFundacion, setFechaFundacion] = useState("");
     const [categorias, setCategorias] = useState([]);
@@ -117,9 +118,10 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                 if (!edit) {
                     var data = new FormData();
                     data.append("nombre", nombre);
-                    data.append("eslogan", eslogan);
+                    data.append("imagen", imagen);
                     data.append("domicilios", domicilio == "on" ? true : false);
-                    data.append("fechaFundacion", fechaFundacion);
+                    data.append("eslogan", eslogan);
+                    data.append("mediosPagos", JSON.stringify(mediosPagos));
                     data.append("ubicacion", ubicacion);
                     data.append("horarioAtencion", JSON.stringify(horarioAtencion));
                     data.append("paginaWeb", paginaWeb);
@@ -235,6 +237,32 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
             }
         }
     };
+    const onSubmitUser = async (e) => {
+
+        e.preventDefault();
+        var data = new FormData();
+
+        data.append("nombre", nombre);
+        data.append("correo", correo);
+        data.append("imagen", imagen);
+        for (const value of data.values()) {
+            console.log(value);
+        }
+        ///users/updateMe
+
+        const response = await client.patch("users/updateMe", data, {
+            headers: {
+                "content-type": "multipart/form-data",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log("data: ", response);
+        if (response.status == "201") {
+            router.push("/unbiters/profile");
+        } else {
+            notifyError("Ups, hubo un error, intenta de nuevo mas tarde.");
+        }
+    }
     useEffect(() => {
         try {
             //var token = window.sessionStorage.getItem("token");
@@ -401,21 +429,19 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                                         key={cate.id}
                                         value={cate.nombreCategoria}
                                         className={({ active }) =>
-                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                                active
-                                                    ? "bg-amber-100 text-amber-900"
-                                                    : "text-gray-900"
+                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                                ? "bg-amber-100 text-amber-900"
+                                                : "text-gray-900"
                                             }`
                                         }
                                     >
                                         {({ categorias }) => (
                                             <>
                                                 <span
-                                                    className={`block  ${
-                                                        categorias
+                                                    className={`block  ${categorias
                                                             ? "font-medium"
                                                             : "font-normal"
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {cate.nombreCategoria}
                                                 </span>
@@ -469,21 +495,19 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                                         key={cate.id}
                                         value={cate.nombre}
                                         className={({ active }) =>
-                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                                active
-                                                    ? "bg-amber-100 text-amber-900"
-                                                    : "text-gray-900"
+                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                                ? "bg-amber-100 text-amber-900"
+                                                : "text-gray-900"
                                             }`
                                         }
                                     >
                                         {({ mediosPagos }) => (
                                             <>
                                                 <span
-                                                    className={`block  ${
-                                                        mediosPagos
+                                                    className={`block  ${mediosPagos
                                                             ? "font-medium"
                                                             : "font-normal"
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {cate.nombre}
                                                 </span>
@@ -537,21 +561,19 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                                         key={cate.id}
                                         value={cate.nombre}
                                         className={({ active }) =>
-                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                                active
-                                                    ? "bg-amber-100 text-amber-900"
-                                                    : "text-gray-900"
+                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                                ? "bg-amber-100 text-amber-900"
+                                                : "text-gray-900"
                                             }`
                                         }
                                     >
                                         {({ horarioAtencion }) => (
                                             <>
                                                 <span
-                                                    className={`block  ${
-                                                        horarioAtencion
+                                                    className={`block  ${horarioAtencion
                                                             ? "font-medium"
                                                             : "font-normal"
-                                                    }`}
+                                                        }`}
                                                 >
                                                     {cate.nombre}
                                                 </span>
@@ -809,7 +831,7 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                             </form>
                         </>
                     ) : (
-                        <form onSubmit={onSubmit} className="py-3 md:py-5">
+                        <form onSubmit={onSubmitUser} className="py-3 md:py-5">
                             <div className="flex justify-end px-4 py-8">
                                 <Link
                                     href="/unbiters/profile"
@@ -855,8 +877,8 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                                         type="email"
                                         name="correo"
                                         id="correo"
-                                        onChange={(e) => setNombre(e.target.value)}
-                                        value={nombre}
+                                        onChange={(e) => setCorreo(e.target.value)}
+                                        value={correo}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Escribe tu correo"
                                         required
