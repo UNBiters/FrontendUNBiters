@@ -82,12 +82,6 @@ const PersonalInfo = ({ SiguienteForm }) => {
   return (
     <>
       <div
-        style={{
-          backgroundImage: "url(/images/backgroundRegister.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          minHeight: "100vh",
-        }}
       >
         <div className="pt-32 flex ">
           <div className=" p-8 max-w-xxxl mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden">
