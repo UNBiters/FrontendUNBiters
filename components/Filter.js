@@ -103,8 +103,8 @@ export default function Filter({ className, categorias, setCategorias, posts, se
                     if (!res.status == "200") {
                         throw new Error('Failed to fetch data')
                     }
-                    console.log(res.data.data.data)
-                    setPosts(res.data.data.data)
+                    //console.log(res.data.data.data.hits)
+                    setPosts(res.data.data.data.hits)
                 })
         } catch (error) {
             console.log(error)
