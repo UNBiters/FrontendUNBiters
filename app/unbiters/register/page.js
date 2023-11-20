@@ -30,6 +30,7 @@ export default function Register() {
     if (!terms) {
       console.log(terms, "terms");
       setErrors(["Debes aceptar los términos y condiciones para registrarte."]);
+      return
     }
     try {
       var body = {
