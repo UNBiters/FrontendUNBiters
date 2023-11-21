@@ -37,7 +37,7 @@ export default function TC() {
     ];
 
     return (
-        <div >
+        <div className='general'>
             <div className="pt-24 pb-24 flex justify-center items-center">
                 <div className="max-w mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ancho-personalizado">
                     <div className="flex flex-col items-center p-5">

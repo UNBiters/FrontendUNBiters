@@ -122,6 +122,7 @@ export default function HomeComponent({ postsFetch, namesFetch }) {
                             </button>
                         </div>
                         <NewPost
+                            token={token}
                             posts={posts}
                             setIsOpenH={setIsOpen}
                             setPosts={setPosts}

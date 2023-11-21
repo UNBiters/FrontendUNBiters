@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" suppressHydrationWarning={true}>
             <head></head>{" "}
-            <body className={inter.className} style={{paddingBottom: "80px"}}>
+            <body className={inter.className} style={{paddingBottom: "0px"}}>
                 <Suspense fallback={<LoadingHome />}>
                     <UserProvider>
                         <Navbar />

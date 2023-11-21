@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.general {
+    height: 100vh; 
+    width: 100vw; 
+}
+
 .heightTotal {
     height: 100vh;
 }
