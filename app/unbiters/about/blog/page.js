@@ -15,7 +15,7 @@ export default function BlogView() {
     return colors[randomIndex];
   };
   return (
-    <div className="py-12">
+    <div className="py-12 pb-32">
       <div className="container mx-auto">
         <div className="text-center bg-white p-6 rounded-md mb-8 max-w-xl mx-auto">
           <h1 className="mt-6 text-3xl font-extrabold text-gray-900">
