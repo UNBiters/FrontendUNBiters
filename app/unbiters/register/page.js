@@ -48,13 +48,15 @@ export default function Register() {
       console.log("request ", response);
       if (response.data.status === "success") {
         const { token } = response.data;
-        const { nombre, sexo, _id, chaza, fechaNacimiento } = response.data.data.user;
+        const { nombre, sexo, _id, chaza, fechaNacimiento, cliente, nivelSuscripcion } = response.data.data.user;
         window.sessionStorage.setItem("token", token);
         window.sessionStorage.setItem("nombre", nombre);
         window.sessionStorage.setItem("sexo", sexo);
         window.sessionStorage.setItem("id", _id);
         window.sessionStorage.setItem("sesion", "true");
         window.sessionStorage.setItem("fechaNacimiento", fechaNacimiento);
+        window.sessionStorage.setItem("cliente", cliente);
+        window.sessionStorage.setItem("nivelSuscripcion", nivelSuscripcion);
         if (chaza) {
           window.sessionStorage.setItem("chaza", "true");
         } else {
