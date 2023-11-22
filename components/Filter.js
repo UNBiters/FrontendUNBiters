@@ -127,12 +127,12 @@ export default function Filter({ className, categorias, setCategorias, posts, se
     function MyMultiSelectCategorias() {
 
         return (
-            <div className=" w-72">
+            <div id="" className="w-72">
                 <Listbox value={categorias} onChange={setCategorias} multiple>
                     <div className="relative mt-1">
-                        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                        <Listbox.Button className="bg-[#9d5b5b] relative w-full cursor-default rounded-lg  py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
 
-                            <span className="block ">
+                            <span className="block text-white">
                                 {"Filtra por categorias "}</span>
                             <span className="block text-white">
                                 {categorias.map((cate) => cate).join(', ')}</span>
@@ -184,17 +184,17 @@ export default function Filter({ className, categorias, setCategorias, posts, se
         )
     }
     return (
-        <div id="filter" className='pb-2 col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <div id="" className='pb-2 col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4'>
 
             <div className="grid mx-auto text-sm font-medium ">
                 <div>
                     {MyMultiSelectCategorias()}
                 </div>
                 <div className='flex justify-end pt-1 '>
-                    <button type="button" onClick={filterPostOff} className="mr-1 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button type="button" onClick={filterPostOff} className="btn-hover bg-[#9d5b5b] mr-1 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Quitar Filtros
                     </button>
-                    <button type="button" onClick={filterPost} className="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button type="button" onClick={filterPost} className="btn-hover bg-[#9d5b5b] text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Filtrar
                     </button>
                 </div>
@@ -208,7 +208,7 @@ export default function Filter({ className, categorias, setCategorias, posts, se
                         </svg>
                     </div>
                     <input type="text" name="search" onChange={(e) => setSearch(e.target.value)} value={search} className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="La mejor chaza ..." required />
-                    <button type="button" onClick={searchButton} className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
+                    <button type="button" onClick={searchButton} className="btn-hover bg-[#9d5b5b] text-white absolute right-2.5 bottom-2.5  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
                 </div>
             </div>
         </div>

@@ -91,13 +91,15 @@ function CommentsContainer() {
     }, []);
 
     async function deleteCommentUp(id) {
-        //console.log("borrarrrr", id)
+        console.log("borrarrrr", id)
+        console.log("editarr", token)
         try {
-            const response = await client.delete(`reviews/${id}`, {
+            const response = await client.delete(`reviews/?id=${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
+            console.log(response)
             if (response.status == "204") {
                 //notifyDelete()
                 notifyDelete();

@@ -1,7 +1,7 @@
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 
-export default function Banner() {
+export default function Banner({ text }) {
     return (
         <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
             <div
@@ -38,11 +38,11 @@ export default function Banner() {
                     >
                         <circle cx={1} cy={1} r={1} />
                     </svg>
-                    Para crear mas de una chaza debes ser un usuario premium.
+                    {text != "" ? text : "Para crear mas de una chaza debes ser un usuario premium."}
                 </p>
                 <Link
                     href="/unbiters/pricing"
-                    className="flex-none rounded-full bg-gray-900 px-3.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
+                    className="btn-hover flex-none rounded-full bg-[#9d5b5b]  px-3.5 py-1 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
                 >
                     Actualiza tu plan <span aria-hidden="true">&rarr;</span>
                 </Link>

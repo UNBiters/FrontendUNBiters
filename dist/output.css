@@ -4188,7 +4188,7 @@ input:checked + .toggle-bg {
 @media (min-width: 750px) {
   #home {
     grid-template-columns: repeat(1, minmax(0, 1fr));
-    padding-top: 6.5rem;
+    padding-top: 2.5rem;
   }
 }
 
@@ -4227,7 +4227,7 @@ input:checked + .toggle-bg {
   /* Borde del boton */
   letter-spacing: 2px;
   /* Espacio entre letras */
-  background-color: #e91e63;
+  background-color: #9d5b5b;
   /* Color de fondo */
   padding: 18px 30px;
   /* Relleno del boton */
@@ -4240,7 +4240,7 @@ input:checked + .toggle-bg {
 }
 
 .btn-flotante:hover {
-  background-color: #2c2fa5;
+  background-color: #d63447;
   /* Color de fondo al pasar el cursor */
   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
   transform: translateY(-7px);

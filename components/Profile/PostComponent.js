@@ -94,7 +94,7 @@ function PostComponent({ postsFetch, namesFetch, token }) {
     }, []);
 
     async function deletePostUp(id) {
-        console.log("borrarrrr", id);
+        //console.log("borrarrrr", id);
         try {
             const response = await client.delete(
                 `publications/deleteMyPublication/${id}`,
@@ -124,7 +124,6 @@ function PostComponent({ postsFetch, namesFetch, token }) {
     async function editPostUp(id, postUp) {
         console.log("editarr", postUp, id);
         //console.log("editarr", token)
-        return;
         try {
             const response = await client.patch(
                 `publications/myPublications/${id}`,
@@ -178,32 +177,33 @@ function PostComponent({ postsFetch, namesFetch, token }) {
                         <div className="col-span-2 CardProfile justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                             {posts
                                 ? posts.map((card) => {
-                                      return (
-                                          <CardReview
-                                              numComments={numComments}
-                                              setNumComments={setNumComments}
-                                              names={names}
-                                              posts={posts}
-                                              setPosts={setPosts}
-                                              mode="edit"
-                                              idSearch={idSearch}
-                                              key={"pub" + card._id}
-                                              card={card}
-                                              idModal={card._id}
-                                              comments={card.reviews}
-                                              editPostUp={editPostUp}
-                                              deletePostUp={deletePostUp}
-                                              className={"ListComment pb-2 md:mx-2 "}
-                                          />
-                                      );
-                                  })
+                                    return (
+                                        <CardReview
+                                            token={token}
+                                            numComments={numComments}
+                                            setNumComments={setNumComments}
+                                            names={names}
+                                            posts={posts}
+                                            setPosts={setPosts}
+                                            mode="edit"
+                                            idSearch={idSearch}
+                                            key={"pub" + card._id}
+                                            card={card}
+                                            idModal={card._id}
+                                            comments={card.reviews}
+                                            editPostUp={editPostUp}
+                                            deletePostUp={deletePostUp}
+                                            className={"ListComment pb-2 md:mx-2 "}
+                                        />
+                                    );
+                                })
                                 : null}
                         </div>
                     ) : (
                         <Container
-                            title={"Publicaciones no econtradas "}
+                            title={"Publicaciones no encontradas :c"}
                             message={
-                                "Lo sentimos no encontramos ninguna publicación de tu autoria, te invitamos a opinar."
+                                "Lo sentimos, no encontramos ninguna publicación de tu autoría, te invitamos a opinar."
                             }
                             mode={"profile"}
                         />

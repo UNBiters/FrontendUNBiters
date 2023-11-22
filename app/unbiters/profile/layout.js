@@ -9,7 +9,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import LoadingHome from "@/components/Loading/LoadingHome";
 export default function ProfileLayout({ children }) {
     return (
-        <div style={{paddingBottom: "60px"}}>
+        <div style={{paddingBottom: "0px"}}>
             <div className=" containerProfile mt-0 md:mt-10">
                 <button
                     type="button"

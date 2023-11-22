@@ -1,5 +1,6 @@
 import client from "@/config/client";
 import HomeComponent from "./HomeComponent";
+import Banner from "../Profile/Banner";
 
 async function loadPost() {
     try {
@@ -29,8 +30,10 @@ export default async function HomeFetch() {
     const names = await loadNames();
     //console.log(names)
     return (
-        <div className=" ">
-                <HomeComponent postsFetch={posts} namesFetch={names} />
+        <div className="" style={{ paddingBottom: "120px" }}>
+
+            <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
+            <HomeComponent postsFetch={posts} namesFetch={names} />
 
         </div>
     );

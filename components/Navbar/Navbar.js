@@ -25,6 +25,7 @@ const navigationNotLogin = [
     { name: "Chazas", href: "/unbiters/chazas", current: false },
     { name: "Inicia Sesion", href: "/unbiters/login", current: false },
     { name: "Registrate", href: "/unbiters/register", current: false },
+    { name: "Blog", href: "/unbiters/about/blog", current: false },
 ];
 
 function classNames(...classes) {
@@ -107,7 +108,7 @@ export default function Navbar({ profile = false }) {
     }, [isLogin]);
 
     return (
-        <>
+        <div className="pb-0">
             {isLoading ? (
                 <LoadingNav />
             ) : (
@@ -254,7 +255,7 @@ export default function Navbar({ profile = false }) {
                                                                             }
                                                                             href="/unbiters/profile"
                                                                             className={classNames(
-                                                                                active
+                                                                                pathname === "/unbiters/profile"
                                                                                     ? "bg-gray-100"
                                                                                     : "",
                                                                                 "block px-4 py-2 text-sm text-gray-700"
@@ -274,7 +275,7 @@ export default function Navbar({ profile = false }) {
                                                                             }
                                                                             href="/unbiters/profile/posts"
                                                                             className={classNames(
-                                                                                active
+                                                                                pathname === "/unbiters/profile/posts"
                                                                                     ? "bg-gray-100"
                                                                                     : "",
                                                                                 "block px-4 py-2 text-sm text-gray-700"
@@ -295,7 +296,7 @@ export default function Navbar({ profile = false }) {
                                                                             }
                                                                             href="/unbiters/profile/comments"
                                                                             className={classNames(
-                                                                                active
+                                                                                pathname === "/unbiters/profile/comments"
                                                                                     ? "bg-gray-100"
                                                                                     : "",
                                                                                 "block px-4 py-2 text-sm text-gray-700"
@@ -342,7 +343,7 @@ export default function Navbar({ profile = false }) {
                                                 key={item.name}
                                                 as="a"
                                                 className={classNames(
-                                                    item.current
+                                                    pathname === item.href
                                                         ? "bg-[#e24557] text-white"
                                                         : "text-white hover:bg-[#e24557] hover:text-white",
                                                     "block rounded-md px-3 py-2 text-base font-medium"
@@ -355,7 +356,7 @@ export default function Navbar({ profile = false }) {
                                                     key={item.name}
                                                     href={item.href}
                                                     className={classNames(
-                                                        item.current
+                                                        pathname === item.href
                                                             ? "bg-[#e24557] text-white"
                                                             : "text-gray-300 hover:bg-[#e24557] hover:text-white",
                                                         "rounded-md px-3 py-2 text-sm font-medium"
@@ -375,6 +376,6 @@ export default function Navbar({ profile = false }) {
                     </Disclosure>
                 </>
             )}
-        </>
+        </div>
     );
 }

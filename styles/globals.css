@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 .general {
-    height: 100vh; 
-    width: 100vw; 
+    height: 100vh;
+    width: 100vw;
 }
 
 .heightTotal {
@@ -35,23 +35,19 @@
         padding-left: 2rem;
     }
 }
-#home {
-    padding-top: 2rem;
-    padding-bottom: 12rem;
-}
-@media (max-width: 750px) {
+@media (min-width: 750px) {
     #home {
         grid-template-columns: repeat(1, minmax(0, 1fr));
-		padding-top: 2rem;
+        padding-top: 2.5rem;
     }
 }
-#filter button{
-	background-color: #9d5b5b;
+#filter button {
+    background-color: #9d5b5b;
 }
 @media (max-width: 500px) {
-	#filter{
+    #filter {
         padding-top: 2rem;
-	}
+    }
 }
 .containerFilter {
     display: flex;
@@ -65,8 +61,6 @@
     background-color: #9d5b5b;
 }
 
-
-
 .btn-flotante {
     font-size: 16px; /* Cambiar el tamaño de la tipografia */
     text-transform: uppercase; /* Texto en mayusculas */
@@ -74,7 +68,7 @@
     color: #ffffff; /* Color del texto */
     border-radius: 5px; /* Borde del boton */
     letter-spacing: 2px; /* Espacio entre letras */
-    background-color: #e91e63; /* Color de fondo */
+    background-color: #9d5b5b;
     padding: 18px 30px; /* Relleno del boton */
     position: fixed;
     bottom: 60px;
@@ -84,9 +78,12 @@
     z-index: 99;
 }
 .btn-flotante:hover {
-    background-color: #2c2fa5; /* Color de fondo al pasar el cursor */
+    background-color: #d63447;
     box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.3);
     transform: translateY(-7px);
+}
+.btn-hover:hover {
+    background-color: #d63447;
 }
 @media only screen and (max-width: 600px) {
     .btn-flotante {

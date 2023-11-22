@@ -207,10 +207,10 @@ export default function Community() {
                                             ) : (
                                                 <Container
                                                     title={
-                                                        "Aun no tienes algun comentario "
+                                                        "Aún no tienes algun comentario "
                                                     }
                                                     message={
-                                                        "Lo sentimos no encontramos ningún comentario u opinión donde te mencionen, te invitamos a ver publicaciones y compartir tu opinión."
+                                                        "Lo sentimos, no encontramos ningún comentario u opinión donde te mencionen, te invitamos a ver publicaciones y compartir tu opinión."
                                                     }
                                                     mode={"profile"}
                                                 />
@@ -223,9 +223,9 @@ export default function Community() {
                     ) : (
                         <div id="home" className="">
                             <Container
-                                title={"Aun no tienes una comunidad :c "}
+                                title={"Aún no tienes una comunidad :c "}
                                 message={
-                                    "Lo sentimos no encontramos ningún comentario u opinión donde te mencionen, te invitamos a ver publicaciones y compartir tu opinión."
+                                    "Lo sentimos, no encontramos ningún comentario u opinión donde te mencionen, te invitamos a ver publicaciones y compartir tu opinión."
                                 }
                                 mode={"profile"}
                             />
