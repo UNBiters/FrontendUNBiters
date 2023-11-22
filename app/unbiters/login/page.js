@@ -43,9 +43,7 @@ export default function Login() {
                     window.sessionStorage.setItem("sesion", "true");
                     window.sessionStorage.setItem("cliente", cliente);
                     window.sessionStorage.setItem("nivelSuscripcion", nivelSuscripcion);
-                    window.setTimeout(() => {
-                        router.push("/unbiters/profile", undefined, { shallow: false });
-                    }, 1500);
+                    router.push("/unbiters/profile", undefined, { shallow: false });
                 } catch (error) {
                     console.log(error);
                 }
