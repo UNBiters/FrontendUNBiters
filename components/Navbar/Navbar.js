@@ -255,7 +255,7 @@ export default function Navbar({ profile = false }) {
                                                                             }
                                                                             href="/unbiters/profile"
                                                                             className={classNames(
-                                                                                pathname === item.href
+                                                                                pathname === "/unbiters/profile"
                                                                                     ? "bg-gray-100"
                                                                                     : "",
                                                                                 "block px-4 py-2 text-sm text-gray-700"
@@ -275,7 +275,7 @@ export default function Navbar({ profile = false }) {
                                                                             }
                                                                             href="/unbiters/profile/posts"
                                                                             className={classNames(
-                                                                                pathname === item.href
+                                                                                pathname === "/unbiters/profile/posts"
                                                                                     ? "bg-gray-100"
                                                                                     : "",
                                                                                 "block px-4 py-2 text-sm text-gray-700"
@@ -296,7 +296,7 @@ export default function Navbar({ profile = false }) {
                                                                             }
                                                                             href="/unbiters/profile/comments"
                                                                             className={classNames(
-                                                                                pathname === item.href
+                                                                                pathname === "/unbiters/profile/comments"
                                                                                     ? "bg-gray-100"
                                                                                     : "",
                                                                                 "block px-4 py-2 text-sm text-gray-700"
@@ -317,7 +317,7 @@ export default function Navbar({ profile = false }) {
                                                                                 )
                                                                             }
                                                                             className={classNames(
-                                                                                pathname === item.href
+                                                                                active
                                                                                     ? "bg-gray-100"
                                                                                     : "",
                                                                                 "bg-red-100 block px-4 py-2 text-sm text-gray-700"

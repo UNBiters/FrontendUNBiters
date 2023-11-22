@@ -15,6 +15,8 @@ import CardReview from "@/components/Cards/CardReview";
 import Container from "../Container";
 import LoadingPost from "../Loading/LoadingPost";
 import { useUsers } from "@/context/UserContext";
+import Link from "next/link";
+import Banner from "../Profile/Banner";
 
 export default function HomeComponent({ postsFetch, namesFetch }) {
     const searchParams = useSearchParams();
@@ -86,6 +88,7 @@ export default function HomeComponent({ postsFetch, namesFetch }) {
     return (
         <>
             {isLoading ? <LoadingPost /> :
+
                 <div id="home" className=" grid grid-cols-2">
                     {idSearch && (
                         <ModalComments
@@ -109,14 +112,14 @@ export default function HomeComponent({ postsFetch, namesFetch }) {
                             <button
                                 onClick={() => router.refresh()}
                                 type="button"
-                                className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-l-lg hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                                className="btn-hover bg-[#9d5b5b] text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border-r rounded-l-lg  focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
                             >
                                 Actualizar Publicaciones
                             </button>
                             <button
                                 type="button"
                                 onClick={() => openModalPost()}
-                                className="text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent border border-gray-900 rounded-r-md hover:bg-gray-900 hover:text-white focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                                className="btn-hover bg-[#9d5b5b] text-white px-4 py-2 text-sm font-medium text-gray-900 bg-transparent  rounded-r-md  focus:z-10 focus:ring-2 focus:ring-gray-500 focus:bg-gray-900 focus:text-white dark:border-white dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700"
                             >
                                 Crear publicacíon
                             </button>
@@ -163,12 +166,12 @@ export default function HomeComponent({ postsFetch, namesFetch }) {
                             )}
                         </>
                     )}
-                    <a
+                    <Link
                         href="/unbiters/pricing"
-                        className="invisible md:visible btn-flotante text-white  right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        className="invisible md:visible btn-flotante text-white  right-2.5 hover:[#9d5b5b] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 "
                     >
                         Explora Premium
-                    </a>
+                    </Link>
                 </div>
             }
         </>
