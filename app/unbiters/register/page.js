@@ -62,7 +62,9 @@ export default function Register() {
         } else {
           window.sessionStorage.setItem("chaza", "false");
         }
-        push("/unbiters/profile");
+        window.setTimeout(() => {
+          push("/unbiters/profile");
+        }, 1500);
       }
 
       setTimeout(function () {
