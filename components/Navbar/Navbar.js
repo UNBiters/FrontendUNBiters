@@ -107,7 +107,7 @@ export default function Navbar({ profile = false }) {
     }, [isLogin]);
 
     return (
-        <>
+        <div className="pb-0">
             {isLoading ? (
                 <LoadingNav />
             ) : (
@@ -375,6 +375,6 @@ export default function Navbar({ profile = false }) {
                     </Disclosure>
                 </>
             )}
-        </>
+        </div>
     );
 }
