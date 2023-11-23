@@ -22,15 +22,23 @@ export default function CardProfile({ token, chazasFetch, user }) {
     const [horarioAtencion, setHorarioAtencion] = useState("");
 
     useEffect(() => {
-        setChaza(chazasFetch);
-        setIsLoading(false);
+        
+        client.get("chazas/myChaza", {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then(res => {
+            res.data.data.myChaza
+            setChaza(res.data.data.myChaza);
+            setIsLoading(false);
+        })
         /*setNombre(userChazas.nombre);
         setDescripcion(userChazas.descripcion);
         setCategorias(userChazas.categorias);
         setFechaFundacion(userChazas.fechaFundacion);
         setUbicacion(userChazas.ubicacion);
         setHorarioAtencion(userChazas.horarioAtencion);*/
-    }, [chazasFetch]);
+    }, []);
     if (user.chaza && chazas.length == 0) {
         //return <LoadingPost />;
     }

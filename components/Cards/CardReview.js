@@ -47,7 +47,7 @@ export default function CardReview({
     const [numComments, setNumComments] = useState(0);
     var src = "/images/1499696010180-025ef6e1a8f9.jpg";
     if (card.imagenId) {
-        
+
         var url = card.imagenUrl.split("upload/")
         src = url[0] + "upload/c_scale,h_300,w_500/" + url[1];
         /*console.log(card.imagenUrl)
@@ -60,7 +60,7 @@ export default function CardReview({
             src = card.imagenUrl;
             console.log("src2", src)
         }*/
-    }       
+    }
     //console.log("card", card)
     function openModal(token) {
         var flag = true;
@@ -164,6 +164,7 @@ export default function CardReview({
             <ToastContainer />
             <div className="newpost col-span-2 flex justify-end px-3 min-[650px]:grid-cols-1">
                 <NewPost
+                    token={token}
                     mode="edit"
                     posts={posts}
                     setPosts={setPosts}
@@ -329,17 +330,17 @@ export default function CardReview({
                     <div className="px-2 pt-4">
                         {card.tags
                             ? card.tags.map((categorias, id) => (
-                                  <span
-                                      key={
-                                          card.id +
-                                          (id + 1) +
-                                          categorias.indexOf(categorias)
-                                      }
-                                      className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                                  >
-                                      #{categorias}
-                                  </span>
-                              ))
+                                <span
+                                    key={
+                                        card.id +
+                                        (id + 1) +
+                                        categorias.indexOf(categorias)
+                                    }
+                                    className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                                >
+                                    #{categorias}
+                                </span>
+                            ))
                             : null}
                     </div>
                 </div>

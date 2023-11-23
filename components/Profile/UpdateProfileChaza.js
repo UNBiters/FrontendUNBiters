@@ -119,6 +119,7 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                     var data = new FormData();
                     data.append("nombre", nombre);
                     data.append("imagen", imagen);
+                    data.append("fechaFundacion", fechaFundacion);
                     data.append("domicilios", domicilio == "on" ? true : false);
                     data.append("eslogan", eslogan);
                     data.append("mediosPagos", JSON.stringify(mediosPagos));
@@ -169,6 +170,7 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                     var data = new FormData();
                     data.append("nombre", nombre);
                     data.append("imagen", imagen);
+                    data.append("fechaFundacion", fechaFundacion);
                     data.append("domicilios", domicilio == "on" ? true : false);
                     data.append("eslogan", eslogan);
                     data.append("mediosPagos", JSON.stringify(mediosPagos));
@@ -215,6 +217,7 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                         }
                         setUbicacion(chaza.ubicacion);
                         setHorarioAtencion(chaza.horarioAtencion);
+                        router.push("/unbiters/profile", undefined, { shallow: true });
                     } else {
                         console.error("Error: ");
                         // notifyError()
@@ -279,11 +282,12 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
                     })
                     .then((res) => {
                         chaza = res.data.data.data;
-                        //console.log("page", chaza);
+                        console.log("page", chaza);
                         if (chaza.length != 0) {
                             setEdit(true);
                             //chaza = chaza[0];
                             //console.log("page2", chaza);
+                            setImagen(chaza.imagenUrl)
                             setId(chaza.id);
                             setNombre(chaza.nombre);
                             setDescripcion(chaza.descripcion);
