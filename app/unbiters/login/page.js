@@ -1,4 +1,6 @@
 "use client";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useUsers } from "@/context/UserContext";
 import { Button } from "flowbite-react";
 import React, { useState } from "react";
@@ -9,6 +11,17 @@ import Cookies from "js-cookie";
 import Link from "next/link";
 
 export default function Login() {
+    const notifySucces = (name) =>
+        toast.success(name + ", Bienvenido a UNBiters!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     const { setLogin, setUser, setChazas, setIsToken } = useUsers();
     const router = useRouter();
     const [correo, setEmail] = useState("");
@@ -44,6 +57,7 @@ export default function Login() {
                     window.sessionStorage.setItem("cliente", cliente);
                     window.sessionStorage.setItem("nivelSuscripcion", nivelSuscripcion);
                     router.push("/unbiters/profile", undefined, { shallow: false });
+                    notifySucces(nombre)
                 } catch (error) {
                     console.log(error);
                 }
@@ -79,7 +93,8 @@ export default function Login() {
                 minHeight: "100vh",
             }}
         >
-            x
+
+            <ToastContainer />
             <div className=" pt-24 flex justify-center items-center">
                 <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
                     {error ? (

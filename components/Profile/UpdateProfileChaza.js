@@ -51,7 +51,7 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
             progress: undefined,
             theme: "light",
         });
-        const { token } = useUsers();
+    const { token } = useUsers();
     const [id, setId] = useState("");
     const [edit, setEdit] = useState(false);
     const [nombre, setNombre] = useState("");
@@ -407,7 +407,6 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
         //console.log(categorias)
         return (
             <div className="w-72">
-                <ToastContainer />
                 <Listbox value={categorias} onChange={setCategorias} multiple>
                     <div className="relative mt-1">
                         <Listbox.Label>Categorias</Listbox.Label>
@@ -445,8 +444,8 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                                             <>
                                                 <span
                                                     className={`block  ${categorias
-                                                            ? "font-medium"
-                                                            : "font-normal"
+                                                        ? "font-medium"
+                                                        : "font-normal"
                                                         }`}
                                                 >
                                                     {cate.nombreCategoria}
@@ -511,8 +510,8 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                                             <>
                                                 <span
                                                     className={`block  ${mediosPagos
-                                                            ? "font-medium"
-                                                            : "font-normal"
+                                                        ? "font-medium"
+                                                        : "font-normal"
                                                         }`}
                                                 >
                                                     {cate.nombre}
@@ -577,8 +576,8 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                                             <>
                                                 <span
                                                     className={`block  ${horarioAtencion
-                                                            ? "font-medium"
-                                                            : "font-normal"
+                                                        ? "font-medium"
+                                                        : "font-normal"
                                                         }`}
                                                 >
                                                     {cate.nombre}
@@ -604,7 +603,8 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     }
     return (
         <div className="h-full">
-            {user.chaza && !searchId && user.nivelSuscripcion == 0 ? <Banner /> : null}
+            <ToastContainer />
+            { !searchId && user.nivelSuscripcion == 0 ? <Banner text={user.chaza ? "" :"Revisa lo que puedes hacer con nuestra cuenta premium."} /> : null}
             <div className=" bg-gray-100 dark:bg-gray-900 pb-16 sm:pb-14 md:py-18">
                 <div className="  px-4 mx-auto max-w-2xl  lg:py-16">
                     {user.chaza ? (
