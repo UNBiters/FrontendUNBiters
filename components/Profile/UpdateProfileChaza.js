@@ -10,8 +10,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Banner from "./Banner";
 import { Router } from "next/router";
+import { useUsers } from "@/context/UserContext";
 
-export default function UpdateProfile({ user, modal, title, created, _id, token }) {
+export default function UpdateProfile({ user, modal, title, created, _id }) {
     const router = useRouter();
     //console.log(user)
     const searchParams = useSearchParams();
@@ -50,6 +51,7 @@ export default function UpdateProfile({ user, modal, title, created, _id, token 
             progress: undefined,
             theme: "light",
         });
+        const { token } = useUsers();
     const [id, setId] = useState("");
     const [edit, setEdit] = useState(false);
     const [nombre, setNombre] = useState("");

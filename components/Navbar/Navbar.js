@@ -41,7 +41,7 @@ const MyButton = React.forwardRef(({ onClick, href, name }, ref) => {
 });
 export default function Navbar({ profile = false }) {
     const pathname = usePathname();
-    const { isLogin, userData, setLogin } = useUsers();
+    const { isLogin, userData, setLogin, setIsToken } = useUsers();
     const { chaza, nombre } = userData;
     //console.log(chaza)
     //console.log("islogin", userData)
@@ -55,6 +55,7 @@ export default function Navbar({ profile = false }) {
     const [isOpen1, setIsOpen1] = useState(false);
 
     const isLogout = () => {
+        setIsToken(null)
         Cookies.remove("token", { path: "/" });
         Cookies.remove("user");
         window.sessionStorage.clear();

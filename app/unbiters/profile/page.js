@@ -33,9 +33,8 @@ export default async function ProfileView() {
     const cookieStore = cookies();
     const token = cookieStore.get("token").value;
     const user = JSON.parse(cookieStore.get("user").value);
-    console.log((user).chaza)
     const chazas = await loadChazas(token);
     //const names = await loadNames();
     //console.log(names)
-    return (<CardProfile token={token} chazasFetch={chazas} user={user} />)
+    return (<CardProfile chazasFetch={chazas} user={user} />)
 }

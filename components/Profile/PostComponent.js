@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import ModalComments from "@/components/Modal/ModalComments";
 import { useSearchParams, useRouter } from "next/navigation";
 import NewPost from "@/components/NewPost";
+import Cookies from "js-cookie";
 import Container from "../Container";
 import LoadingPost from "../Loading/LoadingPost";
 
@@ -20,7 +21,7 @@ async function loadPost() {
         console.log("err", err);
     }
 }
-function PostComponent({ postsFetch, namesFetch, token }) {
+function PostComponent({ postsFetch, namesFetch }) {
     const notifyDelete = () =>
         toast.success("Publicación eliminada!", {
             position: "top-right",
@@ -43,36 +44,23 @@ function PostComponent({ postsFetch, namesFetch, token }) {
             progress: undefined,
             theme: "light",
         });
+
+    //const { token } = useUsers();
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [names, setName] = useState([]);
     const [numComments, setNumComments] = useState("");
     const searchParams = useSearchParams();
     const router = useRouter();
-    //const [token, setToken] = useState("")
+    const [token, setToken] = useState("")
     const idSearch = searchParams.get("id");
     const [id, setId] = useState("");
     useEffect(() => {
         try {
-            //console.log(postsFetch)
-            setPosts(postsFetch);
-            setName(namesFetch);
-            setIsLoading(false);
-            /*var tkn = (window.sessionStorage.getItem('token'))
+            var tkn = Cookies.get("token");
+            setToken(tkn);
+            var tkn = (window.sessionStorage.getItem('token'))
             setToken(tkn)
-            client.get("publications/myPublications", {
-                headers: {
-                    "Authorization": `Bearer ${tkn}`
-                }
-            })
-                .then((res) => {
-                    var post = res.data.data.publications
-                    console.log(post)
-                    console.log(post.length)
-                    if (post.length != 0) {
-                        setPosts(post)
-                    }
-                })
 
             client.get(`chazas/every`, { next: { revalidate: true | 0 | 60 } })
                 .then((res) => {
@@ -82,12 +70,23 @@ function PostComponent({ postsFetch, namesFetch, token }) {
                     }
                     var data = res.data.data.data
                     if (data.length > 0) {
-                        //console.log(data)
                         setName(data)
-                    } else {
-                        console.log("No hay data")
                     }
-                })*/
+
+                    client.get("publications/myPublications", {
+                        headers: {
+                            "Authorization": `Bearer ${tkn}`
+                        }
+                    })
+                        .then((res) => {
+                            var post = res.data.data.publications
+                            if (post.length != 0) {
+                                setPosts(post)
+                            }
+                        })
+                    setIsLoading(false);
+                })
+
         } catch (error) {
             console.log(error);
         }

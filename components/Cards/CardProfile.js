@@ -5,12 +5,14 @@ import NotFoundChaza from "@/components/NotFound/NotFoundChaza";
 import { useUsers } from "@/context/UserContext";
 import Card from "@/components/Cards/Card";
 import Link from "next/link";
+import Cookies from "js-cookie";
 import ProfileUser from "../Profile/ProfileUser";
 import LoadingPost from "../Loading/LoadingPost";
 
-export default function CardProfile({ token, chazasFetch, user }) {
+export default function CardProfile({  chazasFetch, user }) {
     const { userChazas } = useUsers();
 
+    const [token, setToken] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [chazas, setChaza] = useState([]);
     const [id, setId] = useState("");
@@ -23,9 +25,12 @@ export default function CardProfile({ token, chazasFetch, user }) {
 
     useEffect(() => {
         
+        var tkn = Cookies.get("token");
+        setToken(tkn);
+        console.log(token)
         client.get("chazas/myChaza", {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${tkn}`,
             },
         }).then(res => {
             res.data.data.myChaza
