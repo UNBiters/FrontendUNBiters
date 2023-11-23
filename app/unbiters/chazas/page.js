@@ -90,7 +90,7 @@ export default function Home() {
         }
     ]
     return (
-        <div id='home' className='grid grid-cols-2'>
+        <div id='' className='md:pt-24 grid grid-cols-2'>
             {idSearch && (<ModalComments onClose={() => { router.push(`/#${idSearch}`) }} _id={idSearch} />)
 
             }

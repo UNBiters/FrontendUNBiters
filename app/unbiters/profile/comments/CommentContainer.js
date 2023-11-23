@@ -15,7 +15,9 @@ import { Suspense } from "react";
 import Container from "@/components/Container";
 import LoadingHome from "@/components/Loading/LoadingHome";
 import LoadingPost from "@/components/Loading/LoadingPost";
+import Banner from "@/components/Profile/Banner";
 
+import { useUsers } from "@/context/UserContext";
 async function loadPost() {
     try {
         var res = await client.get("chazas");
@@ -25,6 +27,8 @@ async function loadPost() {
     }
 }
 function CommentsContainer() {
+    
+    const { userChazas, userData } = useUsers();
     const notifyEdit = () =>
         toast.success("Actualizado con exito!", {
             position: "top-right",
@@ -158,6 +162,10 @@ function CommentsContainer() {
                 <LoadingPost />
             ) : (
                 <>
+                    {
+                        userData.nivelSuscripcion == 0 && userData.chaza ? <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
+                            : null
+                    }
                     <ToastContainer />
 
                     {idSearch && (

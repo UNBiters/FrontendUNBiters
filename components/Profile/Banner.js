@@ -44,7 +44,7 @@ export default function Banner({ text }) {
                     href="/unbiters/pricing"
                     className="btn-hover flex-none rounded-full bg-[#9d5b5b]  px-3.5 py-1 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-900"
                 >
-                    Actualiza tu plan <span aria-hidden="true">&rarr;</span>
+                    Actualiza tu cuenta <span aria-hidden="true">&rarr;</span>
                 </Link>
             </div>
         </div>

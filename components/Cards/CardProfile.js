@@ -5,12 +5,16 @@ import NotFoundChaza from "@/components/NotFound/NotFoundChaza";
 import { useUsers } from "@/context/UserContext";
 import Card from "@/components/Cards/Card";
 import Link from "next/link";
+import Cookies from "js-cookie";
 import ProfileUser from "../Profile/ProfileUser";
 import LoadingPost from "../Loading/LoadingPost";
+import Banner from "../Profile/Banner";
 
-export default function CardProfile({ token, chazasFetch, user }) {
-    const { userChazas } = useUsers();
+export default function CardProfile({ chazasFetch }) {
+    const { userChazas, userData } = useUsers();
 
+    const [user, setUser] = useState("");
+    const [token, setToken] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [chazas, setChaza] = useState([]);
     const [id, setId] = useState("");
@@ -22,10 +26,14 @@ export default function CardProfile({ token, chazasFetch, user }) {
     const [horarioAtencion, setHorarioAtencion] = useState("");
 
     useEffect(() => {
-        
+
+        var tkn = Cookies.get("token");
+        setToken(tkn);
+        console.log(token)
+        setUser(JSON.parse(Cookies.get("user")))
         client.get("chazas/myChaza", {
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${tkn}`,
             },
         }).then(res => {
             res.data.data.myChaza
@@ -43,11 +51,15 @@ export default function CardProfile({ token, chazasFetch, user }) {
         //return <LoadingPost />;
     }
     return (
-        <div className=" bg-[#ffffff] py-4">
+        <div className=" bg-[#ffffff] ">
             {isLoading ? (
                 <LoadingPost />
             ) : (
                 <>
+                    {
+                        userData.nivelSuscripcion == 0 && userData.chaza ? <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
+                            : null
+                    }
                     {user.chaza ? (
                         <>
                             {chazas.length == 0 ? (

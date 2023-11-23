@@ -1,16 +1,43 @@
 "use client";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
+import Cookies from "js-cookie";
 import Link from "next/link";
 import { Button } from "flowbite-react";
 import client from "@/config/client";
 import React, { useState } from "react";
+import { useUsers } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function Register() {
-  const { push } = useRouter();
+  const notifySucces = (name) =>
+    toast.success(name + " Bienvenido a UNBiters!", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const notifyError = (error) =>
+    toast.error("Ups hay un problema! " + (error ? error : ""), {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  const { setLogin, setUser, setChazas, setIsToken } = useUsers();
+  const router = useRouter();
   const [errors, setErrors] = useState([]);
   const [nombre, setNombre] = useState("");
   const [sexo, setSexo] = useState("");
@@ -26,10 +53,15 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(terms, "terms");
     if (!terms) {
-      console.log(terms, "terms");
-      setErrors(["Debes aceptar los términos y condiciones para registrarte."]);
+      notifyError("Debes aceptar los términos y condiciones para registrarte.")
+      //setErrors(["Debes aceptar los términos y condiciones para registrarte."]);
+      return
+    }
+    console.log("fechaNacimiento ", fechaNacimiento);
+    if (fechaNacimiento == null) {
+      notifyError("Por favor proporciona tu fecha de nacimiento.")
+      //setErrors(["Debes aceptar los términos y condiciones para registrarte."]);
       return
     }
     try {
@@ -42,29 +74,30 @@ export default function Register() {
         chaza: chaza == "on" ? true : false,
         fechaNacimiento
       };
-      //console.log(body, "HOLAAA");
       const response = await client.post("users/signup", body);
 
       console.log("request ", response);
       if (response.data.status === "success") {
+
+        setLogin(true);
         const { token } = response.data;
-        const { nombre, sexo, _id, chaza, fechaNacimiento, cliente, nivelSuscripcion } = response.data.data.user;
+        setIsToken(token)
+        const { user, chaza } = response.data.data;
+        const { nombre, _id, cliente, nivelSuscripcion } =
+          response.data.data.user;
+        //setUser(user);
+        //setChazas(chaza);
+        Cookies.set("token", token);
+        Cookies.set("user", JSON.stringify(user));
+        window.sessionStorage.setItem("user", user);
         window.sessionStorage.setItem("token", token);
         window.sessionStorage.setItem("nombre", nombre);
-        window.sessionStorage.setItem("sexo", sexo);
         window.sessionStorage.setItem("id", _id);
         window.sessionStorage.setItem("sesion", "true");
-        window.sessionStorage.setItem("fechaNacimiento", fechaNacimiento);
         window.sessionStorage.setItem("cliente", cliente);
         window.sessionStorage.setItem("nivelSuscripcion", nivelSuscripcion);
-        if (chaza) {
-          window.sessionStorage.setItem("chaza", "true");
-        } else {
-          window.sessionStorage.setItem("chaza", "false");
-        }
-        window.setTimeout(() => {
-          push("/unbiters/profile");
-        }, 1500);
+        router.push("/unbiters/profile", undefined, { shallow: false });
+        notifySucces(nombre)
       }
 
       setTimeout(function () {
@@ -73,8 +106,10 @@ export default function Register() {
     } catch (err) {
       console.log("log al registrarte", err);
       var error = err.response.data.error;
-      console.error("Error al registrarte", err.response.data);
-      setErrors([error]);
+
+      notifyError(err.response.data.message)
+      console.error("Error al registrarte", err.response.data.message);
+      //setErrors([error]);
     }
   };
 
@@ -88,6 +123,7 @@ export default function Register() {
           minHeight: "100vh",
         }}
       >
+        <ToastContainer />
         <div className="pt-32 flex justify-center items-center" style={{ paddingBottom: '150px' }}>
           <div className=" max-w-sm mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ">
             {console.log(errors)}
@@ -194,6 +230,7 @@ export default function Register() {
                   </label>
                 </div>
                 <DatePicker
+                  required
                   id="fechaNacimiento"
                   selected={fechaNacimiento}
                   onChange={(date) => setFechaNacimiento(date)}
@@ -203,6 +240,7 @@ export default function Register() {
                   isClearable
                   showYearDropdown
                   scrollableYearDropdown
+                  maxDate={new Date("12-31-2005")}
                 />
                 <div className="flex flex-col items-start w-full">
                   <label className="mt-1 text-s leading-tight font-medium text-black">

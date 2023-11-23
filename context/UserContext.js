@@ -27,6 +27,9 @@ export const UserProvider = ({ children }) => {
     const setChazas = (chaza) => {
         setUserChaza(chaza);
     };
+    const setIsToken = (tok) => {
+        setToken(tok);
+    };
     useEffect(() => {
         //console.log("set login true");
         if (Cookies.get("token")) {
@@ -40,7 +43,7 @@ export const UserProvider = ({ children }) => {
     }, [isLogin]);
     return (
         <UserContext.Provider
-            value={{ isLogin, userData, userChazas,token, setLogin, setUser, setChazas }}
+            value={{ isLogin, userData, userChazas, token, setLogin, setUser, setChazas, setIsToken }}
         >
             {children}
         </UserContext.Provider>
