@@ -94,7 +94,7 @@ function CommentsContainer() {
         console.log("borrarrrr", id)
         console.log("editarr", token)
         try {
-            const response = await client.delete(`reviews/?id=${id}`, {
+            const response = await client.delete(`reviews/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

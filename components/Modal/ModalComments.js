@@ -5,7 +5,7 @@ import client from "@/config/client";
 import { useRouter } from "next/navigation";
 import NotSesion from "./NotSesion";
 
-export default function ModalComments({ posts, setPosts, onClose, _id, mode }) {
+export default function ModalComments({ posts, setPosts, onClose, _id, mode, token }) {
     let [isOpen, setIsOpen] = useState(true);
     const [isOpen1, setIsOpen1] = useState(false);
     const router = useRouter();
@@ -14,7 +14,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode }) {
     let [review, setComment] = useState([]);
     const [error, setError] = useState("");
     const [succes, setSucces] = useState("");
-    const [token, setToken] = useState("");
+    //const [token, setToken] = useState("");
 
     function openModalLogin(token) {
         var flag = true;
@@ -128,7 +128,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode }) {
     useEffect(() => {
         //setComments(posts.reviews)
         try {
-            setToken(window.sessionStorage.getItem("token"));
+            //setToken(window.sessionStorage.getItem("token"));
             client.get("publications/" + _id).then((res) => {
                 var post = res.data.data.data;
                 //console.log(post)

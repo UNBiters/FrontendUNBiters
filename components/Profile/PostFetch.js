@@ -32,7 +32,7 @@ async function loadNames() {
 export default async function PostFetch() {
 
     const cookieStore = cookies()
-    const token = cookieStore.get('token').value
+    const token = cookieStore.get('token') ? cookieStore.get('token').value : ""
     const posts = await loadPost(token);
     const names = await loadNames();
     return (
