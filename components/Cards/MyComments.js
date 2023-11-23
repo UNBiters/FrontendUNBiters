@@ -66,7 +66,7 @@ export default function MyComments({ comment, deleteCommentUp, editCommentUp }) 
                         </svg>
                         
                     </button>*/}
-                    <p className="mt-1 text-clip text-xs leading-5 text-gray-500"><time datetime="">{moment(comment.createdAt, "YYYYMMDD").format('LL')}</time></p>
+                    <p className="mt-1 text-clip text-xs leading-5 text-gray-500"><time dateTime="">{moment(comment.createdAt, "YYYYMMDD").format('LL')}</time></p>
 
                 </div>
 

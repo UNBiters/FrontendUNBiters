@@ -1,22 +1,65 @@
 "use client";
+import { v4 as uuidv4 } from "uuid";
 import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import client from "@/config/client";
 import Delete from "../Modal/Delete";
 import { useState } from "react";
 
-export default function Card({ className, card, comments, idModal, mode }) {
+export default function Card({
+    setChaza,
+    token,
+    className,
+    card,
+    comments,
+    idModal,
+    mode,
+}) {
     //console.log(card.redesSociales[0])
-
+    const notifyDelete = () =>
+        toast.success("Publicación eliminada!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
+    const notifyError = () =>
+        toast.error("Ups hubo un error!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const router = useRouter();
 
+    console.log(card)
     var src = "/images/test.jpg";
-    if (card.imagenUrl) {
-        src = card.imagenUrl;
+    if (card.imagenId) {
+        console.log(card.imagenUrl)
+        console.log("src", card.imagenUrl.includes("upload/"))
+        if (!card.imagenUrl.includes("upload/")) {
+            src = card.imagenUrl + "upload/c_scale,h_300,w_500/" + card.imagenId;
+            console.log("src1", src)
+        }
+        if (card.imagenUrl.includes("upload/")) {
+            src = card.imagenUrl;
+            console.log("src2", src)
+        }
     }
     async function deleteChaza(id) {
-        console.log("borrado");
+        console.log("borrado", token);
         try {
             const response = await client.delete(`chazas/deleteMyChaza/${card.id}`, {
                 headers: {
@@ -31,6 +74,13 @@ export default function Card({ className, card, comments, idModal, mode }) {
                     return comments.filter(post => post.id !== id)
                 })*/
                 //router.refresh()
+                var res = await client.get("chazas/myChaza", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                //console.log(res.data.data)
+                setChaza(res.data.data.myChaza);
             } else {
                 notifyError();
             }
@@ -41,7 +91,8 @@ export default function Card({ className, card, comments, idModal, mode }) {
         }
     }
     return (
-        <div className={className}>
+        <div className={className} style={{ paddingBottom: "120px" }}>
+            <ToastContainer />
             {isOpenDelete && (
                 <Delete
                     message={"Borrar chaza:  " + card.nombre}
@@ -60,6 +111,7 @@ export default function Card({ className, card, comments, idModal, mode }) {
                 {/*<Link href={`?id=` + card._id} type="button" className="">*/}
                 <div className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40">
                     <Image
+                        priority={true}
                         width={500}
                         height={500}
                         src={src}
@@ -112,8 +164,8 @@ export default function Card({ className, card, comments, idModal, mode }) {
                             //href={"/unbiters/profile?" + card._id}
                             //target="_blanck"
                             className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            //type="button"
-                            //data-ripple-dark="true"
+                        //type="button"
+                        //data-ripple-dark="true"
                         >
                             <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                                 <svg
@@ -229,25 +281,19 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                     </li>
                                     {card.redesSociales
                                         ? card.redesSociales.map((redesSociales) => (
-                                              <li
-                                                  key={
-                                                      card.id +
-                                                      "0" +
-                                                      card.redesSociales.indexOf(
-                                                          redesSociales
-                                                      )
-                                                  }
-                                                  className="flex justify-center"
-                                              >
-                                                  <Link
-                                                      href={redesSociales}
-                                                      target="_blanck"
-                                                      className="text-sm font-normal text-gray-700"
-                                                  >
-                                                      {redesSociales}
-                                                  </Link>
-                                              </li>
-                                          ))
+                                            <li
+                                                key={uuidv4()}
+                                                className="flex justify-center"
+                                            >
+                                                <Link
+                                                    href={redesSociales}
+                                                    target="_blanck"
+                                                    className="text-sm font-normal text-gray-700"
+                                                >
+                                                    {redesSociales}
+                                                </Link>
+                                            </li>
+                                        ))
                                         : null}
                                 </ul>
                             </div>
@@ -273,21 +319,15 @@ export default function Card({ className, card, comments, idModal, mode }) {
                                     </li>
                                     {card.mediosPagos
                                         ? card.mediosPagos.map((mediosPagos) => (
-                                              <li
-                                                  key={
-                                                      card.id +
-                                                      "1" +
-                                                      card.mediosPagos.indexOf(
-                                                          mediosPagos
-                                                      )
-                                                  }
-                                                  className="flex justify-center"
-                                              >
-                                                  <span className="text-sm font-normal text-gray-700">
-                                                      {mediosPagos}
-                                                  </span>
-                                              </li>
-                                          ))
+                                            <li
+                                                key={uuidv4()}
+                                                className="flex justify-center"
+                                            >
+                                                <span className="text-sm font-normal text-gray-700">
+                                                    {mediosPagos}
+                                                </span>
+                                            </li>
+                                        ))
                                         : null}
                                 </ul>
                             </div>
@@ -295,17 +335,13 @@ export default function Card({ className, card, comments, idModal, mode }) {
                         <div className="pt-2  px-2">
                             {card.categorias
                                 ? card.categorias.map((categorias) => (
-                                      <span
-                                          key={
-                                              card.id +
-                                              "2" +
-                                              categorias.indexOf(categorias)
-                                          }
-                                          className="inline-block bg-[#9d5b5b] rounded-full px-3 py-1 text-sm font-semibold text-gray-900 mr-2 mb-2"
-                                      >
-                                          #{categorias}
-                                      </span>
-                                  ))
+                                    <span
+                                        key={uuidv4()}
+                                        className="inline-block bg-[#9d5b5b] rounded-full px-3 py-1 text-sm font-semibold text-gray-900 mr-2 mb-2"
+                                    >
+                                        #{categorias}
+                                    </span>
+                                ))
                                 : null}
                         </div>
                     </div>

@@ -6,8 +6,8 @@ import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 
 import { useEffect, useState, Fragment } from "react";
 
-export default function Filter({ className, categorias, setCategorias, posts, setPosts }) {
-    const [search, setSearch] = useState("")
+export default function Filter({ className, categorias, setCategorias, posts, setPosts, setSearch, search }) {
+    //const [search, setSearch] = useState("")
     var categoriasLists = [
         {
             "id": 1,
@@ -103,6 +103,7 @@ export default function Filter({ className, categorias, setCategorias, posts, se
                     if (!res.status == "200") {
                         throw new Error('Failed to fetch data')
                     }
+                    //console.log(res.data.data.data.hits)
                     setPosts(res.data.data.data.hits)
                 })
         } catch (error) {
@@ -126,12 +127,12 @@ export default function Filter({ className, categorias, setCategorias, posts, se
     function MyMultiSelectCategorias() {
 
         return (
-            <div className=" w-72">
+            <div id="" className="w-72">
                 <Listbox value={categorias} onChange={setCategorias} multiple>
                     <div className="relative mt-1">
-                        <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                        <Listbox.Button className="bg-[#9d5b5b] relative w-full cursor-default rounded-lg  py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
 
-                            <span className="block ">
+                            <span className="block text-white">
                                 {"Filtra por categorias "}</span>
                             <span className="block text-white">
                                 {categorias.map((cate) => cate).join(', ')}</span>
@@ -183,35 +184,32 @@ export default function Filter({ className, categorias, setCategorias, posts, se
         )
     }
     return (
-        <div id="filter" className='pb-2 col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <div id="" className='pb-2 col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4'>
 
             <div className="grid mx-auto text-sm font-medium ">
                 <div>
                     {MyMultiSelectCategorias()}
                 </div>
                 <div className='flex justify-end pt-1 '>
-                    <button type="button" onClick={filterPostOff} className="mr-1 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button type="button" onClick={filterPostOff} className="btn-hover bg-[#9d5b5b] mr-1 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Quitar Filtros
                     </button>
-                    <button type="button" onClick={filterPost} className="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <button type="button" onClick={filterPost} className="btn-hover bg-[#9d5b5b] text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Filtrar
                     </button>
                 </div>
             </div>
             <div className='px-3'>
-                <form>
-                    <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                            </svg>
-                        </div>
-                        <input type="search" name="search" onChange={(e) => setSearch(e.target.value)} value={search} className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="La mejor chaza ..." required />
-                        <button type="button" onClick={searchButton} className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
+                <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Buscar</label>
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        </svg>
                     </div>
-                </form>
-
+                    <input type="text" name="search" onChange={(e) => setSearch(e.target.value)} value={search} className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="La mejor chaza ..." required />
+                    <button type="button" onClick={searchButton} className="btn-hover bg-[#9d5b5b] text-white absolute right-2.5 bottom-2.5  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Buscar</button>
+                </div>
             </div>
         </div>
     )

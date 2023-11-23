@@ -17,7 +17,7 @@ export default function CardReview({
     className,
     card,
     mode,
-    idModal,
+    token,
     idSearch,
     deletePostUp,
     editPostUp,
@@ -42,12 +42,24 @@ export default function CardReview({
     const [isOpenDelete, setIsOpenDelete] = useState(false);
     const [fill, setFill] = useState("");
     const [fillText, setFillText] = useState("");
-    const [token, setToken] = useState("");
+    //const [token, setToken] = useState("");
     const [likes, setLikes] = useState(card.likes);
     const [numComments, setNumComments] = useState(0);
     var src = "/images/1499696010180-025ef6e1a8f9.jpg";
-    if (card.imagenUrl) {
-        src = card.imagenUrl;
+    if (card.imagenId) {
+
+        var url = card.imagenUrl.split("upload/")
+        src = url[0] + "upload/c_scale,h_300,w_500/" + url[1];
+        /*console.log(card.imagenUrl)
+        console.log("src", card.imagenUrl.includes("upload/"))
+        if (!card.imagenUrl.includes("upload/")) {
+            src = card.imagenUrl + "upload/c_scale,h_300,w_500/" + card.imagenId;
+            console.log("src1", src)
+        }
+        if (card.imagenUrl.includes("upload/")) {
+            src = card.imagenUrl;
+            console.log("src2", src)
+        }*/
     }
     //console.log("card", card)
     function openModal(token) {
@@ -128,13 +140,13 @@ export default function CardReview({
     useEffect(() => {
         //console.log(card.numComentarios)
         setNumComments(card.numComentarios);
-        var tkn = window.sessionStorage.getItem("token");
-        setToken(tkn);
-        if (tkn) {
+        //var tkn = window.sessionStorage.getItem("token");
+        //setToken(tkn);
+        if (token) {
             client
                 .get("publications/" + card.id + "/likes/myLikeInPublication", {
                     headers: {
-                        Authorization: `Bearer ${tkn}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 })
                 .then((res) => {
@@ -148,10 +160,11 @@ export default function CardReview({
     }, []);
 
     return (
-        <div className={className}>
+        <div className={className + " min-h-80"}>
             <ToastContainer />
             <div className="newpost col-span-2 flex justify-end px-3 min-[650px]:grid-cols-1">
                 <NewPost
+                    token={token}
                     mode="edit"
                     posts={posts}
                     setPosts={setPosts}
@@ -317,17 +330,17 @@ export default function CardReview({
                     <div className="px-2 pt-4">
                         {card.tags
                             ? card.tags.map((categorias, id) => (
-                                  <span
-                                      key={
-                                          card.id +
-                                          (id + 1) +
-                                          categorias.indexOf(categorias)
-                                      }
-                                      className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                                  >
-                                      #{categorias}
-                                  </span>
-                              ))
+                                <span
+                                    key={
+                                        card.id +
+                                        (id + 1) +
+                                        categorias.indexOf(categorias)
+                                    }
+                                    className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                                >
+                                    #{categorias}
+                                </span>
+                            ))
                             : null}
                     </div>
                 </div>

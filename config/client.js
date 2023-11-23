@@ -5,7 +5,7 @@ const agent = new https.Agent({
   rejectUnauthorized: false,
 })
 const client = axios.create({
-  baseURL: "https://backend-un-biters.vercel.app/api/v1",
+  baseURL: "http://127.0.0.1:3000/api/v1/",//"https://backend-un-biters.vercel.app/api/v1/",
   httpsAgent: agent,
   headers: {
     'Content-Type': 'application/json'

@@ -1,8 +1,7 @@
 'use client';
 import { useState } from 'react';
-import { Button } from 'flowbite-react';
 import Image from "next/image";
-import Link from 'next/link';
+
 
 export default function TC() {
     const [preguntaAbierta, setPreguntaAbierta] = useState(null);
@@ -32,19 +31,16 @@ export default function TC() {
             pregunta: "¿Tengo que pagar para hacer uso de UNBiters?",
             respuesta: "No, el uso de UNBiters es totalmente gratuito, sin embargo, tenemos la opción PREMIUM para las chazas, es opcional y permite a las chazas usar UNBiters como un mejor aliado para mejorar sus servicios."
         },
-        {
-            pregunta: "¿Qué beneficios, como dueño de chaza, me da ser premium?",
-            respuesta: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus elementum tristique pharetra. Morbi vitae mauris tincidunt, bibendum nunc sit amet, facilisis metus. In hac habitasse platea dictumst. Suspendisse congue commodo arcu consectetur vestibulum."
-        },
+       
        
         
     ];
 
     return (
-        <div >
+        <div className='general'>
             <div className="pt-24 pb-24 flex justify-center items-center">
                 <div className="max-w mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden ancho-personalizado">
-                    <div className="md:flex md:flex-col md:items-center p-5">
+                    <div className="flex flex-col items-center p-5">
                         <Image
                             alt="Logo"
                             height={110}
@@ -72,6 +68,11 @@ export default function TC() {
                                 
                             </div>
                         ))}
+                        <h2
+                            className="block mt-5 text-md leading-tight font-bold text-black text-center">Manual de usuario
+                        </h2>
+                        <p>Mira nuestro <a href="/Manual_de_usuario.pdf"  className="text-md leading-tight font-bold text-black hover:underline">Manual de usuario</a>.</p>
+                    
                         <h2
                             className="block mt-5 text-md leading-tight font-bold text-black text-center">¿No encontraste la respuesta que necesitas?
                         </h2>

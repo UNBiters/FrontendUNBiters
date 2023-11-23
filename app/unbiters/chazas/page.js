@@ -7,6 +7,7 @@ import NewPost from '@/components/NewPost';
 import client, { myClient } from "@/config/client";
 import ModalComments from '@/components/Modal/ModalComments';
 import { useSearchParams, useRouter } from 'next/navigation'
+import Link from 'next/link';
 
 export default function Home() {
     const searchParams = useSearchParams()
@@ -113,9 +114,12 @@ export default function Home() {
 
                     : null}
             </div>
-            <a href="/unbiters/pricing" className="invisible md:visible btn-flotante text-white  right-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <Link
+                href="/unbiters/pricing"
+                className="invisible md:visible btn-flotante text-white  right-2.5 hover:[#9d5b5b] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 "
+            >
                 Explora Premium
-            </a>
+            </Link>
 
         </div>
     )

@@ -9,6 +9,7 @@ import client from "@/config/client";
 import { useRouter } from "next/navigation";
 import NotSesion from "./Modal/NotSesion";
 import InputChazas from "./Input.js/InputChazas";
+import Cookies from "js-cookie";
 
 export default function NewPost({
     isOpen1,
@@ -18,7 +19,7 @@ export default function NewPost({
     onClose,
     post,
     setIsOpenH,
-    editPostUp,
+    token,
     id,
     posts,
     setPosts,
@@ -98,8 +99,9 @@ export default function NewPost({
     const [notLogin, setNotLogin] = useState(false);
     const [error, setError] = useState("");
     const [succes, setSucces] = useState("");
-    const [token, setToken] = useState("");
+    //const [token, setToken] = useState("");
     const [texto, setComment] = useState("");
+
     //const [imagen, setImages] = useState('');
     const [rating, setRating] = useState("");
     const [classe, setClasse] = useState("");
@@ -172,10 +174,10 @@ export default function NewPost({
     };
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(tags);
+        console.log(imagen);
         try {
-            if (mode != "edit") {
-                if (!validation({ texto, rating, imagen, tags })) {
+            if (!validation({ texto, rating, imagen, tags })) {
+                if (mode != "edit") {
                     var data = new FormData();
                     data.append("imagen", imagen);
                     data.append("texto", texto);
@@ -206,7 +208,6 @@ export default function NewPost({
                         setError("");
                         setSucces("La publicacíon se ha creado exitosamente!");
                         //refresh()
-
                         var res = await client.get("publications");
                         //console.log(res.data.data)
                         res.data.data.data;
@@ -227,23 +228,18 @@ export default function NewPost({
                             setError("");
                         }, 2000);
                     }
-                }
-                setTimeout(function () {
-                    setError("");
-                }, 5000);
-            } else {
-                if (!validation({ texto, rating })) {
+
+                    setTimeout(function () {
+                        setError("");
+                    }, 5000);
+                } else {
                     var data = new FormData();
                     data.append("imagen", imagen);
                     data.append("texto", texto);
                     data.append("rating", rating);
+                    data.append("tags", JSON.stringify(tags));
 
                     data.append("nombreChaza", selected.nombre);
-                    if (selected.id) {
-                        data.append("chaza", selected.id);
-                    } else {
-                        data.append("nombreChaza", selected.nombre);
-                    }
                     //console.log("edittttt22", id)
                     for (const value of data.values()) {
                         console.log(value);
@@ -258,6 +254,7 @@ export default function NewPost({
                             },
                         }
                     );
+                    console.log(response)
                     if (response.status == "200") {
                         const postUp = response.data.data.publication;
                         //console.log('sucess: ', postUp);
@@ -268,13 +265,20 @@ export default function NewPost({
                             }
                             return post;
                         });
+                        console.log("newPosts", newPosts)
                         setPosts(newPosts);
+                        posts = newPosts
                         onClose();
                         notifyEdit();
                     } else {
                         notifyError();
                     }
+
                 }
+            } else {
+                setTimeout(() => {
+                    setError("");
+                }, 3000);
             }
         } catch (error) {
             console.log("Error: ", error);
@@ -293,11 +297,14 @@ export default function NewPost({
         setRating(number);
     };
     useEffect(() => {
-        setToken(window.sessionStorage.getItem("token"));
+        //var tkn = Cookies.get("token");
+        //setToken(Cookies.get("token") ? Cookies.get("token") : "");
+        //setToken(window.sessionStorage.getItem("token"));
         setIsOpen(open);
         if (post) {
             //console.log(post)
             setComment(post.texto);
+            setCategorias(post.tags);
             setNombreChaza(post.nombreChaza);
             if (post.chaza) {
                 //setSelected({ nombre: selected.map((item) => item.id == post.chaza) })
@@ -306,7 +313,7 @@ export default function NewPost({
                 setSelected({ nombre: post.nombreChaza });
             }
             onClick(post.rating);
-            setImagen(post.urlImagen);
+            setImagen(post.imagenUrl);
         }
     }, [open, post]);
 
@@ -339,21 +346,19 @@ export default function NewPost({
                                         key={cate.id}
                                         value={cate.nombreCategoria}
                                         className={({ active }) =>
-                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                                active
-                                                    ? "bg-amber-100 text-amber-900"
-                                                    : "text-gray-900"
+                                            `relative cursor-default select-none py-2 pl-10 pr-4 ${active
+                                                ? "bg-amber-100 text-amber-900"
+                                                : "text-gray-900"
                                             }`
                                         }
                                     >
                                         {({ tags }) => (
                                             <>
                                                 <span
-                                                    className={`block  ${
-                                                        tags
-                                                            ? "font-medium"
-                                                            : "font-normal"
-                                                    }`}
+                                                    className={`block  ${tags
+                                                        ? "font-medium"
+                                                        : "font-normal"
+                                                        }`}
                                                 >
                                                     {cate.nombreCategoria}
                                                 </span>
@@ -621,7 +626,7 @@ export default function NewPost({
                                                         </div>
                                                     </div>
                                                     <label
-                                                        for="cover-photo"
+                                                        htmlFor="cover-photo"
                                                         className="block text-sm font-medium leading-6 text-gray-900"
                                                     >
                                                         Sube una imagen de tu experiencia

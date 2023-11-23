@@ -5,7 +5,7 @@ import client from "@/config/client";
 import { useRouter } from "next/navigation";
 import NotSesion from "./NotSesion";
 
-export default function ModalComments({ posts, setPosts, onClose, _id }) {
+export default function ModalComments({ posts, setPosts, onClose, _id, mode, token }) {
     let [isOpen, setIsOpen] = useState(true);
     const [isOpen1, setIsOpen1] = useState(false);
     const router = useRouter();
@@ -14,7 +14,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id }) {
     let [review, setComment] = useState([]);
     const [error, setError] = useState("");
     const [succes, setSucces] = useState("");
-    const [token, setToken] = useState("");
+    //const [token, setToken] = useState("");
 
     function openModalLogin(token) {
         var flag = true;
@@ -75,16 +75,24 @@ export default function ModalComments({ posts, setPosts, onClose, _id }) {
                             setComments(response.data.data.data);
 
                             try {
-                                var res = await client.get(
-                                    "publications/myPublications",
-                                    {
-                                        headers: {
-                                            Authorization: `Bearer ${token}`,
-                                        },
-                                    }
-                                );
-                                //console.log(res.data.data)
-                                setPosts(res.data.data.publications);
+                                if(mode == "edit"){
+                                    var res = await client.get(
+                                        "publications/myPublications",
+                                        {
+                                            headers: {
+                                                Authorization: `Bearer ${token}`,
+                                            },
+                                        }
+                                    );
+                                    //console.log(res.data.data)
+                                    setPosts(res.data.data.publications);
+                                }else{
+                                    var res = await client.get(
+                                        "publications"
+                                    );
+                                    //console.log(res.data.data)
+                                    setPosts(res.data.data.data);
+                                }
                                 //setPosts(posts);
                                 //setNumComments(numComments + 1)
                                 //refreshData();
@@ -120,7 +128,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id }) {
     useEffect(() => {
         //setComments(posts.reviews)
         try {
-            setToken(window.sessionStorage.getItem("token"));
+            //setToken(window.sessionStorage.getItem("token"));
             client.get("publications/" + _id).then((res) => {
                 var post = res.data.data.data;
                 //console.log(post)

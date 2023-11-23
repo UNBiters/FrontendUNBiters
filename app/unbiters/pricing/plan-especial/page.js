@@ -15,7 +15,6 @@ export default function Premium() {
   return (
     <>
       <div>
-      <h1>Form</h1>
       {FormActual === 1 ? (
         <PersonalInfo SiguienteForm={handleSigForm} />
       ) : (

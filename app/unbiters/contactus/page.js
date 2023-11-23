@@ -13,8 +13,8 @@ export default function ContactUs() {
     }
 
     return (
-        <div className="mt-8">
-            <div className=" pt-24 pb-24 flex justify-center items-center">
+        <div className="mt-8 general">
+            <div className=" pt-24 flex justify-center items-center">
                 <div className=" max-w-bg mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden">
                     <div className="py-8 lg:py-16 px-4 mx-auto max-w-screen-md text-center">
                         <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Contactanos</h2>

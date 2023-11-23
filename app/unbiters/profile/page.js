@@ -37,5 +37,5 @@ export default async function ProfileView() {
     const chazas = await loadChazas(token);
     //const names = await loadNames();
     //console.log(names)
-    return (<CardProfile chazasFetch={chazas} user={user} />)
+    return (<CardProfile token={token} chazasFetch={chazas} user={user} />)
 }
