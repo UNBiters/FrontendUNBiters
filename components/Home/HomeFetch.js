@@ -1,6 +1,7 @@
 import client from "@/config/client";
 import HomeComponent from "./HomeComponent";
 import Banner from "../Profile/Banner";
+import { cookies } from 'next/headers'
 
 async function loadPost() {
     try {
@@ -26,14 +27,14 @@ async function loadNames() {
     }
 }
 export default async function HomeFetch() {
+    const cookieStore = cookies()
+    const user = cookieStore.get('user') ? JSON.parse(cookieStore.get('user').value) : ""
     const posts = await loadPost();
     const names = await loadNames();
-    //console.log(names)
+    console.log(user)
     return (
         <div className="" style={{ paddingBottom: "120px" }}>
-
-            <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
-            <HomeComponent postsFetch={posts} namesFetch={names} />
+            <HomeComponent  postsFetch={posts} namesFetch={names} />
 
         </div>
     );

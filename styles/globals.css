@@ -39,6 +39,9 @@
     #home {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
+    .homePage{
+        padding-top: 90px;
+    }
 }
 #filter button {
     background-color: #9d5b5b;
