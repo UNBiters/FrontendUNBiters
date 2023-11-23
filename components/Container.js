@@ -40,20 +40,30 @@ export default function Container({ setPosts, setCategorias, title, message, mod
                             : "Lo sentimos, no hay publicaciones relacionadas con el filtro escogido, prueba borrando los filtros."}
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-x-6">
-                        {mode != "profile" ? (
-                            <button
-                                onClick={filterPostOff}
-                                className="bg-[#9d5b5b] rounded-md  px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:-[#9d5b5b]/0.75  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            >
-                                Quitar Filtros
-                            </button>
+                        {mode == "profile" ? (<Link
+                            href={"/"}
+                            className="bg-[#9d5b5b] rounded-md  px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:-[#9d5b5b]/0.75  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                            Ver Publicaciones
+                        </Link>
                         ) : (
-                            <Link
-                                href={"/"}
-                                className="bg-[#9d5b5b] rounded-md  px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:-[#9d5b5b]/0.75  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                            >
-                                Ver Publicaciones
-                            </Link>
+                            <>
+                                {mode == "premium" ? (
+                                    <Link
+                                        href={"/unbiters/pricing"}
+                                        className="bg-[#9d5b5b] rounded-md  px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:-[#9d5b5b]/0.75  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                    >
+                                        Ver Planes
+                                    </Link>) :
+                                    (
+                                        <button
+                                            onClick={filterPostOff}
+                                            className="bg-[#9d5b5b] rounded-md  px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:-[#9d5b5b]/0.75  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                        >
+                                            Quitar Filtros
+                                        </button>)
+
+                                }</>
                         )}
                     </div>
                 </div>
