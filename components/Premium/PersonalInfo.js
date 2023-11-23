@@ -1,10 +1,36 @@
 "use client";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import client from "@/config/client";
 import { Button } from "flowbite-react";
 
 const PersonalInfo = ({ SiguienteForm }) => {
+
+  const notifySucces = () =>
+    toast.success("Enviando datos ...", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+
+  const notifyError = (error) =>
+    toast.error("Ups hay un problema! " + (error ? error : ""), {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   const [errors, setErrors] = useState([]);
   const [name, setName] = useState("");
   const [cardNumber, setCardNumber] = useState("");
@@ -52,6 +78,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
       var tkn = (window.sessionStorage.getItem('token'))
       setToken(tkn)
       console.log(tkn);
+      notifySucces()
       const customer = await client.post("/payment/customer", body, {
         headers: {
           "Authorization": `Bearer ${tkn}`
@@ -70,12 +97,18 @@ const PersonalInfo = ({ SiguienteForm }) => {
         // Esto no se debe hacer por motivos de seguridad
         window.sessionStorage.setItem("cliente", true);
         SiguienteForm();
+      } else {
+        notifyError(customer.response.data.message)
       }
 
     } catch (error) {
       console.log("error", error);
-      console.error("Error en alguno de tus datos", error.response.data);
-      setErrors([error]);
+      if (error.response) {
+
+        console.error("Error en alguno de tus datos", error.response.data);
+        //setErrors(error.response.data.message);
+        notifyError(error.response.data.message)
+      }
     }
   }
 
@@ -83,10 +116,11 @@ const PersonalInfo = ({ SiguienteForm }) => {
     <>
       <div className="pb-32"
       >
+      <ToastContainer />
         <div className="sm:pt-22 md:pt-32 flex ">
           <div className=" p-8 max-w-xxxl mx-auto bg-[#F6EEDF] rounded-xl shadow-md overflow-hidden">
-            {!errors
-              ? errors.map((err) => (
+            {errors != ""
+              ? (
                 <div
                   key="e"
                   id="alert-2"
@@ -103,8 +137,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                   </svg>
                   <span className="sr-only">Info</span>
-                  <div className="ml-3 text-sm font-medium">
-                    {err.message}
+                  <div className="text-ellipsis ml-3 text-sm font-medium">
+                    {errors}
                   </div>
                   <button
                     type="button"
@@ -130,7 +164,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
                     </svg>
                   </button>
                 </div>
-              ))
+              )
               : null}
             <h1 className="text-2xl font-semibold mb-4">
               Información Personal
@@ -144,6 +178,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   Nombres:
                 </label>
                 <input
+                  type="text"
                   id="name"
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Nombres"
@@ -158,6 +193,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   Apellidos:
                 </label>
                 <input
+                  type="text"
                   id="last_name"
                   className="w-56 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Apellidos"
@@ -172,6 +208,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   Correo:
                 </label>
                 <input
+                  type="email"
                   id="email"
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Correo"
@@ -186,6 +223,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   Teléfono:
                 </label>
                 <input
+                  type="number"
                   id="phone"
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Telefono"
@@ -200,6 +238,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   Celular:
                 </label>
                 <input
+                  type="number"
                   id="cell_phone"
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Celular"
@@ -213,6 +252,8 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   Ciudad:
                 </label>
                 <input
+
+                  type="text"
                   id="city"
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Ciudad"
@@ -227,6 +268,7 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   Dirección:
                 </label>
                 <input
+                  type="text"
                   id="address"
                   className="w-52  mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Dirección"
@@ -240,10 +282,10 @@ const PersonalInfo = ({ SiguienteForm }) => {
                   Número de tarjeta:
                 </label>
                 <input
+                  type="number"
                   id="cardNumber"
                   className="w-52 mt-2 mb-4 shadow-sm bg-[#F5F5F5] border border-gray-300 text-gray-900 text-bg rounded-lg focus:ring-primary-500 focus:border-primary-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
                   placeholder="Número de tarjeta"
-                  type="number"
                   required
                   value={cardNumber}
                   onChange={(e) => setCardNumber(e.target.value)}
@@ -295,7 +337,6 @@ const PersonalInfo = ({ SiguienteForm }) => {
                 type="submit"
                 style={{ background: "#D63447" }}
                 className="mt-4 px-5 w-1/2 mx-auto shadow-xl"
-                onClick={handleSiguiente}
               >
                 Siguiente
               </Button>

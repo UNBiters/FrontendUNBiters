@@ -24,8 +24,10 @@ export default function RootLayout({ children }) {
     //console.log(window.sessionStorage.getItem('sesion'))
     return (
         <html lang="en" suppressHydrationWarning={true}>
-            <head></head>{" "}
-            <body className={inter.className} style={{paddingBottom: "0px"}}>
+            <head>
+                <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+            </head>{" "}
+            <body className={inter.className} style={{ paddingBottom: "0px" }}>
                 <Suspense fallback={<LoadingHome />}>
                     <UserProvider>
                         <Navbar />
