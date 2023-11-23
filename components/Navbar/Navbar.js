@@ -42,7 +42,7 @@ const MyButton = React.forwardRef(({ onClick, href, name }, ref) => {
 export default function Navbar({ profile = false }) {
     const pathname = usePathname();
     const { isLogin, userData, setLogin, setIsToken } = useUsers();
-    const { chaza, nombre } = userData;
+    const { chaza, nombre, imagenUrl } = userData;
     //console.log(chaza)
     //console.log("islogin", userData)
     //const [isLogin, setIsLogin] = useState("")
@@ -221,9 +221,11 @@ export default function Navbar({ profile = false }) {
                                                                 <span className="sr-only">
                                                                     Open user menu
                                                                 </span>
-                                                                <img
+                                                                <Image
+                                                                    width={100}
+                                                                    height={100}
                                                                     className="h-8 w-8 rounded-full"
-                                                                    src="/images/default.png"
+                                                                    src={imagenUrl ? imagenUrl : "/images/default.png"}
                                                                     alt=""
                                                                 />
                                                             </Menu.Button>

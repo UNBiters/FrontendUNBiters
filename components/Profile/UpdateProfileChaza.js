@@ -2,6 +2,7 @@
 import { Listbox, Transition, Switch } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
+import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState, Fragment } from "react";
@@ -16,7 +17,8 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
     const router = useRouter();
     //console.log(user)
     const searchParams = useSearchParams();
-
+    const { setLogin, setUser, setChazas, setIsToken } = useUsers();
+    
     const searchId = searchParams.get("id");
     const notifyEdit = () =>
         toast.success("Actualizado con exito!", {
@@ -262,7 +264,11 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
             },
         });
         console.log("data: ", response);
-        if (response.status == "201") {
+        if (response.status == "200") {
+            const userUp = response.data.data.user
+            setUser(userUp)
+            Cookies.set("user", JSON.stringify(userUp));
+            notifyEdit()
             router.push("/unbiters/profile");
         } else {
             notifyError("Ups, hubo un error, intenta de nuevo mas tarde.");
@@ -318,6 +324,11 @@ export default function UpdateProfile({ user, modal, title, created, _id }) {
                     });
             } else {
                 setEdit(false);
+            }
+            if(!user.chaza){
+                console.log(user)
+                setNombre(user.nombre)
+                setCorreo(user.correo)
             }
         } catch (error) {
             console.log(error);

@@ -9,9 +9,10 @@ import Cookies from "js-cookie";
 import ProfileUser from "../Profile/ProfileUser";
 import LoadingPost from "../Loading/LoadingPost";
 
-export default function CardProfile({  chazasFetch, user }) {
+export default function CardProfile({ chazasFetch }) {
     const { userChazas } = useUsers();
 
+    const [user, setUser] = useState("");
     const [token, setToken] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [chazas, setChaza] = useState([]);
@@ -24,10 +25,11 @@ export default function CardProfile({  chazasFetch, user }) {
     const [horarioAtencion, setHorarioAtencion] = useState("");
 
     useEffect(() => {
-        
+
         var tkn = Cookies.get("token");
         setToken(tkn);
         console.log(token)
+        setUser(JSON.parse(Cookies.get("user")))
         client.get("chazas/myChaza", {
             headers: {
                 Authorization: `Bearer ${tkn}`,
