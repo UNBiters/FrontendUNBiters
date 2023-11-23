@@ -2,7 +2,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
-export default function Delete({ onClose, onRedirect, message }) {
+export default function Delete({ onClose, onRedirect, message, text = "", btnText = "" }) {
     let [isOpen, setIsOpen] = useState(true)
 
     function closeModal() {
@@ -49,7 +49,7 @@ export default function Delete({ onClose, onRedirect, message }) {
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            Si continuas sera eliminado de forma permanente. ¿Quieres continuar?
+                                            {text != "" ? text : "Si continuas sera eliminado de forma permanente. ¿Quieres continuar?"}
                                         </p>
                                     </div>
 
@@ -59,7 +59,7 @@ export default function Delete({ onClose, onRedirect, message }) {
                                             className="inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-dark hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                             onClick={onRedirect}
                                         >
-                                            Eliminar
+                                            {btnText != "" ? btnText : "Eliminar"}
                                         </button>
                                         <button
                                             type="button"
