@@ -8,9 +8,10 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import ProfileUser from "../Profile/ProfileUser";
 import LoadingPost from "../Loading/LoadingPost";
+import Banner from "../Profile/Banner";
 
 export default function CardProfile({ chazasFetch }) {
-    const { userChazas } = useUsers();
+    const { userChazas, userData } = useUsers();
 
     const [user, setUser] = useState("");
     const [token, setToken] = useState("");
@@ -50,11 +51,15 @@ export default function CardProfile({ chazasFetch }) {
         //return <LoadingPost />;
     }
     return (
-        <div className=" bg-[#ffffff] py-4">
+        <div className=" bg-[#ffffff] ">
             {isLoading ? (
                 <LoadingPost />
             ) : (
                 <>
+                    {
+                        userData.nivelSuscripcion == 0 && userData.chaza ? <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
+                            : null
+                    }
                     {user.chaza ? (
                         <>
                             {chazas.length == 0 ? (

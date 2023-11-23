@@ -5,6 +5,7 @@ import CardReview from "@/components/Cards/CardReview";
 import NotFoundChaza from "@/components/NotFound/NotFoundChaza";
 import { myClient } from "@/config/client";
 import client from "@/config/client";
+import { useUsers } from "@/context/UserContext";
 import { useEffect, useState } from "react";
 import ModalComments from "@/components/Modal/ModalComments";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -12,6 +13,7 @@ import NewPost from "@/components/NewPost";
 import Cookies from "js-cookie";
 import Container from "../Container";
 import LoadingPost from "../Loading/LoadingPost";
+import Banner from "./Banner";
 
 async function loadPost() {
     try {
@@ -46,6 +48,7 @@ function PostComponent({ postsFetch, namesFetch }) {
         });
 
     //const { token } = useUsers();
+    const { userChazas, userData } = useUsers();
     const [isLoading, setIsLoading] = useState(true);
     const [posts, setPosts] = useState([]);
     const [names, setName] = useState([]);
@@ -159,6 +162,10 @@ function PostComponent({ postsFetch, namesFetch }) {
                 <LoadingPost />
             ) : (
                 <>
+                    {
+                        userData.nivelSuscripcion == 0 && userData.chaza ? <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
+                            : null
+                    }
                     <ToastContainer />
                     {idSearch && (
                         <ModalComments

@@ -7,13 +7,14 @@ import client from "@/config/client";
 import { useUsers } from "@/context/UserContext";
 import Container from "@/components/Container";
 import LoadingPost from "@/components/Loading/LoadingPost";
+import Banner from "@/components/Profile/Banner";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
 export default function Community() {
-    const { userChazas } = useUsers();
+    const { userChazas, userData } = useUsers();
     const [isLoading, setIsLoading] = useState(true);
     //console.log(userChazas)
     const { _id } = userChazas;
@@ -94,7 +95,7 @@ export default function Community() {
                                         return item;
                                     }
                                 });
-                                if(popular.length == 0){
+                                if (popular.length == 0) {
                                     popular = data
                                 }
                                 categories.Popular = popular;
@@ -116,6 +117,10 @@ export default function Community() {
                 <LoadingPost />
             ) : (
                 <>
+                    {
+                        userData.nivelSuscripcion == 0 && userData.chaza ? <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
+                            : null
+                    }
                     {reciente.length != 0 ? (
                         <div className="w-full px-4 py-4 min-h-full pb-2 md:pb-16" style={{ "paddingBottom": "60px" }}>
                             <Tab.Group>

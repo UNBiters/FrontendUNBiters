@@ -7,9 +7,11 @@ import { Suspense } from "react";
 import "@/styles/profile.css";
 import Navbar from "@/components/Navbar/Navbar";
 import LoadingHome from "@/components/Loading/LoadingHome";
+import Banner from "@/components/Profile/Banner";
 export default function ProfileLayout({ children }) {
+
     return (
-        <div style={{paddingBottom: "0px"}}>
+        <div style={{ paddingBottom: "0px" }}>
             <div className=" containerProfile mt-0 md:mt-10">
                 <button
                     type="button"
@@ -35,6 +37,7 @@ export default function ProfileLayout({ children }) {
                 {/*<UploadImage modal="upload"></UploadImage>*/}
             </div>
             <Navbar profile={true}></Navbar>
+
             {children}
         </div>
     );

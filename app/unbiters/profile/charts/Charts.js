@@ -14,6 +14,7 @@ import React from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import Container from "@/components/Container";
+import Banner from "@/components/Profile/Banner";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -237,13 +238,18 @@ export default function ChartsView({ chazasFetch }) {
         //return <LoadingPost />;
     }
     return (
-        <div className=" bg-[#ffffff] py-4" style={{ paddingBottom: "60px" }}>
+        <div className=" bg-[#ffffff] pb-4" style={{ paddingBottom: "60px" }}>
 
             <ToastContainer />
             {isLoading ? (
                 <LoadingPost />
             ) : (
                 <>
+
+                    {
+                        userData.nivelSuscripcion == 0 && userData.chaza ? <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
+                            : null
+                    }
                     {console.log(userData)}
                     <div className="p-5">
                         {userData.nivelSuscripcion == 0 ?
