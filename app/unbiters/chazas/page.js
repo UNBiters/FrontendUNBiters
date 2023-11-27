@@ -103,11 +103,11 @@ export default function Home() {
                     </button>
                 </div>
             </div>
-            <div className="pb-12 col-span-2 justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+            <div className="pt-2 pb-12 col-span-2 justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"  style={{ paddingBottom: "120px" }}>
                 {chazas ?
                     chazas.map((chaz) => (
                         <>
-                            <Card key={"cha" + chaz._id} card={chaz} idModal={chaz._id} comments={comments} className={"ListComment pb-2 mx-2"}></Card>
+                            <Card key={"cha" + chaz._id} card={chaz} idModal={chaz._id} comments={comments} className={"pb-4 mx-2"}></Card>
                         </>
                     )
                     )

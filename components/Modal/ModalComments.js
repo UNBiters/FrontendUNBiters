@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import client from "@/config/client";
 import { useRouter } from "next/navigation";
 import NotSesion from "./NotSesion";
+import Link from "next/link";
 
 export default function ModalComments({ posts, setPosts, onClose, _id, mode, token }) {
     let [isOpen, setIsOpen] = useState(true);
@@ -75,7 +76,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                             setComments(response.data.data.data);
 
                             try {
-                                if(mode == "edit"){
+                                if (mode == "edit") {
                                     var res = await client.get(
                                         "publications/myPublications",
                                         {
@@ -86,10 +87,8 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                                     );
                                     //console.log(res.data.data)
                                     setPosts(res.data.data.publications);
-                                }else{
-                                    var res = await client.get(
-                                        "publications"
-                                    );
+                                } else {
+                                    var res = await client.get("publications");
                                     //console.log(res.data.data)
                                     setPosts(res.data.data.data);
                                 }
@@ -280,6 +279,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                                                         Tu comentario
                                                     </label>
                                                     <textarea
+                                                        disabled={token ? false : true}
                                                         id={"message" + comments.id}
                                                         onChange={(e) =>
                                                             setComment(e.target.value)
@@ -287,8 +287,22 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                                                         value={review}
                                                         rows="4"
                                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="Write your thoughts here..."
+                                                        placeholder="Escribe un comentario"
                                                     ></textarea>
+                                                    {token ? null : (
+                                                        <label
+                                                            htmlFor="message"
+                                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                        >
+                                                            <Link
+                                                                href={"/unbiters/login"}
+                                                                className="text-rose-700"
+                                                            >
+                                                                ¡Inicia sesion para
+                                                                comentar!
+                                                            </Link>
+                                                        </label>
+                                                    )}
                                                 </div>
                                                 <div className="flex justify-end">
                                                     <button

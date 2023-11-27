@@ -47,19 +47,8 @@ export default function CardReview({
     const [numComments, setNumComments] = useState(0);
     var src = "/images/1499696010180-025ef6e1a8f9.jpg";
     if (card.imagenId) {
-
         var url = card.imagenUrl.split("upload/")
         src = url[0] + "upload/c_scale,h_300,w_500/" + url[1];
-        /*console.log(card.imagenUrl)
-        console.log("src", card.imagenUrl.includes("upload/"))
-        if (!card.imagenUrl.includes("upload/")) {
-            src = card.imagenUrl + "upload/c_scale,h_300,w_500/" + card.imagenId;
-            console.log("src1", src)
-        }
-        if (card.imagenUrl.includes("upload/")) {
-            src = card.imagenUrl;
-            console.log("src2", src)
-        }*/
     }
     //console.log("card", card)
     function openModal(token) {
@@ -324,7 +313,7 @@ export default function CardReview({
                             {Number(card.rating).toFixed(1)}
                         </p>
                     </div>
-                    <p className="block break-words font-sans text-base antialiased font-light leading-relaxed text-gray-700">
+                    <p className="block texto font-sans text-base antialiased font-light leading-relaxed text-gray-700">
                         {card.texto}
                     </p>
                     <div className="px-2 pt-4">

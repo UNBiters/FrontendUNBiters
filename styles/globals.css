@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+.texto {
+    -ms-word-break: break-all;
+    word-break: break-all;
+    word-break: break-word; /* Sólo WebKit -NO DOCUMENTADO */
+
+    -ms-hyphens: auto; /* Guiones para separar en sílabas */
+    -moz-hyphens: auto; /*  depende de lang en <html>      */
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
 .general {
     height: 100vh;
     width: 100vw;
@@ -39,7 +49,7 @@
     #home {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
-    .homePage{
+    .homePage {
         padding-top: 90px;
     }
 }
