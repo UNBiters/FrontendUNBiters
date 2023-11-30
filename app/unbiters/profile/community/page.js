@@ -1,4 +1,6 @@
 "use client";
+import "moment/locale/es";
+import moment from "moment";
 import Cookies from "js-cookie";
 
 import { useEffect, useState } from "react";
@@ -37,15 +39,18 @@ export default function Community() {
                 },
             })
             .then((res) => {
+                //console.log(res.data.data.myChaza);
                 chaza = res.data.data.myChaza[0];
                 chazaA = res.data.data.myChaza;
                 for (var i = 0; i < chazaA.length; i++) {
                     var body = {
-                        filter: chazaA[i].nombre
-                    }
+                        filter: chazaA[i].nombre,
+                    };
+                    //console.log("body " + i, body);
                     client
                         .post(
-                            `publications/searchPublication`, body,
+                            `publications/searchPublication`,
+                            body,
                             {
                                 headers: {
                                     Authorization: `Bearer ${token}`,
@@ -58,12 +63,27 @@ export default function Community() {
                                 throw new Error("Failed to fetch data");
                             }
                             var data = res.data.data.data.hits;
-                            console.log(data)
+
+                            //console.log("searchPublication ", data);
                             if (data.length > 0) {
+                                //console.log(data)
+                                categories.Reciente = categories.Reciente.concat(data);
+                                var popular = categories.Reciente.filter((item) => {
+                                    if (item.likes > 0) {
+                                        return item;
+                                    }
+                                });
+                                if (popular.length == 0) {
+                                    popular = categories.Reciente;
+                                }
+                                categories.Popular = popular;
+                                setReciente(data);
+                                setIsLoading(false);
                                 for (var i = 0; i < data.length; i++) {
+                                    var idP = data[i].id;
                                     client
                                         .get(
-                                            `reviews/${data[0].id}`,
+                                            `reviews/${idP}`,
                                             {
                                                 headers: {
                                                     Authorization: `Bearer ${token}`,
@@ -71,36 +91,22 @@ export default function Community() {
                                             },
                                             { next: { revalidate: true | 0 | 60 } }
                                         )
-                                        .then((res) => {
-                                            //console.log("comme", res);
-                                            if (!res.status == "200") {
+                                        .then((response) => {
+                                            if (!response.status == "200") {
                                                 throw new Error("Failed to fetch data");
                                             }
-                                            var commets = res.data.data.data;
-                                            if (data.length > 0) {
-                                                categories.Comentarios = [
-                                                    ...categories.Comentarios,
-                                                    ...commets,
-                                                ];
+                                            var commets = response.data.data.data;
+                                            if (commets.length > 0) {
+                                                console.log("comme", commets);
+                                                categories.Comentarios =
+                                                    categories.Comentarios.concat(
+                                                        commets
+                                                    );
                                             } else {
                                                 console.log("No hay data");
                                             }
                                         });
                                 }
-                                //console.log("states", categories.Reciente);
-                                console.log("data", data);
-                                categories.Reciente = data;
-                                var popular = data.filter((item) => {
-                                    if (item.likes > 0) {
-                                        return item;
-                                    }
-                                });
-                                if (popular.length == 0) {
-                                    popular = data
-                                }
-                                categories.Popular = popular;
-                                setReciente(data);
-                                setIsLoading(false);
                             } else {
                                 console.log("No hay data");
                                 setIsLoading(false);
@@ -108,8 +114,6 @@ export default function Community() {
                         });
                 }
             });
-
-        setIsLoading(false);
     }, []);
     return (
         <>
@@ -117,12 +121,19 @@ export default function Community() {
                 <LoadingPost />
             ) : (
                 <>
-                    {
-                        userData.nivelSuscripcion == 0 && userData.chaza ? <Banner className="visible md:invisible " text={"Revisa lo que puedes hacer con nuestra cuenta premium."} />
-                            : null
-                    }
+                    {userData.nivelSuscripcion == 0 && userData.chaza ? (
+                        <Banner
+                            className="visible md:invisible "
+                            text={
+                                "Revisa lo que puedes hacer con nuestra cuenta premium."
+                            }
+                        />
+                    ) : null}
                     {reciente.length != 0 ? (
-                        <div className="w-full px-4 py-4 min-h-full pb-2 md:pb-16" style={{ "paddingBottom": "60px" }}>
+                        <div
+                            className="w-full px-4 py-4 min-h-full pb-2 md:pb-16"
+                            style={{ paddingBottom: "60px" }}
+                        >
                             <Tab.Group>
                                 <Tab.List className="flex space-x-1 rounded-xl bg-white p-1">
                                     {Object.keys(categories).map((category) => (
@@ -143,6 +154,7 @@ export default function Community() {
                                     ))}
                                 </Tab.List>
                                 <Tab.Panels className="mt-2">
+                                    {console.log(categories)}
                                     {Object.values(categories).map((posts, idx) => (
                                         <Tab.Panel
                                             key={idx}
@@ -151,6 +163,7 @@ export default function Community() {
                                                 "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
                                             )}
                                         >
+                                            {console.log(posts)}
                                             {posts.length != 0 ? (
                                                 <ul>
                                                     {posts.map((post) => (
@@ -167,8 +180,14 @@ export default function Community() {
                                                             <ul className="mt-1 flex space-x-1 text-xs font-normal leading-4 text-gray-500">
                                                                 <li>
                                                                     {idx != 2
-                                                                        ? "hoy"
-                                                                        : post.createdAt}
+                                                                        ? moment(
+                                                                              post.createdAt,
+                                                                              "YYYYMMDD"
+                                                                          ).format("LL")
+                                                                        : moment(
+                                                                              post.createdAt,
+                                                                              "YYYYMMDD"
+                                                                          ).format("LL")}
                                                                 </li>
                                                                 {idx != 2 ? (
                                                                     <li>&middot;</li>
@@ -176,7 +195,7 @@ export default function Community() {
                                                                 <li>
                                                                     {idx != 2
                                                                         ? post.numComentarios +
-                                                                        " comentarios"
+                                                                          " comentarios"
                                                                         : null}{" "}
                                                                 </li>
                                                                 {idx != 2 ? (
@@ -185,7 +204,7 @@ export default function Community() {
                                                                 <li>
                                                                     {idx != 2
                                                                         ? post.likes +
-                                                                        " me gusta"
+                                                                          " me gusta"
                                                                         : null}
                                                                 </li>
                                                                 {idx != 2 ? (
@@ -194,7 +213,7 @@ export default function Community() {
                                                                 <li>
                                                                     {idx != 2
                                                                         ? post.rating +
-                                                                        " estrellas"
+                                                                          " estrellas"
                                                                         : null}{" "}
                                                                 </li>
                                                             </ul>

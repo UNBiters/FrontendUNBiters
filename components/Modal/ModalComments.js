@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import client from "@/config/client";
 import { useRouter } from "next/navigation";
 import NotSesion from "./NotSesion";
+import Link from "next/link";
 
 export default function ModalComments({ posts, setPosts, onClose, _id, mode, token }) {
     let [isOpen, setIsOpen] = useState(true);
@@ -75,7 +76,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                             setComments(response.data.data.data);
 
                             try {
-                                if(mode == "edit"){
+                                if (mode == "edit") {
                                     var res = await client.get(
                                         "publications/myPublications",
                                         {
@@ -86,10 +87,8 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                                     );
                                     //console.log(res.data.data)
                                     setPosts(res.data.data.publications);
-                                }else{
-                                    var res = await client.get(
-                                        "publications"
-                                    );
+                                } else {
+                                    var res = await client.get("publications");
                                     //console.log(res.data.data)
                                     setPosts(res.data.data.data);
                                 }
@@ -184,6 +183,30 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                                         className="text-lg font-medium leading-6 text-gray-900"
                                     >
                                         Comentarios
+                                        <button
+                                            className="!absolute top-4 right-4 h-2 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                            type="button"
+                                            onClick={onClose}
+                                            data-ripple-dark="true"
+                                        >
+                                            <svg
+                                                style={{fill: "#9d5b5b"}}
+                                                className="w-3 h-3 "
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 14 14"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                                />
+                                            </svg>
+                                            <span className="sr-only">Close modal</span>
+                                        </button>
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <div className="p-2 space-y-6 ">
@@ -280,6 +303,7 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                                                         Tu comentario
                                                     </label>
                                                     <textarea
+                                                        disabled={token ? false : true}
                                                         id={"message" + comments.id}
                                                         onChange={(e) =>
                                                             setComment(e.target.value)
@@ -287,8 +311,22 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                                                         value={review}
                                                         rows="4"
                                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        placeholder="Write your thoughts here..."
+                                                        placeholder="Escribe un comentario"
                                                     ></textarea>
+                                                    {token ? null : (
+                                                        <label
+                                                            htmlFor="message"
+                                                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                        >
+                                                            <Link
+                                                                href={"/unbiters/login"}
+                                                                className="text-rose-700"
+                                                            >
+                                                                ¡Inicia sesion para
+                                                                comentar!
+                                                            </Link>
+                                                        </label>
+                                                    )}
                                                 </div>
                                                 <div className="flex justify-end">
                                                     <button

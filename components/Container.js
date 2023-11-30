@@ -30,7 +30,7 @@ export default function Container({ setPosts, setCategorias, title, message, mod
         */}
             <main className="pt-10 mx-auto my-auto grid min-h-full place-items-center ">
                 <div className="text-center bg-white  p-10 rounded-lg ">
-                    <p className="text-base font-semibold text-indigo-600">404</p>
+                    <p className="text-base font-semibold text-indigo-600"></p>
                     <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">
                         {title ? title : "Filtro no encontrado"}
                     </h1>
