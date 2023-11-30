@@ -89,6 +89,9 @@ export default function ChartsView({ chazasFetch }) {
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
                     'rgba(153, 102, 255, 0.2)',
+                    'rgba(218, 247, 166, 0.2)',
+                    'rgba(45, 174, 215, 0.2)',
+                    'rgba(135, 102, 233, 0.2)',
                 ],
                 borderColor: [
                     'rgba(255, 99, 132, 1)',
@@ -140,7 +143,7 @@ export default function ChartsView({ chazasFetch }) {
                             nombreChaza: data[x].nombreChaza,
                             labels: ["Masculino", "Femenino", "Otro"],
                             datasets: [{
-                                label: "Análisis por pespectiva de genero",
+                                label: "Análisis por perspectiva de género",
                                 data: [masculino, femenino, otro],
                                 backgroundColor: [
                                     'rgba(255, 99, 132, 0.2)',
@@ -198,15 +201,15 @@ export default function ChartsView({ chazasFetch }) {
                                 nombreChaza: data[x].nombreChaza,
                                 labels: ["Menor a 18 años", "Entre 19 años a 30 años ", "Entre 31 años a 45 años", "Entre 46 años a 60 años", "Entre 61 años a 75 años", "Mayor de 75 años"],
                                 datasets: [{
-                                    label: "Análisis por pespectiva de edad",
+                                    label: "Análisis por perspectiva de edad",
                                     data: [menordieciocho, menortreinta, menorcuarentacinco, menorsesenta, menorsetentacinco, menornoventa],
                                     backgroundColor: [
                                         'rgba(255, 99, 132, 0.2)',
                                         'rgba(54, 162, 235, 0.2)',
                                         'rgba(153, 102, 255, 0.2)',
-                                        'rgba(255, 99, 132, 0.2)',
-                                        'rgba(54, 162, 235, 0.2)',
-                                        'rgba(153, 102, 255, 0.2)',
+                                        'rgba(218, 247, 166, 0.2)',
+                                        'rgba(255, 87, 51, 0.2)',
+                                        'rgba(144, 12, 63, 0.2)',
                                     ],
                                     borderWidth: 2,
                                 }]
