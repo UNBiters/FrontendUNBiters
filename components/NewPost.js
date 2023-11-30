@@ -150,7 +150,7 @@ export default function NewPost({
             flag = true;
         } else if (data.texto.length < 30) {
             setError(
-                "Por favor introduce un comentario mas largo, mínimo 50 caracteres."
+                "Por favor introduce un comentario mas largo, mínimo 30 caracteres."
             );
             flag = true;
         }

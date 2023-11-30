@@ -183,6 +183,30 @@ export default function ModalComments({ posts, setPosts, onClose, _id, mode, tok
                                         className="text-lg font-medium leading-6 text-gray-900"
                                     >
                                         Comentarios
+                                        <button
+                                            className="!absolute top-4 right-4 h-2 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                            type="button"
+                                            onClick={onClose}
+                                            data-ripple-dark="true"
+                                        >
+                                            <svg
+                                                style={{fill: "#9d5b5b"}}
+                                                className="w-3 h-3 "
+                                                aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 14 14"
+                                            >
+                                                <path
+                                                    stroke="currentColor"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                                                />
+                                            </svg>
+                                            <span className="sr-only">Close modal</span>
+                                        </button>
                                     </Dialog.Title>
                                     <div className="mt-2">
                                         <div className="p-2 space-y-6 ">
